@@ -16,7 +16,7 @@ public class TelaInicio extends JFrame {
 
         // Painel com imagem de fundo
         JPanel fundo = new JPanel() {
-            ImageIcon bg = new ImageIcon("C:/Users/Luiza Gomes/OneDrive/Documentos/GitHub/Projeto-Integrador-/PI_codigo/imagens/telaFundo.jpg");
+            ImageIcon bg = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\TelaFundo2.jpg");
             Image img = bg.getImage();
 
             @Override
@@ -39,10 +39,10 @@ public class TelaInicio extends JFrame {
                 super.paintComponent(g);
             }
         };
-        titulo.setFont(new Font("SansSerif", Font.BOLD, 48));
-        titulo.setForeground(Color.YELLOW);
+        titulo.setFont(new Font("Serif", Font.BOLD, 48));
+        titulo.setForeground (new Color(219, 151, 28));
         titulo.setOpaque(false); // Usamos paintComponent
-        titulo.setBounds(screenWidth / 2 - 200, 100, 400, 80);
+        titulo.setBounds(screenWidth / 2 - 200, 200, 400, 100);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         fundo.add(titulo);
 
@@ -56,19 +56,19 @@ public class TelaInicio extends JFrame {
 
         // Botão Jogar
         JButton jogarBtn = new JButton("JOGAR");
-        jogarBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 - 50, 200, 60);
-        jogarBtn.setBackground(new Color(232, 176, 23));
+        jogarBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 - 50, 200, 90);
+        jogarBtn.setBackground(new Color(219, 151, 28));
         jogarBtn.setForeground(Color.WHITE);
-        jogarBtn.setFont(new Font("SansSerif", Font.BOLD, 22));
+        jogarBtn.setFont(new Font("Serif", Font.BOLD, 30));
         jogarBtn.setBorder(new RoundedBorder(30)); // Aplicando bordas arredondadas
         fundo.add(jogarBtn);
 
         // Botão Sair
         JButton sairBtn = new JButton("SAIR");
-        sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 20, 200, 60);
+        sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 80, 200, 90);
         sairBtn.setBackground(new Color(200, 50, 50));
         sairBtn.setForeground(Color.WHITE);
-        sairBtn.setFont(new Font("SansSerif", Font.BOLD, 22));
+        sairBtn.setFont(new Font("Serif", Font.BOLD, 30));
         sairBtn.setBorder(new RoundedBorder(30)); // Aplicando bordas arredondadas
         fundo.add(sairBtn);
 
