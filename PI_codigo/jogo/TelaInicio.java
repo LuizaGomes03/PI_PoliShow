@@ -1,22 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.AbstractBorder;
 
 public class TelaInicio extends JFrame {
     public TelaInicio() {
         setTitle("Polishow");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = screenSize.width;
-        int screenHeight = screenSize.height;
+        setSize(1366, 768);
+        setLocationRelativeTo(null); // Centraliza a janela na tela
         setLayout(null);
+
+        int screenWidth = 1366;
+        int screenHeight = 768;
 
         // Painel com imagem de fundo
         JPanel fundo = new JPanel() {
-            ImageIcon bg = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\TelaFundo2.jpg");
+            ImageIcon bg = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\TelaFundoHD.png");
             Image img = bg.getImage();
 
             @Override
@@ -40,77 +39,72 @@ public class TelaInicio extends JFrame {
             }
         };
         titulo.setFont(new Font("Serif", Font.BOLD, 48));
-        titulo.setForeground (new Color(219, 151, 28));
-        titulo.setOpaque(false); // Usamos paintComponent
+        titulo.setForeground(new Color(219, 151, 28));
+        titulo.setOpaque(false);
         titulo.setBounds(screenWidth / 2 - 200, 200, 400, 100);
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
         fundo.add(titulo);
 
         // Logo
-        ImageIcon logo = new ImageIcon("C:/Users/Luiza Gomes/OneDrive/Documentos/GitHub/Projeto-Integrador-/PI_codigo/imagens/Logo_poliedro.jpg");
+        ImageIcon logo = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\7 1 (1).png");
         Image imgLogo = logo.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(imgLogo);
         JLabel logoLabel = new JLabel(logo);
-        logoLabel.setBounds(screenWidth / 2 - 350, screenHeight / 2 - 50, 300, 100);
+        logoLabel.setBounds(screenWidth / 2 - 350, screenHeight / 2 - 50, 400, 155);
         fundo.add(logoLabel);
 
-        // Botão Jogar
-        JButton jogarBtn = new JButton("JOGAR");
+        // Botão Iniciar (arredondado)
+        RoundedButton jogarBtn = new RoundedButton("INICIAR", new Color(219, 151, 28));
         jogarBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 - 50, 200, 90);
-        jogarBtn.setBackground(new Color(219, 151, 28));
-        jogarBtn.setForeground(Color.WHITE);
-        jogarBtn.setFont(new Font("Serif", Font.BOLD, 30));
-        jogarBtn.setBorder(new RoundedBorder(30)); // Aplicando bordas arredondadas
         fundo.add(jogarBtn);
 
-        // Botão Sair
-        JButton sairBtn = new JButton("SAIR");
+        // Botão Sair (arredondado)
+        RoundedButton sairBtn = new RoundedButton("SAIR", new Color(200, 50, 50));
         sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 80, 200, 90);
-        sairBtn.setBackground(new Color(200, 50, 50));
-        sairBtn.setForeground(Color.WHITE);
-        sairBtn.setFont(new Font("Serif", Font.BOLD, 30));
-        sairBtn.setBorder(new RoundedBorder(30)); // Aplicando bordas arredondadas
         fundo.add(sairBtn);
 
         // Ações dos botões
         jogarBtn.addActionListener(e -> {
-            // Criar uma instância de TelaLogin ao clicar em "Jogar"
-            new TelaLogin(); // Chama a tela de login
-            setVisible(false); // Ocultar a tela inicial
+            new TelaLogin(); // substitua por sua classe real
+            setVisible(false);
         });
 
         sairBtn.addActionListener(e -> {
-            System.exit(0); // Fecha o programa
+            System.exit(0);
         });
 
         setVisible(true);
     }
 
-    // Classe para bordas arredondadas
-    class RoundedBorder extends AbstractBorder {
-        private int radius;
+    // Classe interna para botão arredondado com fundo colorido
+    class RoundedButton extends JButton {
+        private final Color backgroundColor;
 
-        RoundedBorder(int radius) {
-            this.radius = radius;
+        public RoundedButton(String text, Color backgroundColor) {
+            super(text);
+            this.backgroundColor = backgroundColor;
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+            setFocusPainted(false);
+            setForeground(Color.WHITE);
+            setFont(new Font("Serif", Font.BOLD, 30));
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(c.getBackground());
-            g2.setStroke(new BasicStroke(2));
-            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius); // Bordas arredondadas
-        }
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(radius + 1, radius + 1, radius + 2, radius);
-        }
+            g2.setColor(backgroundColor);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 40, 40);
 
-        @Override
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.left = insets.top = insets.right = insets.bottom = radius;
-            return insets;
+            FontMetrics fm = g2.getFontMetrics();
+            int stringWidth = fm.stringWidth(getText());
+            int stringHeight = fm.getAscent();
+            g2.setColor(getForeground());
+            g2.drawString(getText(), (getWidth() - stringWidth) / 2, (getHeight() + stringHeight) / 2 - 5);
+
+            g2.dispose();
         }
     }
 

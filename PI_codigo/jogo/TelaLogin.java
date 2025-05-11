@@ -1,22 +1,46 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.AbstractBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.text.JTextComponent;
 
 public class TelaLogin extends JFrame {
+
     public TelaLogin() {
-        setTitle("Tela de Login");
+        setUndecorated(true); // Remova a barra de título
+        configurarJanela();
+        JPanel fundo = criarPainelDeFundo();
+        add(fundo);
+
+        JPanel painelLogin = criarPainelLogin();
+        fundo.add(painelLogin);
+
+        JButton criarConta = criarBotaoCriarConta();
+        fundo.add(criarConta);
+
+        JLabel logoLabel = criarLogo();
+        fundo.add(logoLabel);
+
+        JButton voltar = criarBotaoVoltar();
+        fundo.add(voltar);
+
+        setVisible(true);
+    }
+
+    private void configurarJanela() {
+        setTitle("Login Poliedro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUndecorated(true);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza a janela
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = screenSize.width;
-        int screenHeight = screenSize.height;
+        setSize(1366, 768);
+        setLocationRelativeTo(null);
         setLayout(null);
+    }
 
-        // Painel com imagem de fundo
+    private JPanel criarPainelDeFundo() {
+        int screenWidth = 1366;
+        int screenHeight = 768;
+
         JPanel fundo = new JPanel() {
-            ImageIcon bg = new ImageIcon("C:/Users/Luiza Gomes/OneDrive/Documentos/GitHub/Projeto-Integrador-/PI_codigo/imagens/telaFundo.jpg");
+            ImageIcon bg = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\TelaFundoHD.png");
             Image img = bg.getImage();
 
             @Override
@@ -27,136 +51,121 @@ public class TelaLogin extends JFrame {
         };
         fundo.setBounds(0, 0, screenWidth, screenHeight);
         fundo.setLayout(null);
-        add(fundo);
-
-        // Título arredondado
-        JLabel titulo = new JLabel("LOGIN", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(new Color(20, 30, 80));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
-                super.paintComponent(g);
-            }
-        };
-        titulo.setFont(new Font("SansSerif", Font.BOLD, 48));
-        titulo.setForeground(Color.YELLOW);
-        titulo.setOpaque(false); // Usamos paintComponent
-        titulo.setBounds(screenWidth / 2 - 200, 100, 400, 80);
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
-        fundo.add(titulo);
-
-        // Logo
-        ImageIcon logo = new ImageIcon("C:/Users/Luiza Gomes/OneDrive/Documentos/GitHub/Projeto-Integrador-/PI_codigo/imagens/Logo_poliedro.jpg");
-        Image imgLogo = logo.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
-        logo = new ImageIcon(imgLogo);
-        JLabel logoLabel = new JLabel(logo);
-        logoLabel.setBounds(screenWidth / 2 - 350, screenHeight / 2 - 200, 300, 100);
-        fundo.add(logoLabel);
-
-        // Campo de usuário
-        JLabel usuarioLabel = new JLabel("Usuário:");
-        usuarioLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
-        usuarioLabel.setForeground(Color.WHITE);
-        usuarioLabel.setBounds(screenWidth / 2 - 180, screenHeight / 2 - 50, 100, 30);
-        fundo.add(usuarioLabel);
-
-        JTextField usuarioField = new JTextField();
-        usuarioField.setBounds(screenWidth / 2 - 80, screenHeight / 2 - 50, 200, 30);
-        fundo.add(usuarioField);
-
-        // Campo de senha
-        JLabel senhaLabel = new JLabel("Senha:");
-        senhaLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
-        senhaLabel.setForeground(Color.WHITE);
-        senhaLabel.setBounds(screenWidth / 2 - 180, screenHeight / 2, 100, 30);
-        fundo.add(senhaLabel);
-
-        JPasswordField senhaField = new JPasswordField();
-        senhaField.setBounds(screenWidth / 2 - 80, screenHeight / 2, 200, 30);
-        fundo.add(senhaField);
-
-        // Botão de login
-        JButton loginBtn = new JButton("Entrar");
-        loginBtn.setBounds(screenWidth / 2 - 80, screenHeight / 2 + 50, 200, 40);
-        loginBtn.setBackground(new Color(40, 80, 200));
-        loginBtn.setForeground(Color.WHITE);
-        loginBtn.setFont(new Font("SansSerif", Font.BOLD, 20));
-        loginBtn.setBorder(new RoundedBorder(30)); // Aplicando bordas arredondadas
-        fundo.add(loginBtn);
-
-        // Botão de criar conta
-        JButton criarContaBtn = new JButton("Criar Conta");
-        criarContaBtn.setBounds(screenWidth - 250, screenHeight - 100, 180, 40);
-        criarContaBtn.setBackground(new Color(232, 176, 23)); // Cor do botão
-        criarContaBtn.setForeground(Color.WHITE);
-        criarContaBtn.setFont(new Font("SansSerif", Font.BOLD, 18));
-        criarContaBtn.setBorder(new RoundedBorder(30)); // Bordas arredondadas
-        fundo.add(criarContaBtn);
-
-        // Botão de sair com imagem
-        ImageIcon sairIcon = new ImageIcon("C:/Users/Luiza Gomes/OneDrive/Documentos/GitHub/Projeto-Integrador-/PI_codigo/imagens/arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png");
-        JButton sairBtn = new JButton(sairIcon);
-        sairBtn.setBounds(20, screenHeight - 100, 50, 50); // Ajuste o tamanho da imagem se necessário
-        sairBtn.setBackground(new Color(255, 255, 255, 0)); // Fundo transparente
-        sairBtn.setBorder(null); // Remove a borda padrão
-        fundo.add(sairBtn);
-
-        // Ação do botão de login
-        loginBtn.addActionListener(e -> {
-            String usuario = usuarioField.getText();
-            String senha = new String(senhaField.getPassword());
-
-            // Aqui você pode adicionar a lógica de autenticação
-            if (usuario.equals("admin") && senha.equals("admin")) {
-                JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
-                // Abrir a próxima tela ou ação após o login
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos");
-            }
-        });
-
-        // Ação do botão de criar conta
-        criarContaBtn.addActionListener(e -> {
-            // Lógica para abrir a tela de criação de conta
-            JOptionPane.showMessageDialog(this, "Tela de criação de conta");
-            // Aqui você pode adicionar a lógica para abrir uma nova tela ou formulário
-        });
-
-        // Ação do botão de sair
-        sairBtn.addActionListener(e -> {
-            int resposta = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja sair?", "Sair", JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                System.exit(0); // Encerra a aplicação
-            }
-        });
-
-        setVisible(true);
+        return fundo;
     }
 
-    // Classe para bordas arredondadas
-    class RoundedBorder extends AbstractBorder {
-        private int radius;
+    private JPanel criarPainelLogin() {
+        int panelWidth = 340;
+        int panelHeight = 270;
+        int screenWidth = 1366;
+        int screenHeight = 768;
+        int panelX = (screenWidth - panelWidth) / 2;
+        int panelY = (screenHeight - panelHeight) / 2 - 80;
 
-        RoundedBorder(int radius) {
-            this.radius = radius;
-        }
+        JPanel panel = new JPanel(null);
+        panel.setBounds(panelX, panelY, panelWidth, panelHeight);
+        panel.setBackground(new Color(0, 0, 128, 220));
 
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(c.getBackground());
-            g2.setStroke(new BasicStroke(2));
-            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius); // Bordas arredondadas
-        }
+        JLabel title = new JLabel("Login");
+        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        title.setForeground(Color.WHITE);
+        title.setBounds(120, 20, 120, 30);
+        panel.add(title);
 
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(radius + 1, radius + 1, radius + 2, radius); // Definindo margens
-        }
+        JLabel emailLabel = new JLabel("Email");
+        emailLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        emailLabel.setForeground(Color.WHITE);
+        emailLabel.setBounds(40, 60, 100, 30);
+        panel.add(emailLabel);
+
+        JTextField emailField = new JTextField();
+        emailField.setBounds(40, 90, 260, 40);
+        estilizarCampoTexto(emailField, new Color(189, 46, 46));
+        panel.add(emailField);
+
+        JLabel senhaLabel = new JLabel("Senha");
+        senhaLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        senhaLabel.setForeground(Color.WHITE);
+        senhaLabel.setBounds(40, 140, 100, 30);
+        panel.add(senhaLabel);
+
+        JPasswordField senhaField = new JPasswordField();
+        senhaField.setBounds(40, 170, 260, 40);
+        estilizarCampoTexto(senhaField, new Color(237, 168, 33));
+        panel.add(senhaField);
+
+        JButton entrar = new JButton("Entrar");
+        entrar.setBounds(110, 225, 120, 40);
+        estilizarBotao(entrar, new Color(0, 76, 255));
+        entrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailField.getText();
+                String senha = new String(senhaField.getPassword());
+
+                if (email.isEmpty() || senha.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Lógica de autenticação pode ser adicionada aqui
+                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        panel.add(entrar);
+
+        return panel;
+    }
+
+    private JButton criarBotaoCriarConta() {
+        JButton criarConta = new JButton("Criar conta");
+        criarConta.setSize(140, 40);
+        // Ajuste a posição vertical (reduza o valor de Y para mover o botão para cima)
+        criarConta.setLocation(1300 - criarConta.getWidth() - 20, 768 - criarConta.getHeight() - 80); // Alterado de -20 para -80
+        estilizarBotao(criarConta, new Color(0, 76, 255));
+        criarConta.addActionListener(e -> JOptionPane.showMessageDialog(null, "Tela de criação de conta ainda não implementada."));
+        return criarConta; //GUSTAVO DEVE IMPLEMENTAR A TELA DE CRIAÇÃO DE CONTA
+    }
+
+    private JLabel criarLogo() {
+        ImageIcon logo = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\7 1 (1).png");
+        // Aumentar o tamanho do logo
+        Image imgLogo = logo.getImage().getScaledInstance(250, 90, Image.SCALE_SMOOTH); // Alterado de 200x70 para 250x90
+        logo = new ImageIcon(imgLogo);
+        JLabel logoLabel = new JLabel(logo);
+        // Subir o logo ajustando a coordenada Y
+        int logoX = (1366 - 250) / 2; // Ajustado para o novo tamanho do logo
+        int logoY = 768 - 150; // Subiu o logo (alterado de 768 - 100 para 768 - 150)
+        logoLabel.setBounds(logoX, logoY, 250, 90); // Ajustado para o novo tamanho
+        return logoLabel;
+    }
+
+    private JButton criarBotaoVoltar() {
+    ImageIcon iconBack = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png");
+    JButton voltar = new JButton(iconBack);
+    voltar.setBounds(20, 20, 30, 30);
+    voltar.setBackground(null);
+    voltar.setBorderPainted(false);
+    voltar.setFocusPainted(false);
+    voltar.setContentAreaFilled(false);
+    voltar.addActionListener(e -> dispose()); // Fecha a janela atual
+    return voltar;
+}
+
+    private void estilizarCampoTexto(JTextComponent campo, Color corFundo) {
+        campo.setBackground(corFundo);
+        campo.setForeground(Color.WHITE);
+        campo.setFont(new Font("SansSerif", Font.BOLD, 16));
+        campo.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    }
+
+    private void estilizarBotao(JButton botao, Color corFundo) {
+        botao.setBackground(corFundo);
+        botao.setForeground(Color.WHITE);
+        botao.setFont(new Font("SansSerif", Font.BOLD, 16));
+        botao.setFocusPainted(false);
     }
 
     public static void main(String[] args) {
-        new TelaLogin(); // Exibe a tela de login em tela cheia
+        new TelaLogin();
     }
 }
