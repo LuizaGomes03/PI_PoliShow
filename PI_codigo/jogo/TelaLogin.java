@@ -30,7 +30,7 @@ public class TelaLogin extends JFrame {
     private void configurarJanela() {
         setTitle("Login Poliedro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1366, 768);
+        setSize(1366,768 );
         setLocationRelativeTo(null);
         setLayout(null);
     }
