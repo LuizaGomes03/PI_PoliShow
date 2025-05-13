@@ -12,7 +12,7 @@ public class TelaLogin extends JFrame {
         setUndecorated(true);
 
         JPanel painel = new JPanel() {
-            ImageIcon imagem = new ImageIcon("imagens\\telalogin (1).png");
+            ImageIcon imagem = new ImageIcon("PI_codigo/imagens/telalogin (1).png");
             Image img = imagem.getImage();
 
             @Override

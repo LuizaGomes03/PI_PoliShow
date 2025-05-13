@@ -63,12 +63,12 @@ public class TelaInicio extends JFrame {
         fundo.add(sairBtn);
 
         // Ações dos botões
-        jogarBtn.addActionListener(e -> {
+        jogarBtn.addActionListener(_ -> {
             new TelaLogin(); // substitua por sua classe real
             setVisible(false);
         });
 
-        sairBtn.addActionListener(e -> {
+        sairBtn.addActionListener(_ -> {
             System.exit(0);
         });
 
