@@ -10,14 +10,19 @@ public class TelaCadastroAluno {
     }
 
     private void createAndShowGUI() {
-        // Imagem de fundo
-        ImageIcon backgroundIcon = new ImageIcon("PI_codigo/imagens/telaCadastro.png");
+        // Tamanho desejado da imagem
+        int imageWidth = 960;
+        int imageHeight = 640;
+
+        // Carrega e redimensiona a imagem de fundo
+        ImageIcon originalIcon = new ImageIcon("PI_codigo/imagens/telaCadastro.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+        ImageIcon backgroundIcon = new ImageIcon(scaledImage);
+
+        // Cria o JLabel com imagem redimensionada
         JLabel background = new JLabel(backgroundIcon);
         background.setLayout(null);
-        background.setPreferredSize(new Dimension(
-            backgroundIcon.getIconWidth(),
-            backgroundIcon.getIconHeight()
-        ));
+        background.setPreferredSize(new Dimension(imageWidth, imageHeight));
 
         // Frame
         JFrame frame = new JFrame("Cadastrar aluno");
@@ -27,44 +32,39 @@ public class TelaCadastroAluno {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        // Campos e Botões
-
         // Nome
         JTextField nomeTextField = new JTextField();
         nomeTextField.setName("nomeTextField");
-        nomeTextField.setBackground(new Color(186,49,49)); 
+        nomeTextField.setBackground(new Color(186, 49, 49));
         nomeTextField.setForeground(Color.WHITE);
         nomeTextField.setFont(new Font("SansSerif", Font.BOLD, 20));
-        nomeTextField.setBounds(400, 265, 470, 50);
+        nomeTextField.setBounds(300, 195, 350, 45);
         nomeTextField.setBorder(BorderFactory.createEmptyBorder());
         background.add(nomeTextField);
 
         // ComboBox sem bordas e com seta colorida
         JComboBox<String> serieComboBox = new JComboBox<>(
-            new String[] { "Selecione a série", "1ª Série", "2ª Série", "3ª Série" }
-        );
+                new String[]{"Selecione a série", "1ª Série", "2ª Série", "3ª Série"});
         serieComboBox.setName("serieComboBox");
-        serieComboBox.setBackground(new Color(220,150,34)); // laranja
+        serieComboBox.setBackground(new Color(220, 150, 34));
         serieComboBox.setForeground(Color.WHITE);
         serieComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
-        serieComboBox.setBounds(400, 395, 470, 50);
+        serieComboBox.setBounds(300, 293, 360, 45);
         serieComboBox.setBorder(null);
         serieComboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
-
-                // cria uma seta apontando para baixo, usando BasicArrowButton
                 BasicArrowButton arrow = new BasicArrowButton(
-                    BasicArrowButton.SOUTH,
-                    new Color(220,150,34),   // background do botão (mesma cor do combo)
-                    new Color(220,150,34),   // shadow
-                    Color.WHITE,             // cor da seta
-                    new Color(220,150,34)    // highlight
-                );
+                        BasicArrowButton.SOUTH,
+                        new Color(220, 150, 34),
+                        new Color(220, 150, 34),
+                        Color.WHITE,
+                        new Color(220, 150, 34));
                 arrow.setBorder(BorderFactory.createEmptyBorder());
                 arrow.setContentAreaFilled(false);
                 return arrow;
             }
+
             @Override
             public void installListeners() {
                 super.installListeners();
@@ -76,36 +76,36 @@ public class TelaCadastroAluno {
         // Email
         JTextField emailTextField = new JTextField();
         emailTextField.setName("emailTextField");
-        emailTextField.setBackground(new Color(21,179,192));
+        emailTextField.setBackground(new Color(21, 179, 192));
         emailTextField.setForeground(Color.WHITE);
         emailTextField.setFont(new Font("SansSerif", Font.BOLD, 20));
-        emailTextField.setBounds(400, 515, 470, 50);
+        emailTextField.setBounds(300, 385, 350, 45);
         emailTextField.setBorder(BorderFactory.createEmptyBorder());
         background.add(emailTextField);
 
         // Senha
         JPasswordField senhaPasswordField = new JPasswordField();
         senhaPasswordField.setName("senhaPasswordField");
-        senhaPasswordField.setBackground(new Color(11,54,175)); 
+        senhaPasswordField.setBackground(new Color(11, 54, 165));
         senhaPasswordField.setForeground(Color.WHITE);
         senhaPasswordField.setFont(new Font("SansSerif", Font.BOLD, 20));
-        senhaPasswordField.setBounds(400, 635, 420, 50);
+        senhaPasswordField.setBounds(300, 475, 300, 45);
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         background.add(senhaPasswordField);
 
-        //Mostrar senha
+        // Mostrar/Ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
-        toggleSenhaBtn.setBounds(820, 635, 60, 50);
+        toggleSenhaBtn.setBounds(600, 475, 60, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
         toggleSenhaBtn.setFocusPainted(false);
-        toggleSenhaBtn.setBackground(new Color(11,54,175));
+        toggleSenhaBtn.setBackground(new Color(11, 54, 165));
         toggleSenhaBtn.setForeground(Color.WHITE);
         toggleSenhaBtn.setBorder(BorderFactory.createEmptyBorder());
         background.add(toggleSenhaBtn);
 
         toggleSenhaBtn.addActionListener(e -> {
-            if (senhaPasswordField.getEchoChar() != (char)0) {
-                senhaPasswordField.setEchoChar((char)0);
+if (senhaPasswordField.getEchoChar() != (char) 0) {
+    senhaPasswordField.setEchoChar((char) 0);
                 toggleSenhaBtn.setText("Ocultar");
             } else {
                 senhaPasswordField.setEchoChar('•');
@@ -116,11 +116,11 @@ public class TelaCadastroAluno {
         // Botão Cadastrar
         JButton cadastrarButton = new JButton("CADASTRAR");
         cadastrarButton.setName("cadastrarButton");
-        cadastrarButton.setBackground(new Color(13,66,149));
+        cadastrarButton.setBackground(new Color(11, 65, 175));
         cadastrarButton.setForeground(Color.WHITE);
         cadastrarButton.setFont(new Font("SansSerif", Font.BOLD, 32));
         cadastrarButton.setFocusPainted(false);
-        cadastrarButton.setBounds(520, 765, 250, 50);
+        cadastrarButton.setBounds(380, 570, 200, 45);
         cadastrarButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(cadastrarButton);
 
