@@ -41,7 +41,7 @@ public class EditarPergunta {
         materiaComboBox.setBackground(new Color(230, 57, 70));
         materiaComboBox.setForeground(Color.WHITE);
         materiaComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
-        materiaComboBox.setBounds(300, 190, 290, 65);
+        materiaComboBox.setBounds(355, 205, 245, 45);
         materiaComboBox.setBorder(null);
         materiaComboBox.setUI(new BasicComboBoxUI() {
             @Override
@@ -66,12 +66,12 @@ public class EditarPergunta {
         background.add(materiaComboBox);
 
         // ComboBox para Série (inicialmente dependente da matéria)
-        JComboBox<String> serieComboBox = new JComboBox<>(new String[]{"Selecionar Matéria"});
+        JComboBox<String> serieComboBox = new JComboBox<>(new String[]{"Carregar Pergunta"});
         serieComboBox.setName("serieComboBox");
         serieComboBox.setBackground(new Color(220, 150, 34));
         serieComboBox.setForeground(Color.WHITE);
         serieComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
-        serieComboBox.setBounds(300, 293, 360, 45);
+        serieComboBox.setBounds(300, 365, 360, 50);
         serieComboBox.setBorder(null);
         serieComboBox.setUI(new BasicComboBoxUI() {
             @Override
@@ -102,7 +102,7 @@ public class EditarPergunta {
         cadastrarButton.setForeground(Color.WHITE);
         cadastrarButton.setFont(new Font("SansSerif", Font.BOLD, 32));
         cadastrarButton.setFocusPainted(false);
-        cadastrarButton.setBounds(380, 520, 200, 45);
+        cadastrarButton.setBounds(380, 535, 200, 45);
         cadastrarButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(cadastrarButton);
 
@@ -118,7 +118,7 @@ public class EditarPergunta {
                     // Aqui você pode adicionar a lógica para carregar as séries correspondentes
                     // Por enquanto, vamos apenas preencher com algumas opções fixas
                     serieComboBox.setModel(new DefaultComboBoxModel<>(
-                            new String[]{"Série", "1ª Série", "2ª Série", "3ª Série"}
+                            new String[]{"Perguntas Cadastradas "}
                     ));
                     // Se uma matéria válida for selecionada, tentamos carregar as perguntas
                     tentarCarregarPerguntas(materiaComboBox, serieComboBox, frame);
