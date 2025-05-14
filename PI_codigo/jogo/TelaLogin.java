@@ -8,11 +8,14 @@ public class TelaLogin extends JFrame {
     public TelaLogin() {
         setTitle("Tela de Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
+        setSize(960, 640);
+        setLocationRelativeTo(null); // Centraliza a janela
+        setResizable(false);
+        setUndecorated(true); // Remove barra superior
+
 
         JPanel painel = new JPanel() {
-            ImageIcon imagem = new ImageIcon("PI_codigo/imagens/telalogin (1).png");
+            ImageIcon imagem = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\telalogin.png");
             Image img = imagem.getImage();
 
             @Override
@@ -21,11 +24,11 @@ public class TelaLogin extends JFrame {
                 g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        painel.setLayout(null); // Layout absoluto
+        painel.setLayout(null);
 
         // Campo de Email
         JTextField campoEmail = new JTextField();
-        campoEmail.setBounds(580, 300, 300, 50);//setBounds(x, y, largura, altura)
+        campoEmail.setBounds(370, 218, 250, 50);
         campoEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         campoEmail.setBackground(new Color(187, 45, 57));
         campoEmail.setForeground(Color.WHITE);
@@ -35,7 +38,7 @@ public class TelaLogin extends JFrame {
 
         // Campo de Senha
         JPasswordField campoSenha = new JPasswordField();
-        campoSenha.setBounds(590, 470, 305, 50);
+        campoSenha.setBounds(370, 332, 250, 50);
         campoSenha.setFont(new Font("Arial", Font.PLAIN, 18));
         campoSenha.setBackground(new Color(219, 151, 28));
         campoSenha.setForeground(Color.WHITE);
@@ -43,52 +46,49 @@ public class TelaLogin extends JFrame {
         campoSenha.setBorder(null);
         painel.add(campoSenha);
 
-            // Botão Entrar
-        JButton botaoEntrar = new JButton("ENTRAR");
-        botaoEntrar.setBounds(620, 570, 300, 90); // Movido mais para baixo
-        botaoEntrar.setContentAreaFilled(false); // Torna o botão transparente
-        botaoEntrar.setBorderPainted(false); // Remove a borda
-        botaoEntrar.setFocusPainted(false); // Remove o foco visual
-        botaoEntrar.setForeground(Color.WHITE); // Define a cor do texto
-        botaoEntrar.setFont(new Font("Arial", Font.BOLD, 30));
-        botaoEntrar.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String email = campoEmail.getText().trim();
-            String senha = new String(campoSenha.getPassword()).trim();
+       
+        // Botão Entrar
+        // Botão Entrar
+JButton botaoEntrar = new JButton("ENTRAR");
+botaoEntrar.setBounds(80, 420, 790, 70);
+estilizarBotaoTransparente(botaoEntrar);
+botaoEntrar.setFont(new Font("Arial", Font.BOLD, 28));
+botaoEntrar.addActionListener((ActionListener) new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String email = campoEmail.getText().trim();
+        String senha = new String(campoSenha.getPassword()).trim();
 
-            if (email.isEmpty() || senha.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-            } else if (email.contains("@aluno")) {
-                JOptionPane.showMessageDialog(null, "Bem-vindo, Aluno!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                // Aqui você pode redirecionar para a tela inicial do aluno
-            } else if (email.contains("@professor")) {
-                JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                // Aqui você pode redirecionar para a tela inicial do professor
-            } else {
-                JOptionPane.showMessageDialog(null, "Email inválido. Use um email com @aluno ou @professor.", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+        if (email.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
+        } else if (email.contains("@aluno")) {
+            
+            new TelaInicioAluno(); // Abre a TelaInicioAluno
+            dispose(); // Fecha a tela de login
+        } else if (email.contains("@professor")) {
+            JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            // Aqui você pode redirecionar para a tela do professor, se necessário
+        } else {
+            JOptionPane.showMessageDialog(null, "Email inválido. Use um email com @aluno ou @professor.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    });
-    painel.add(botaoEntrar);
-    
+    }
+
+});
+painel.add(botaoEntrar);
 
         // Botão Sair
+       
         JButton botaoSair = new JButton("SAIR");
-        botaoSair.setBounds(100, 760, 130, 50);
-        botaoSair.setFont(new Font("Arial", Font.BOLD, 70));
+        // Ajustado para mover mais para cima (Y: 550) e para a esquerda (X: 20)
+        botaoSair.setBounds(10, 556, 195, 50);
         estilizarBotaoTransparente(botaoSair);
-        botaoSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        botaoSair.setFont(new Font("Arial", Font.BOLD, 26));
+        botaoSair.addActionListener(e -> System.exit(0));
         painel.add(botaoSair);
 
-        // Botão Criar Conta
+        // Botão Criar Conta no canto inferior direito
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
-        botaoCriarConta.setBounds(1150, 690, 420, 190);
+        botaoCriarConta.setBounds(730, 545, 240, 70);
         estilizarBotaoTransparente(botaoCriarConta);
         painel.add(botaoCriarConta);
 
@@ -101,7 +101,7 @@ public class TelaLogin extends JFrame {
         botao.setBorderPainted(false);
         botao.setFocusPainted(false);
         botao.setForeground(Color.WHITE);
-        botao.setFont(new Font("Arial", Font.BOLD, 30));
+        botao.setFont(new Font("Arial", Font.BOLD, 20));
     }
 
     public static void main(String[] args) {

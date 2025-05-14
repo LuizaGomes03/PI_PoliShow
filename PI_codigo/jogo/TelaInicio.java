@@ -6,12 +6,12 @@ public class TelaInicio extends JFrame {
         setTitle("Polishow");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setSize(1366, 768);
+        setSize(960, 640);
         setLocationRelativeTo(null); // Centraliza a janela na tela
         setLayout(null);
 
-        int screenWidth = 1366;
-        int screenHeight = 768;
+        int screenWidth = 960;
+        int screenHeight = 640;
 
         // Painel com imagem de fundo
         JPanel fundo = new JPanel() {
@@ -41,7 +41,7 @@ public class TelaInicio extends JFrame {
         titulo.setFont(new Font("Serif", Font.BOLD, 48));
         titulo.setForeground(new Color(219, 151, 28));
         titulo.setOpaque(false);
-        titulo.setBounds(screenWidth / 2 - 200, 200, 400, 100);
+        titulo.setBounds(screenWidth / 2 - 200, 100, 400, 100);
         fundo.add(titulo);
 
         // Logo
@@ -59,16 +59,16 @@ public class TelaInicio extends JFrame {
 
         // Botão Sair (arredondado)
         RoundedButton sairBtn = new RoundedButton("SAIR", new Color(200, 50, 50));
-        sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 80, 200, 90);
+        sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 50, 200, 90);
         fundo.add(sairBtn);
 
         // Ações dos botões
-        jogarBtn.addActionListener(_ -> {
+        jogarBtn.addActionListener(e -> {
             new TelaLogin(); // substitua por sua classe real
             setVisible(false);
         });
 
-        sairBtn.addActionListener(_ -> {
+        sairBtn.addActionListener(e -> {
             System.exit(0);
         });
 

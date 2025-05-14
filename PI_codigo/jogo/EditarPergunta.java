@@ -1,8 +1,8 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import javax.swing.*;
 
 // Botão arredondado bonito e funcional
 class RoundedButton extends JButton {
@@ -107,7 +107,7 @@ public class EditarPergunta extends JFrame {
                 {
                     try {
                         // Tenta carregar a imagem da pasta imagens
-                        String imagePath = "../imagens/fundo.png";
+                        String imagePath = "C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\fundo.png";
                         File imageFile = new File(imagePath);
                         if (imageFile.exists()) {
                             bg = new ImageIcon(imagePath).getImage();

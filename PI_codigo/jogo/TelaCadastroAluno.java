@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 public class TelaCadastroAluno {
 
@@ -103,7 +103,7 @@ public class TelaCadastroAluno {
         toggleSenhaBtn.setBorder(BorderFactory.createEmptyBorder());
         background.add(toggleSenhaBtn);
 
-        toggleSenhaBtn.addActionListener(_ -> {
+        toggleSenhaBtn.addActionListener(e -> {
             if (senhaPasswordField.getEchoChar() != (char)0) {
                 senhaPasswordField.setEchoChar((char)0);
                 toggleSenhaBtn.setText("Ocultar");
