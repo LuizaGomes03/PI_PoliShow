@@ -1,3 +1,4 @@
+package br.com.polishow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ public class TelaFeedback extends JPanel {
     private String dinheiroGanho = "R$ 800,00";
 
     public TelaFeedback() {
-        String caminhoImagem = "C:\\Users\\25.01530-6\\Documents\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\Telapontuaçãojpg (1).png";
+        String caminhoImagem = "polishow\\\\src\\\\main\\\\imagens\\Telapontuaçãojpg (1).png";
 
         if (!new File(caminhoImagem).exists()) {
             JOptionPane.showMessageDialog(null, "Imagem de fundo não encontrada:\n" + caminhoImagem);

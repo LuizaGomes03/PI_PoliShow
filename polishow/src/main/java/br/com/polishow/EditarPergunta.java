@@ -1,3 +1,5 @@
+package br.com.polishow;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -228,7 +230,7 @@ public class EditarPergunta extends JFrame {
         int imageHeight = 640;
 
         // Carrega e redimensiona a imagem de fundo
-        ImageIcon originalIcon = new ImageIcon("C:\\Users\\25.00995-2\\Downloads\\Projeto-Integrador-\\PI_codigo\\imagens\\Tela de editar pergunta (1).png");
+        ImageIcon originalIcon = new ImageIcon("PI_codigo\\imagens\\Tela de editar pergunta (1).png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
@@ -363,7 +365,6 @@ public class EditarPergunta extends JFrame {
                     "Perguntas carregadas para " + selectedMateria + " - " + selectedSerie,
                     "Carregar Perguntas", JOptionPane.INFORMATION_MESSAGE);
         }
-        // Não precisamos de um 'else' aqui, pois a mensagem de aviso seria repetitiva
-        // a cada seleção nos ComboBoxes.
+        
     }
 }

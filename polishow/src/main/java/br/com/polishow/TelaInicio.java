@@ -1,3 +1,4 @@
+package br.com.polishow;
 import java.awt.*;
 import javax.swing.*;
 
@@ -15,7 +16,7 @@ public class TelaInicio extends JFrame {
 
         // Painel com imagem de fundo
         JPanel fundo = new JPanel() {
-            ImageIcon bg = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\TelaFundoHD.png");
+            ImageIcon bg = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\TelaFundoHD.png");
             Image img = bg.getImage();
 
             @Override
@@ -45,7 +46,7 @@ public class TelaInicio extends JFrame {
         fundo.add(titulo);
 
         // Logo
-        ImageIcon logo = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\7 1 (1).png");
+        ImageIcon logo = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\7 1 (1).png");
         Image imgLogo = logo.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(imgLogo);
         JLabel logoLabel = new JLabel(logo);

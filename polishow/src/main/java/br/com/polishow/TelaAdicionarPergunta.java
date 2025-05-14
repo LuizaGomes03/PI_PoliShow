@@ -1,3 +1,4 @@
+package br.com.polishow;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -13,7 +14,7 @@ public class TelaAdicionarPergunta {
         int imageWidth = 960;
         int imageHeight = 640;
 
-        ImageIcon originalIcon = new ImageIcon("PI_codigo/imagens/telaAddPergunta.png");
+        ImageIcon originalIcon = new ImageIcon("polishow\\\\src\\\\main\\\\imagens/telaAddPergunta.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 

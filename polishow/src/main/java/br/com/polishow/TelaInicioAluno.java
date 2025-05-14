@@ -1,3 +1,4 @@
+package br.com.polishow;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -17,7 +18,7 @@ public class TelaInicioAluno extends JFrame {
 
         // Painel com imagem de fundo
         JPanel painel = new JPanel() {
-            ImageIcon imagemFundo = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\Tela bem-vindo (1) (1).png");
+            ImageIcon imagemFundo = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\Tela bem-vindo (1) (1).png");
             Image img = imagemFundo.getImage();
 
             @Override

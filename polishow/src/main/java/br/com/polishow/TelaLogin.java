@@ -1,3 +1,4 @@
+package br.com.polishow;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,7 @@ public class TelaLogin extends JFrame {
 
 
         JPanel painel = new JPanel() {
-            ImageIcon imagem = new ImageIcon("C:\\Users\\Luiza Gomes\\OneDrive\\Documentos\\GitHub\\Projeto-Integrador-\\PI_codigo\\imagens\\telalogin.png");
+            ImageIcon imagem = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\telalogin.png");
             Image img = imagem.getImage();
 
             @Override
@@ -49,11 +50,11 @@ public class TelaLogin extends JFrame {
        
         // Botão Entrar
         // Botão Entrar
-JButton botaoEntrar = new JButton("ENTRAR");
-botaoEntrar.setBounds(80, 420, 790, 70);
-estilizarBotaoTransparente(botaoEntrar);
-botaoEntrar.setFont(new Font("Arial", Font.BOLD, 28));
-botaoEntrar.addActionListener((ActionListener) new ActionListener() {
+    JButton botaoEntrar = new JButton("ENTRAR");
+    botaoEntrar.setBounds(80, 420, 790, 70);
+    estilizarBotaoTransparente(botaoEntrar);
+    botaoEntrar.setFont(new Font("Arial", Font.BOLD, 28));
+    botaoEntrar.addActionListener((ActionListener) new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         String email = campoEmail.getText().trim();
