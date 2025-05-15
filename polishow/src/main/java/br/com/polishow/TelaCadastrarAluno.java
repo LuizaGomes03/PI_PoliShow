@@ -1,37 +1,52 @@
 package br.com.polishow;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
-public class TelaCadastroAluno {
+public class TelaCadastrarAluno {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TelaCadastroAluno().createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new TelaCadastrarAluno().createAndShowGUI());
     }
 
     private void createAndShowGUI() {
-        // Tamanho desejado da imagem
         int imageWidth = 960;
         int imageHeight = 640;
 
-        // Carrega e redimensiona a imagem de fundo
         ImageIcon originalIcon = new ImageIcon("polishow\\src\\main\\imagens\\telaCadastro.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
-        // Cria o JLabel com imagem redimensionada
         JLabel background = new JLabel(backgroundIcon);
         background.setLayout(null);
         background.setPreferredSize(new Dimension(imageWidth, imageHeight));
 
-        // Frame
         JFrame frame = new JFrame("Cadastrar aluno");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(background);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+
+        // Botão de voltar (seta)
+        ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/setaVoltar.png");
+        Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        setaIcon = new ImageIcon(setaImage);
+
+        JButton voltarButton = new JButton(setaIcon);
+        voltarButton.setBounds(20, 20, 40, 40);
+        voltarButton.setFocusPainted(false);
+        voltarButton.setContentAreaFilled(false);
+        voltarButton.setBorderPainted(false);
+        voltarButton.setOpaque(false);
+
+        voltarButton.addActionListener(e -> {
+            frame.dispose();
+            new br.com.polishow.TelaInicialProfessor().criarTela(); 
+        });
+        background.add(voltarButton);
 
         // Nome
         JTextField nomeTextField = new JTextField();
@@ -43,7 +58,7 @@ public class TelaCadastroAluno {
         nomeTextField.setBorder(BorderFactory.createEmptyBorder());
         background.add(nomeTextField);
 
-        // ComboBox sem bordas e com seta colorida
+        // ComboBox
         JComboBox<String> serieComboBox = new JComboBox<>(
                 new String[]{"Selecione a série", "1ª Série", "2ª Série", "3ª Série"});
         serieComboBox.setName("serieComboBox");
@@ -105,8 +120,8 @@ public class TelaCadastroAluno {
         background.add(toggleSenhaBtn);
 
         toggleSenhaBtn.addActionListener(e -> {
-if (senhaPasswordField.getEchoChar() != (char) 0) {
-    senhaPasswordField.setEchoChar((char) 0);
+            if (senhaPasswordField.getEchoChar() != (char) 0) {
+                senhaPasswordField.setEchoChar((char) 0);
                 toggleSenhaBtn.setText("Ocultar");
             } else {
                 senhaPasswordField.setEchoChar('•');
@@ -125,7 +140,29 @@ if (senhaPasswordField.getEchoChar() != (char) 0) {
         cadastrarButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(cadastrarButton);
 
-        // Exibe a janela
+        cadastrarButton.addActionListener(e -> {
+            String email = emailTextField.getText().trim();
+            String nome = nomeTextField.getText().trim();
+            String senha = new String(senhaPasswordField.getPassword()).trim();
+
+            if (email.isEmpty() || nome.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "O campo de email está vazio.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$")) {
+                JOptionPane.showMessageDialog(frame, "Formato de email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!email.endsWith("@p4ed.com")) {
+                JOptionPane.showMessageDialog(frame, "Email inválido. Utilize um email com @p4ed.com", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            JOptionPane.showMessageDialog(frame, "Aluno cadastrado com sucesso!");
+        });
+
         frame.setVisible(true);
     }
 }

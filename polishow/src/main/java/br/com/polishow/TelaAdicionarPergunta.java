@@ -29,6 +29,28 @@ public class TelaAdicionarPergunta {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
+        // Ícone da seta
+        ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/setaVoltar.png");
+        Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        setaIcon = new ImageIcon(setaImage);
+
+        // Botão com imagem de seta
+        JButton voltarButton = new JButton(setaIcon);
+        voltarButton.setBounds(20, 20, 40, 40);
+        voltarButton.setFocusPainted(false);
+        voltarButton.setContentAreaFilled(false);  // Remove fundo
+        voltarButton.setBorderPainted(false);      // Remove borda
+        voltarButton.setOpaque(false);             // Transparente
+
+        // Ação do botão: abre a tela do professor
+        voltarButton.addActionListener(e -> {
+            frame.dispose();
+            new br.com.polishow.TelaInicialProfessor().criarTela(); 
+        });
+
+background.add(voltarButton);
+
+
         // ComboBox de Matéria
         JComboBox<String> materiaComboBox = new JComboBox<>(
             new String[] { "Selecione a matéria", "Português", "Matemática", "História" }
