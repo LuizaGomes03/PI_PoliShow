@@ -54,7 +54,7 @@ public class TelaAdicionarPergunta {
 
         // ComboBox de Dificuldade
         JComboBox<String> dificuldadeComboBox = new JComboBox<>(
-            new String[] { "Selecione", "Fácil", "Média", "Difícil" }
+            new String[] { "Selecione", "Fácil", "Médio", "Difícil" }
         );
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
@@ -76,7 +76,7 @@ public class TelaAdicionarPergunta {
         background.add(dificuldadeComboBox);
 
         // Botão "Adicionar Pergunta"
-        JButton perguntaButton = new JButton("Clique Aqui Para Adicionar Pergunta");
+        JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
         perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
         perguntaButton.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -88,7 +88,7 @@ public class TelaAdicionarPergunta {
         perguntaButton.addActionListener(e -> abrirJanelaPergunta());
 
         // Botão "Adicionar Opções"
-        JButton opcoesButton = new JButton("Clique Aqui Para Adicionar Opções");
+        JButton opcoesButton = new JButton("Clique aqui para adicionar opções");
         opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
         opcoesButton.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -100,11 +100,11 @@ public class TelaAdicionarPergunta {
         opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
 
         // Botão "Salvar"
-        JButton salvarButton = new JButton("Salvar");
+        JButton salvarButton = new JButton("SALVAR");
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
-        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 38));
-        salvarButton.setBounds(420, 535, 120, 40); // Ajuste a posição se necessário
+        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 25));
+        salvarButton.setBounds(420, 534, 120, 40); // Ajuste a posição se necessário
         salvarButton.setFocusPainted(false);
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 

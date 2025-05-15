@@ -18,7 +18,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("C:\\Users\\25.01250-1\\Documents\\GitHub\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
