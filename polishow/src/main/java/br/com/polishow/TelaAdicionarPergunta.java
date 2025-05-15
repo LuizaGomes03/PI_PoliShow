@@ -10,7 +10,7 @@ public class TelaAdicionarPergunta {
         SwingUtilities.invokeLater(() -> new TelaAdicionarPergunta().createAndShowGUI());
     }
 
-    private void createAndShowGUI() {
+    void createAndShowGUI() {
         int imageWidth = 960;
         int imageHeight = 640;
 

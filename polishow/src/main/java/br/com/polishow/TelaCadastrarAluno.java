@@ -11,7 +11,7 @@ public class TelaCadastrarAluno {
         SwingUtilities.invokeLater(() -> new TelaCadastrarAluno().createAndShowGUI());
     }
 
-    private void createAndShowGUI() {
+    void createAndShowGUI() {
         int imageWidth = 960;
         int imageHeight = 640;
 
