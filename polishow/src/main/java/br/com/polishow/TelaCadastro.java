@@ -14,10 +14,11 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("C:\\Users\\thale\\Desktop\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("C:\\Users\\25.01250-1\\Documents\\GitHub\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -43,6 +44,18 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         senhaPasswordField.setBounds(320, 354, 265, 40);
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(senhaPasswordField);
+
+        //Botão Voltar
+        JButton voltarButton = new JButton();
+        voltarButton.setBounds(20, 15, 40, 40);
+        voltarButton.setBorder(BorderFactory.createEmptyBorder());
+        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
+        painelFundo.add(voltarButton);
+
+        voltarButton.addActionListener(e -> {
+            new TelaLogin();
+            dispose();
+        });
 
         // Mostrar/Ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
@@ -86,14 +99,13 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
-            new TelaInicioAluno(); // Abre a TelaInicioAluno
-            dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
-            JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            // Aqui você pode redirecionar para a tela do professor, se necessário
+        } else if (email.endsWith("@p4ed.com")) {
+            JOptionPane.showMessageDialog(null, "Somente professores podem criar conta.", "Erro", JOptionPane.WARNING_MESSAGE);
+        } else if (email.endsWith("@sistemapoliedro.com.br")) {
+            new TelaInicialProfessor();
+            dispose();
         } else {
-            JOptionPane.showMessageDialog(null, "Email inválido. Use um email com @aluno ou @professor.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Email inválido", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

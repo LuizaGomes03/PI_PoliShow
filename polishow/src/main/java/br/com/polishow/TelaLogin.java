@@ -12,7 +12,6 @@ public class TelaLogin extends JFrame {
         setSize(960, 640);
         setLocationRelativeTo(null); // Centraliza a janela
         setResizable(false);
-        setUndecorated(true); // Remove barra superior
 
 
         JPanel painel = new JPanel() {
@@ -29,7 +28,7 @@ public class TelaLogin extends JFrame {
 
         // Campo de Email
         JTextField campoEmail = new JTextField();
-        campoEmail.setBounds(370, 218, 250, 50);
+        campoEmail.setBounds(360, 204, 250, 50);
         campoEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         campoEmail.setBackground(new Color(187, 45, 57));
         campoEmail.setForeground(Color.WHITE);
@@ -39,7 +38,7 @@ public class TelaLogin extends JFrame {
 
         // Campo de Senha
         JPasswordField campoSenha = new JPasswordField();
-        campoSenha.setBounds(370, 332, 250, 50);
+        campoSenha.setBounds(360, 310, 200, 50);
         campoSenha.setFont(new Font("Arial", Font.PLAIN, 18));
         campoSenha.setBackground(new Color(219, 151, 28));
         campoSenha.setForeground(Color.WHITE);
@@ -47,8 +46,26 @@ public class TelaLogin extends JFrame {
         campoSenha.setBorder(null);
         painel.add(campoSenha);
 
-       
-        // Botão Entrar
+       // Mostrar/Ocultar senha
+        JButton toggleSenhaBtn = new JButton("Mostrar");
+        toggleSenhaBtn.setBounds(565, 312, 65, 45);
+        toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
+        toggleSenhaBtn.setFocusPainted(false);
+        toggleSenhaBtn.setBackground(new Color(219, 151, 28));
+        toggleSenhaBtn.setForeground(Color.WHITE);
+        toggleSenhaBtn.setBorder(BorderFactory.createEmptyBorder());
+        painel.add(toggleSenhaBtn);
+
+        toggleSenhaBtn.addActionListener(e -> {
+            if (campoSenha.getEchoChar() != (char) 0) {
+                campoSenha.setEchoChar((char) 0);
+                toggleSenhaBtn.setText("Ocultar");
+            } else {
+                campoSenha.setEchoChar('•');
+                toggleSenhaBtn.setText("Mostrar");
+            }
+        });
+
         // Botão Entrar
     JButton botaoEntrar = new JButton("ENTRAR");
     botaoEntrar.setBounds(80, 420, 790, 70);
@@ -62,11 +79,11 @@ public class TelaLogin extends JFrame {
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
+        } else if (email.endsWith("@p4ed.com")) {
             
             new TelaInicioAluno(); // Abre a TelaInicioAluno
             dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
+        } else if (email.endsWith("@sistemapoliedro.com.br")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
@@ -91,6 +108,7 @@ painel.add(botaoEntrar);
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
         botaoCriarConta.setBounds(730, 545, 240, 70);
         estilizarBotaoTransparente(botaoCriarConta);
+        botaoCriarConta.addActionListener(e -> acaoBotaoCriarConta());
         painel.add(botaoCriarConta);
 
         setContentPane(painel);
@@ -103,6 +121,11 @@ painel.add(botaoEntrar);
         botao.setFocusPainted(false);
         botao.setForeground(Color.WHITE);
         botao.setFont(new Font("Arial", Font.BOLD, 20));
+    }
+
+    private void acaoBotaoCriarConta() {
+        new TelaCadastro();
+        dispose(); // Fecha a tela de login
     }
 
     public static void main(String[] args) {
