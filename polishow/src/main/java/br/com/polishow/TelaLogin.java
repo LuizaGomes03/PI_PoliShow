@@ -68,9 +68,9 @@ public class TelaLogin extends JFrame {
 
         // Botão Entrar
     JButton botaoEntrar = new JButton("ENTRAR");
-    botaoEntrar.setBounds(80, 420, 790, 70);
+    botaoEntrar.setBounds(72, 395, 790, 70);
     estilizarBotaoTransparente(botaoEntrar);
-    botaoEntrar.setFont(new Font("Arial", Font.BOLD, 28));
+    botaoEntrar.setFont(new Font("Arial", Font.BOLD, 25));
     botaoEntrar.addActionListener((ActionListener) new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,7 @@ public class TelaLogin extends JFrame {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
-            JOptionPane.showMessageDialog(null, "Email inválido. Use um email com @aluno ou @professor.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -97,8 +97,7 @@ painel.add(botaoEntrar);
         // Botão Sair
        
         JButton botaoSair = new JButton("SAIR");
-        // Ajustado para mover mais para cima (Y: 550) e para a esquerda (X: 20)
-        botaoSair.setBounds(10, 556, 195, 50);
+        botaoSair.setBounds(5, 525, 195, 50);
         estilizarBotaoTransparente(botaoSair);
         botaoSair.setFont(new Font("Arial", Font.BOLD, 26));
         botaoSair.addActionListener(e -> System.exit(0));
@@ -106,8 +105,9 @@ painel.add(botaoEntrar);
 
         // Botão Criar Conta no canto inferior direito
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
-        botaoCriarConta.setBounds(730, 545, 240, 70);
+        botaoCriarConta.setBounds(715, 513, 240, 70);
         estilizarBotaoTransparente(botaoCriarConta);
+        botaoCriarConta.setFont(new Font("Arial", Font.BOLD, 19));
         botaoCriarConta.addActionListener(e -> acaoBotaoCriarConta());
         painel.add(botaoCriarConta);
 
