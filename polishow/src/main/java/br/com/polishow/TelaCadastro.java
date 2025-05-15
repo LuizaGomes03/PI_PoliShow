@@ -1,8 +1,19 @@
 package br.com.polishow;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class TelaCadastro extends JFrame implements java.awt.event.ActionListener {
 
@@ -17,7 +28,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("C:\\Users\\thale\\Desktop\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("polishow/src/main/imagens/Tela cadastrar professor.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -86,10 +97,10 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
+        } else if (email.contains("@p4ed.com")) {
             new TelaInicioAluno(); // Abre a TelaInicioAluno
             dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
+        } else if (email.contains("@sistemapoliedro.com.br")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {

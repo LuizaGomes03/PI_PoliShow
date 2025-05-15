@@ -62,11 +62,11 @@ public class TelaLogin extends JFrame {
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
+        } else if (email.contains("@p4ed.com")) {
             
             new TelaInicioAluno(); // Abre a TelaInicioAluno
             dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
+        } else if (email.contains("@sistemapoliedro.com.br")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
