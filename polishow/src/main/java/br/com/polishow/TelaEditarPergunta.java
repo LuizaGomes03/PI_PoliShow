@@ -25,10 +25,10 @@ public class TelaEditarPergunta extends JFrame {
         setSize(960, 640);
         setLocationRelativeTo(null);
         setResizable(false);
-        setUndecorated(true);
+        setUndecorated(false);
 
         JPanel painel = new JPanel() {
-            ImageIcon imagem = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\\\editar perguntas (1).png");
+            ImageIcon imagem = new ImageIcon("polishow/src/main/imagens/telaEditarPerguntas.png");
             Image img = imagem.getImage();
 
             @Override
@@ -40,92 +40,69 @@ public class TelaEditarPergunta extends JFrame {
         painel.setLayout(null);
 
         // ComboBox "Matéria"
-        JComboBox<String> serieComboBox = new JComboBox<>(
-                new String[]{"Matéria", "Português", "Matemática", "História"});
-        serieComboBox.setName("serieComboBox");
-        serieComboBox.setBackground(new Color(220, 150, 34));
-        serieComboBox.setForeground(Color.WHITE);
-        serieComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
-        serieComboBox.setBounds(300, 293, 360, 45);
-        serieComboBox.setBorder(null);
-        serieComboBox.setUI(new BasicComboBoxUI() {
+        JComboBox<String> materiaComboBox = new JComboBox<>(
+                new String[]{"Selecione a Matéria", "Português", "Matemática", "História"});
+        materiaComboBox.setName("materiaComboBox");
+        materiaComboBox.setBackground(new Color(187,49,49));
+        materiaComboBox.setForeground(Color.WHITE);
+        materiaComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
+        materiaComboBox.setBounds(350, 210, 310, 45);
+        materiaComboBox.setBorder(null);
+        materiaComboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
                 BasicArrowButton arrow = new BasicArrowButton(
                         BasicArrowButton.SOUTH,
-                        new Color(220, 150, 34),
-                        new Color(220, 150, 34),
+                        new Color(187,49,49),
+                        new Color(187,49,49),
                         Color.WHITE,
-                        new Color(220, 150, 34));
+                        new Color(187,49,49));
                 arrow.setBorder(BorderFactory.createEmptyBorder());
                 arrow.setContentAreaFilled(false);
                 return arrow;
             }
         });
-        serieComboBox.setFocusable(false);
-        serieComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        painel.add(serieComboBox);
 
-        // ComboBox "Carregar Pergunta" 100% transparente, sem borda, sem escrita
+
+        materiaComboBox.setFocusable(false);
+        materiaComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        painel.add(materiaComboBox);
+
         JComboBox<String> perguntaComboBox = new JComboBox<>(
-                new String[]{"Carregar Pergunta"});
-        perguntaComboBox.setBounds(320, 370, 340, 75);
-        perguntaComboBox.setOpaque(false);
-        perguntaComboBox.setBackground(new Color(0,0,0,0));
-        perguntaComboBox.setForeground(new Color(0,0,0,0));
-        perguntaComboBox.setBorder(null);
-        perguntaComboBox.setFont(new Font("Arial", Font.BOLD, 18));
-        perguntaComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        perguntaComboBox.setUI(new BasicComboBoxUI() {
-            @Override
-            public void paint(Graphics g, javax.swing.JComponent c) {
-                // Não desenha nada, garantindo transparência total
-            }
-            @Override
-            protected JButton createArrowButton() {
-                JButton button = new JButton();
-                button.setVisible(false);
-                button.setOpaque(false);
-                button.setContentAreaFilled(false);
-                button.setBorderPainted(false);
-                button.setBorder(null);
-                return button;
-            }
-        });
-        perguntaComboBox.setEditable(false);
-        painel.add(perguntaComboBox);
+            new String[]{"Selecione a Pergunta"});
+    perguntaComboBox.setName("perguntaComboBox");
+    perguntaComboBox.setBackground(new Color(220, 150, 34));
+    perguntaComboBox.setForeground(Color.WHITE);
+    perguntaComboBox.setFont(new Font("SansSerif", Font.BOLD, 20));
+    perguntaComboBox.setBounds(340, 345, 310, 45);
+    perguntaComboBox.setBorder(null);
+    perguntaComboBox.setUI(new BasicComboBoxUI() {
+        @Override
+        protected JButton createArrowButton() {
+            BasicArrowButton arrow = new BasicArrowButton(
+                    BasicArrowButton.SOUTH,
+                    new Color(220, 150, 34),
+                    new Color(220, 150, 34),
+                    Color.WHITE,
+                    new Color(220, 150, 34));
+            arrow.setBorder(BorderFactory.createEmptyBorder());
+            arrow.setContentAreaFilled(false);
+            return arrow;
+        }
+    });
+    perguntaComboBox.setFocusable(false);
+    perguntaComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    painel.add(perguntaComboBox);
 
-        // Botão "Salvar" - cor (18, 66, 177)
-        JButton btnSalvar = new JButton();
-        btnSalvar.setBounds(390, 550, 190, 75);
-        btnSalvar.setOpaque(false);
-        btnSalvar.setContentAreaFilled(false);
-        btnSalvar.setBorderPainted(false);
-        btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.setFont(new Font("Arial", Font.BOLD, 18));
-        btnSalvar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnSalvar.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(null, "Botão 'Salvar' clicado.");
-        });
-        painel.add(btnSalvar);
-
-        // Botão "Sair"
-        JButton btnSair = new JButton();
-        btnSair.setBounds(10, 10, 40, 40);
-        btnSair.setOpaque(false);
-        btnSair.setContentAreaFilled(false);
-        btnSair.setBorderPainted(false);
-        btnSair.setFocusPainted(false);
-        btnSair.setForeground(new Color(220, 53, 69));
-        btnSair.setFont(new Font("Arial", Font.BOLD, 18));
-        btnSair.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnSair.addActionListener((ActionEvent e) -> {
-            dispose();
-        });
-        painel.add(btnSair);
-
-        setContentPane(painel);
-        setVisible(true);
+        JButton salvarButton = new JButton("CADASTRAR");
+        salvarButton.setName("cadastrarButton");
+        salvarButton.setBackground(new Color(11, 65, 175));
+        salvarButton.setForeground(Color.WHITE);
+        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 32));
+        salvarButton.setFocusPainted(false);
+        salvarButton.setBounds(380, 570, 200, 45);
+        salvarButton.setBorder(BorderFactory.createEmptyBorder());
+        painel.add(salvarButton);
     }
 
     private void estilizarBotaoColorido(JButton botao, java.awt.Color corFundo) {
