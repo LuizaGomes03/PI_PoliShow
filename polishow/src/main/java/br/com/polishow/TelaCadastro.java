@@ -18,7 +18,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("C:\\Users\\25.01250-1\\Documents\\GitHub\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -47,9 +47,10 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         //Botão Voltar
         JButton voltarButton = new JButton();
-        voltarButton.setBounds(20, 15, 40, 40);
+        voltarButton.setBounds(15, 15, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
         voltarButton.setContentAreaFilled(false); // Torna o botão transparente
+        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
         painelFundo.add(voltarButton);
 
         voltarButton.addActionListener(e -> {
@@ -65,6 +66,18 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         toggleSenhaBtn.setBackground(new Color(219, 151, 28));
         toggleSenhaBtn.setForeground(Color.WHITE);
         toggleSenhaBtn.setBorder(BorderFactory.createEmptyBorder());
+        toggleSenhaBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
+        toggleSenhaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                toggleSenhaBtn.setBackground(new Color(255, 180, 50)); // Cor de destaque
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                toggleSenhaBtn.setBackground(new Color(219, 151, 28)); // Cor original
+            }
+        });
         painelFundo.add(toggleSenhaBtn);
 
         toggleSenhaBtn.addActionListener(e -> {
@@ -79,11 +92,12 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Botão Criar
         JButton btnCriar = new JButton("CRIAR");
-        btnCriar.setBounds(400, 455, 150, 40);
+        btnCriar.setBounds(397, 455, 150, 40);
         btnCriar.setFont(new Font("SansSerif", Font.BOLD, 23));
         btnCriar.setBackground(new Color(18, 66, 177));
         btnCriar.setForeground(Color.WHITE);
         btnCriar.setBorder(BorderFactory.createEmptyBorder());
+        btnCriar.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
         painelFundo.add(btnCriar);
 
         btnCriar.addActionListener(this);
@@ -99,10 +113,9 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
-            new TelaInicioAluno(); // Abre a TelaInicioAluno
-            dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
+        } else if (email.endsWith("@p4ed.com")) {
+            JOptionPane.showMessageDialog(null, "Somente professores podem realizar cadastro.", "Erro", JOptionPane.WARNING_MESSAGE);
+        } else if (email.endsWith("@sistemapoliedro.com.br")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
@@ -114,9 +127,4 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         SwingUtilities.invokeLater(() -> new TelaCadastro());
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-    }
 }
