@@ -4,16 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
 
 public class TelaCadastro extends JFrame implements java.awt.event.ActionListener {
 
@@ -25,10 +16,11 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("polishow/src/main/imagens/Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("C:\\Users\\thale\\Desktop\\Projeto-Integrador-\\polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -54,6 +46,18 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         senhaPasswordField.setBounds(320, 354, 265, 40);
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(senhaPasswordField);
+
+        //Botão Voltar
+        JButton voltarButton = new JButton();
+        voltarButton.setBounds(20, 15, 40, 40);
+        voltarButton.setBorder(BorderFactory.createEmptyBorder());
+        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
+        painelFundo.add(voltarButton);
+
+        voltarButton.addActionListener(e -> {
+            new TelaLogin();
+            dispose();
+        });
 
         // Mostrar/Ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
@@ -97,14 +101,14 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@p4ed.com")) {
+        } else if (email.contains("@aluno")) {
             new TelaInicioAluno(); // Abre a TelaInicioAluno
             dispose(); // Fecha a tela de login
-        } else if (email.contains("@sistemapoliedro.com.br")) {
+        } else if (email.contains("@professor")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
-            JOptionPane.showMessageDialog(null, "Email inválido. Use um email com @aluno ou @professor.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Email inválido", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

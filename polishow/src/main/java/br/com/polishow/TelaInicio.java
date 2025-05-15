@@ -6,8 +6,8 @@ public class TelaInicio extends JFrame {
     public TelaInicio() {
         setTitle("Polishow");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUndecorated(true);
         setSize(960, 640);
+        setResizable(false);
         setLocationRelativeTo(null); // Centraliza a janela na tela
         setLayout(null);
 
