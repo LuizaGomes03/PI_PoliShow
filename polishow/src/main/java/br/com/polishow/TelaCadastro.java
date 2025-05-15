@@ -1,10 +1,8 @@
 package br.com.polishow;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class TelaCadastro extends JFrame implements java.awt.event.ActionListener {
 
@@ -114,5 +112,11 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new TelaCadastro());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 }
