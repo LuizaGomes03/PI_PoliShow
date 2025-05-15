@@ -10,7 +10,7 @@ public class TelaAdicionarPergunta {
         SwingUtilities.invokeLater(() -> new TelaAdicionarPergunta().createAndShowGUI());
     }
 
-    private void createAndShowGUI() {
+    void createAndShowGUI() {
         int imageWidth = 960;
         int imageHeight = 640;
 
@@ -28,28 +28,6 @@ public class TelaAdicionarPergunta {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-
-        // Ícone da seta
-        ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
-        Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        setaIcon = new ImageIcon(setaImage);
-
-        // Botão com imagem de seta
-        JButton voltarButton = new JButton(setaIcon);
-        voltarButton.setBounds(20, 20, 40, 40);
-        voltarButton.setFocusPainted(false);
-        voltarButton.setContentAreaFilled(false);  // Remove o fundo
-        voltarButton.setBorderPainted(false);      // Remove borda
-        voltarButton.setOpaque(false);             // Transparente
-
-        // Ação do botão
-        voltarButton.addActionListener(e -> {
-            frame.dispose();
-            new br.com.polishow.TelaInicialProfessor().criarTela();
-        });
-
-        background.add(voltarButton);
-
 
         // ComboBox de Matéria
         JComboBox<String> materiaComboBox = new JComboBox<>(
@@ -76,7 +54,7 @@ public class TelaAdicionarPergunta {
 
         // ComboBox de Dificuldade
         JComboBox<String> dificuldadeComboBox = new JComboBox<>(
-            new String[] { "Selecione", "Fácil", "Média", "Difícil" }
+            new String[] { "Selecione", "Fácil", "Médio", "Difícil" }
         );
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
@@ -98,7 +76,7 @@ public class TelaAdicionarPergunta {
         background.add(dificuldadeComboBox);
 
         // Botão "Adicionar Pergunta"
-        JButton perguntaButton = new JButton("Clique Aqui Para Adicionar Pergunta");
+        JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
         perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
         perguntaButton.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -110,7 +88,7 @@ public class TelaAdicionarPergunta {
         perguntaButton.addActionListener(e -> abrirJanelaPergunta());
 
         // Botão "Adicionar Opções"
-        JButton opcoesButton = new JButton("Clique Aqui Para Adicionar Opções");
+        JButton opcoesButton = new JButton("Clique aqui para adicionar opções");
         opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
         opcoesButton.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -122,11 +100,11 @@ public class TelaAdicionarPergunta {
         opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
 
         // Botão "Salvar"
-        JButton salvarButton = new JButton("Salvar");
+        JButton salvarButton = new JButton("SALVAR");
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
-        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 38));
-        salvarButton.setBounds(420, 535, 120, 40); // Ajuste a posição se necessário
+        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 25));
+        salvarButton.setBounds(420, 534, 120, 40); // Ajuste a posição se necessário
         salvarButton.setFocusPainted(false);
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
