@@ -16,7 +16,7 @@ public class TelaFeedback extends JPanel {
     private String dinheiroGanho = "R$ 800,00";
 
     public TelaFeedback() {
-        String caminhoImagem = "polishow\\\\src\\\\main\\\\imagens\\Telapontuaçãojpg (1).png";
+        String caminhoImagem = "polishow/src/main/imagens/Telapontuaçãojpg (1).png";
 
         if (!new File(caminhoImagem).exists()) {
             JOptionPane.showMessageDialog(null, "Imagem de fundo não encontrada:\n" + caminhoImagem);
@@ -40,10 +40,10 @@ public class TelaFeedback extends JPanel {
             g.setFont(new Font("SansSerif", Font.BOLD, 22));
 
             // Coordenadas ajustadas para o tamanho menor da tela
-            g.drawString(materia, 400, 140);
-            g.drawString(String.valueOf(totalQuestoes), 440, 220);
-            g.drawString(String.valueOf(acertos), 450, 300);
-            g.drawString(dinheiroGanho, 400, 380);
+            g.drawString(materia, 565, 185);
+            g.drawString(String.valueOf(totalQuestoes), 565, 285);
+            g.drawString(String.valueOf(acertos), 565, 385);
+            g.drawString(dinheiroGanho, 565, 475);
         }
     }
 
