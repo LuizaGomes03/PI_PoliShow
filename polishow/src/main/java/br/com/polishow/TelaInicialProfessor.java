@@ -117,4 +117,8 @@ public class TelaInicialProfessor extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(TelaInicialProfessor::new);
     }
+    public void TelaInicialProfessor() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TelaInicialProfessor'");
+    }
 }
