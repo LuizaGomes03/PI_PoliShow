@@ -1,49 +1,49 @@
 package br.com.polishow;
 
 public class Usuario {
-    private int idUsuario;
-    private String nomeUsuario;
-    private String senhaUsuario;
-    private String emailUsuario;
+    private int id;
+    private String nome;
+    private String senha;
+    private String email;
     private int adm;
 
-    Usuario(String nomeUsuario, String senhaUsuario, String emailUsuario, int adm){
-        this.nomeUsuario = nomeUsuario;
-        this.senhaUsuario = senhaUsuario;
-        this.emailUsuario = emailUsuario;
+    Usuario(String nome, String senha, String email, int adm){
+        this.nome = nome;
+        this.senha = senha;
+        this.email = email;
         this.adm = adm;
     }
 
     public int getIdUsuario() {
-        return idUsuario;
+        return id;
     }
 
     public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+        this.id = idUsuario;
     }
 
     public String getNomeUsuario() {
-        return nomeUsuario;
+        return nome;
     }
 
     public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
+        this.nome = nomeUsuario;
     }
 
     public String getSenhaUsuario() {
-        return senhaUsuario;
+        return senha;
     }
 
     public void setSenhaUsuario(String senhaUsuario) {
-        this.senhaUsuario = senhaUsuario;
+        this.senha = senhaUsuario;
     }
 
     public String getEmailUsuario() {
-        return emailUsuario;
+        return email;
     }
 
     public void setEmailUsuario(String emailUsuario) {
-        this.emailUsuario = emailUsuario;
+        this.email = emailUsuario;
     }
 
     public int getAdm() {

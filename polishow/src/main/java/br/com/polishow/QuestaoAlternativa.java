@@ -2,7 +2,7 @@ package br.com.polishow;
 
 public class QuestaoAlternativa {
 
-    private int idQuestaoAlter;
+    private int id;
     private Questao questao;
     private Alternativas alternativa;
     private int pontos;
@@ -10,7 +10,7 @@ public class QuestaoAlternativa {
 
     // Construtor com ID (carregamento do banco)
     // public QuestaoAlternativa(int idQuestaoAlter, Questao questao, Alternativas alternativa, int pontos, String dificuldade) {
-    //     this.idQuestaoAlter = idQuestaoAlter;
+    //     this.id = id;
     //     this.questao = questao;
     //     this.alternativa = alternativa;
     //     this.pontos = pontos;
@@ -26,11 +26,11 @@ public class QuestaoAlternativa {
     }
 
     public int getIdQuestAlter() {
-        return idQuestaoAlter;
+        return id;
     }
 
     public void setIdQuestAlter(int idQuestAlter) {
-        this.idQuestaoAlter = idQuestAlter;
+        this.id = idQuestAlter;
     }
 
     public Questao getQuestao() {

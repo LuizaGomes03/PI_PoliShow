@@ -2,14 +2,14 @@ package br.com.polishow;
 
 public class Alternativas {
 
-    private int idAlternativa;
+    private int id;
     private Questao questao;
     private String alternativa;
     private String valorAlternativa; // valores possíveis: "CORRETA" ou "ERRADA"
 
     // Construtor com ID (para carregar do banco)
     // public Alternativa(int idAlternativa, Questao questao, String alternativa) {
-    //     this.idAlternativa = idAlternativa;
+    //     this.id = id;
     //     this.questao = questao;
     //     this.alternativa = alternativa;
     // }
@@ -22,11 +22,11 @@ public class Alternativas {
     }
 
     public int getIdAlternativa() {
-        return idAlternativa;
+        return id;
     }
 
     public void setIdAlternativa(int idAlternativa) {
-        this.idAlternativa = idAlternativa;
+        this.id = idAlternativa;
     }
 
     public Questao getQuestao() {

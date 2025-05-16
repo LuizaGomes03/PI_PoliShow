@@ -2,13 +2,13 @@ package br.com.polishow;
 
 public class Questao {
 
-    private int idQuestao;
+    private int id;
     private Materia materia;
     private String pergunta;
 
     // Construtor com ID (útil ao carregar do banco)
     // public Questao(int idQuestao, Materia materia, String pergunta) {
-    //     this.idQuestao = idQuestao;
+    //     this.id = id;
     //     this.materia = materia;
     //     this.pergunta = pergunta;
     // }
@@ -20,11 +20,11 @@ public class Questao {
     }
 
     public int getIdQuestao() {
-        return idQuestao;
+        return id;
     }
 
     public void setIdQuestao(int idQuestao) {
-        this.idQuestao = idQuestao;
+        this.id = idQuestao;
     }
 
     public Materia getMateria() {

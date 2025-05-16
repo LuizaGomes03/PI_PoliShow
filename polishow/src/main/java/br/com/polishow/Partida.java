@@ -2,7 +2,7 @@ package br.com.polishow;
 
 public class Partida {
 
-    private int idPartida;
+    private int id;
     private Usuario usuario;
 
     // // Construtor alternativo sem ID (para inserções onde o ID é auto incrementado)
@@ -11,11 +11,11 @@ public class Partida {
     }
 
     public int getIdPartida() {
-        return idPartida;
+        return id;
     }
 
     public void setIdPartida(int idPartida) {
-        this.idPartida = idPartida;
+        this.id = idPartida;
     }
 
     public Usuario getUsuario() {

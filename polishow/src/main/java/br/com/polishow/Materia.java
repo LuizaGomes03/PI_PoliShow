@@ -1,18 +1,18 @@
 package br.com.polishow;
 
 public class Materia {
-    private int idMateria;
-    private String nomeMateria;
+    private int id;
+    private String titulo;
     
-    Materia(String nomeMateria){
-        this.nomeMateria = nomeMateria;
+    Materia(String titulo){
+        this.titulo = titulo;
     }
 
     public int getIdMateria(){
-        return idMateria;
+        return id;
     }
 
     public String getNomeMateria(){
-        return nomeMateria;
+        return titulo;
     }
 }

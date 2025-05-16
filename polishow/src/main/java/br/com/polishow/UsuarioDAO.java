@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
-    public void cadastrarUsuario(Usuario usuario) throws Exception {
+    public void cadastrar(Usuario usuario) throws Exception {
         var fabricaDeConexoes = new ConnectionFactory();
         var sql = "INSERT INTO tb_usuario(nome_usuario, senha_usuario, email_usuario, adm) VALUES(?, ?, ?, ?)";
         try (
@@ -20,7 +20,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void removerUsuario(Usuario usuario) throws Exception {
+    public void remover(Usuario usuario) throws Exception {
         var fabricaDeConexoes = new ConnectionFactory();
         var sql = "DELETE FROM tb_usuario WHERE id_usuario = ?";
         try (
@@ -32,7 +32,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void atualizarUsuario(Usuario usuario) throws Exception {
+    public void atualizar(Usuario usuario) throws Exception {
         var fabricaDeConexoes = new ConnectionFactory();
         var sql = "UPDATE tb_usuario SET nome_usuario=?, senha_usuario=?, email_usuario=?, adm=? WHERE id_usuario = ?";
         try (
@@ -48,7 +48,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void listarUsuario() throws Exception {
+    public void listar() throws Exception {
         var fabricaDeConexoes = new ConnectionFactory();
         var sql = "SELECT * FROM tb_usuario";
         try (
