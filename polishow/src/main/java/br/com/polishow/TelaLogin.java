@@ -68,9 +68,10 @@ public class TelaLogin extends JFrame {
 
         // Botão Entrar
     JButton botaoEntrar = new JButton("ENTRAR");
-    botaoEntrar.setBounds(72, 395, 790, 70);
+    botaoEntrar.setBounds(393, 407, 150, 45);
     estilizarBotaoTransparente(botaoEntrar);
     botaoEntrar.setFont(new Font("Arial", Font.BOLD, 25));
+    botaoEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
     botaoEntrar.addActionListener((ActionListener) new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -79,11 +80,11 @@ public class TelaLogin extends JFrame {
 
         if (email.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.contains("@aluno")) {
+        } else if (email.endsWith("@p4ed.com")) {
             
             new TelaInicioAluno(); // Abre a TelaInicioAluno
             dispose(); // Fecha a tela de login
-        } else if (email.contains("@professor")) {
+        } else if (email.endsWith("@sistemapoliedro.com.br")) {
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
@@ -97,17 +98,19 @@ painel.add(botaoEntrar);
         // Botão Sair
        
         JButton botaoSair = new JButton("SAIR");
-        botaoSair.setBounds(5, 525, 195, 50);
+        botaoSair.setBounds(30, 524, 150, 50);
         estilizarBotaoTransparente(botaoSair);
         botaoSair.setFont(new Font("Arial", Font.BOLD, 26));
+        botaoSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botaoSair.addActionListener(e -> System.exit(0));
         painel.add(botaoSair);
 
         // Botão Criar Conta no canto inferior direito
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
-        botaoCriarConta.setBounds(715, 513, 240, 70);
+        botaoCriarConta.setBounds(741, 513, 190, 70);
         estilizarBotaoTransparente(botaoCriarConta);
         botaoCriarConta.setFont(new Font("Arial", Font.BOLD, 19));
+        botaoCriarConta.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botaoCriarConta.addActionListener(e -> acaoBotaoCriarConta());
         painel.add(botaoCriarConta);
 
