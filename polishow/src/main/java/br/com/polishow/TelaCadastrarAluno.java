@@ -49,7 +49,7 @@ public class TelaCadastrarAluno {
         // Ação do botão
         voltarButton.addActionListener(e -> {
             frame.dispose();
-            new br.com.polishow.TelaInicialProfessor().criarTela();
+            new br.com.polishow.TelaInicialProfessor().TelaInicialProfessor();
         });
 
         background.add(voltarButton);
