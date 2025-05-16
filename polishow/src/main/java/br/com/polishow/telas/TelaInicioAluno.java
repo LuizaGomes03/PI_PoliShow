@@ -1,4 +1,4 @@
-package br.com.polishow;
+package br.com.polishow.telas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package br.com.polishow;
+package br.com.polishow.telas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 

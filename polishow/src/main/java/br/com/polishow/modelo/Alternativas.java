@@ -1,4 +1,4 @@
-package br.com.polishow;
+package br.com.polishow.modelo;
 
 public class Alternativas {
 

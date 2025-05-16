@@ -1,7 +1,9 @@
-package br.com.polishow;
+package br.com.polishow.persistencia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import br.com.polishow.modelo.Usuario;
 
 public class UsuarioDAO {
 

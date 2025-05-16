@@ -1,6 +1,7 @@
-package br.com.polishow;
+package br.com.polishow.telas;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 

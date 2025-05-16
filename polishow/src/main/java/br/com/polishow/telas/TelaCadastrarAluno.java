@@ -1,4 +1,4 @@
-package br.com.polishow;
+package br.com.polishow.telas;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -49,7 +49,7 @@ public class TelaCadastrarAluno {
         // Ação do botão
         voltarButton.addActionListener(e -> {
             frame.dispose();
-            new br.com.polishow.TelaInicialProfessor().TelaInicialProfessor();
+            new br.com.polishow.telas.TelaInicialProfessor().TelaInicialProfessor();
         });
 
         background.add(voltarButton);

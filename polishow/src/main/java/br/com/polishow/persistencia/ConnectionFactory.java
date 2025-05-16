@@ -1,4 +1,4 @@
-package br.com.polishow;
+package br.com.polishow.persistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
