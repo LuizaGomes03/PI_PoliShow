@@ -14,15 +14,19 @@ public class QuestaoAlternativa {
     //     this.questao = questao;
     //     this.alternativa = alternativa;
     //     this.pontos = pontos;
-    //     setDificuldade(dificuldade); // usa setter para validar
+    //     setDificuldade(dificuldade); 
     // }
 
-    // Construtor sem ID (para inserção)
+
+    public QuestaoAlternativa() {
+    // Construtor padrão necessário para setIdQuestAlter
+}
+
     public QuestaoAlternativa(Questao questao, Alternativas alternativa, int pontos, String dificuldade) {
         this.questao = questao;
         this.alternativa = alternativa;
         this.pontos = pontos;
-        setDificuldade(dificuldade); // usa setter para validar
+        setDificuldade(dificuldade); 
     }
 
     public int getIdQuestAlter() {

@@ -5,7 +5,6 @@ public class Alternativas {
     private int id;
     private Questao questao;
     private String alternativa;
-    private String valorAlternativa; // valores possíveis: "CORRETA" ou "ERRADA"
 
     // Construtor com ID (para carregar do banco)
     // public Alternativa(int idAlternativa, Questao questao, String alternativa) {
@@ -14,11 +13,14 @@ public class Alternativas {
     //     this.alternativa = alternativa;
     // }
 
-    // Construtor sem ID (para inserção no banco)
-    public Alternativas(Questao questao, String alternativa, String valorAlternativa) {
+
+    public Alternativas() {
+    // Construtor padrão necessário para setIdAlternativa
+}
+
+    public Alternativas(Questao questao, String alternativa) {
         this.questao = questao;
         this.alternativa = alternativa;
-        this.valorAlternativa = valorAlternativa;
     }
 
     public int getIdAlternativa() {
@@ -43,18 +45,6 @@ public class Alternativas {
 
     public void setAlternativa(String alternativa) {
         this.alternativa = alternativa;
-    }
-
-    
-    public String getValorAlternativa() {
-        return valorAlternativa;
-    }
-
-    public void setValorAlternativa(String valorAlternativa) {
-        if (!valorAlternativa.equalsIgnoreCase("CORRETA") && !valorAlternativa.equalsIgnoreCase("ERRADA")) {
-            throw new IllegalArgumentException("valorAlternativa deve ser 'CORRETA' ou 'ERRADA'");
-        }
-        this.valorAlternativa = valorAlternativa.toUpperCase();
     }
     
 }
