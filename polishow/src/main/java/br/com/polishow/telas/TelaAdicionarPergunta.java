@@ -14,7 +14,7 @@ public class TelaAdicionarPergunta {
         int imageWidth = 960;
         int imageHeight = 640;
 
-        ImageIcon originalIcon = new ImageIcon("polishow\\\\src\\\\main\\\\imagens/telaAddPergunta.png");
+        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/Tela adicionar perguntas (2).png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
@@ -36,7 +36,7 @@ public class TelaAdicionarPergunta {
         materiaComboBox.setBackground(new Color(3, 13, 93));
         materiaComboBox.setForeground(Color.WHITE);
         materiaComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
-        materiaComboBox.setBounds(400, 215, 450, 45);
+        materiaComboBox.setBounds(411, 224, 430, 45);
         materiaComboBox.setBorder(null);
         materiaComboBox.setUI(new BasicComboBoxUI() {
             @Override
@@ -54,12 +54,12 @@ public class TelaAdicionarPergunta {
 
         // ComboBox de Dificuldade
         JComboBox<String> dificuldadeComboBox = new JComboBox<>(
-            new String[] { "Selecione", "Fácil", "Médio", "Difícil" }
+            new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" }
         );
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
         dificuldadeComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
-        dificuldadeComboBox.setBounds(400, 425, 450, 45);
+        dificuldadeComboBox.setBounds(415, 445, 430, 45);
         dificuldadeComboBox.setBorder(null);
         dificuldadeComboBox.setUI(new BasicComboBoxUI() {
             @Override
@@ -80,7 +80,7 @@ public class TelaAdicionarPergunta {
         perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
         perguntaButton.setFont(new Font("SansSerif", Font.BOLD, 18));
-        perguntaButton.setBounds(395, 285, 350, 45);
+        perguntaButton.setBounds(398, 298, 350, 45);
         perguntaButton.setFocusPainted(false);
         perguntaButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(perguntaButton);
@@ -92,7 +92,7 @@ public class TelaAdicionarPergunta {
         opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
         opcoesButton.setFont(new Font("SansSerif", Font.BOLD, 18));
-        opcoesButton.setBounds(390, 355, 350, 45);
+        opcoesButton.setBounds(392, 372, 350, 45);
         opcoesButton.setFocusPainted(false);
         opcoesButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(opcoesButton);
@@ -100,16 +100,29 @@ public class TelaAdicionarPergunta {
         opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
 
         // Botão "Salvar"
-        JButton salvarButton = new JButton("SALVAR");
+        JButton salvarButton = new JButton("Salvar");
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
-        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 25));
-        salvarButton.setBounds(420, 534, 120, 40); // Ajuste a posição se necessário
+        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 31));
+        salvarButton.setBounds(420, 567, 120, 40); // Ajuste a posição se necessário
         salvarButton.setFocusPainted(false);
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
         salvarButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(frame, "Pergunta adicionada com sucesso!");
+        });
+
+        //Botão Voltar
+        JButton voltarButton = new JButton();
+        voltarButton.setBounds(15, 15, 35, 40);
+        voltarButton.setBorder(BorderFactory.createEmptyBorder());
+        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
+        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
+        background.add(voltarButton);
+
+        voltarButton.addActionListener(e -> {
+            new TelaInicialProfessor();
+            frame.dispose();
         });
 
         background.add(salvarButton);
