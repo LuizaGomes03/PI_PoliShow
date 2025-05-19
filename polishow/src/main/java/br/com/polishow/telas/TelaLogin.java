@@ -1,8 +1,12 @@
 package br.com.polishow.telas;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import br.com.polishow.modelo.Usuario;
+import br.com.polishow.persistencia.DAO;
 
 public class TelaLogin extends JFrame {
 
@@ -12,7 +16,6 @@ public class TelaLogin extends JFrame {
         setSize(960, 640);
         setLocationRelativeTo(null); // Centraliza a janela
         setResizable(false);
-
 
         JPanel painel = new JPanel() {
             ImageIcon imagem = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\telalogin.png");
@@ -46,7 +49,7 @@ public class TelaLogin extends JFrame {
         campoSenha.setBorder(null);
         painel.add(campoSenha);
 
-       // Mostrar/Ocultar senha
+        // Mostrar/Ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
         toggleSenhaBtn.setBounds(565, 312, 65, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -67,36 +70,59 @@ public class TelaLogin extends JFrame {
         });
 
         // Botão Entrar
-    JButton botaoEntrar = new JButton("ENTRAR");
-    botaoEntrar.setBounds(393, 407, 150, 45);
-    estilizarBotaoTransparente(botaoEntrar);
-    botaoEntrar.setFont(new Font("Arial", Font.BOLD, 25));
-    botaoEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    botaoEntrar.addActionListener((ActionListener) new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String email = campoEmail.getText().trim();
-        String senha = new String(campoSenha.getPassword()).trim();
+        JButton botaoEntrar = new JButton("ENTRAR");
+        botaoEntrar.setBounds(393, 407, 150, 45);
+        estilizarBotaoTransparente(botaoEntrar);
+        botaoEntrar.setFont(new Font("Arial", Font.BOLD, 25));
+        botaoEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botaoEntrar.addActionListener((ActionListener) new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = campoEmail.getText().trim();
+                String senha = new String(campoSenha.getPassword()).trim();
 
-        if (email.isEmpty() || senha.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else if (email.endsWith("@p4ed.com")) {
-            
-            new TelaInicioAluno(); // Abre a TelaInicioAluno
-            dispose(); // Fecha a tela de login
-        } else if (email.endsWith("@sistemapoliedro.com.br")) {
-            JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            // Aqui você pode redirecionar para a tela do professor, se necessário
-        } else {
-            JOptionPane.showMessageDialog(null, "Email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-});
-painel.add(botaoEntrar);
+                if (email.isEmpty() || senha.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.", "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                } else if (email.endsWith("@p4ed.com")) {
+                    try {
+                        var u = new Usuario(email, senha);
+                        var dao = new DAO();
+                        if (dao.existe(u)) {
+                            var dt = new TelaInicioAluno();
+                            dt.setVisible(true);
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Usuário/senha inválidos");
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else if (email.endsWith("@sistemapoliedro.com.br")) {
+                    try {
+                        var u = new Usuario(email, senha);
+                        var dao = new DAO();
+                        if (dao.existe(u)) {
+                            var dt = new TelaInicialProfessor();
+                            dt.setVisible(true);
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Usuário/senha inválidos");
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        painel.add(botaoEntrar);
 
         // Botão Sair
-       
+
         JButton botaoSair = new JButton("SAIR");
         botaoSair.setBounds(30, 524, 150, 50);
         estilizarBotaoTransparente(botaoSair);

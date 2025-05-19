@@ -14,6 +14,10 @@ public class Usuario {
         this.adm = adm;
     }
 
+    public Usuario(String email, String senha){
+        this.senha = senha;
+        this.email = email;
+    }
     public int getIdUsuario() {
         return id;
     }
