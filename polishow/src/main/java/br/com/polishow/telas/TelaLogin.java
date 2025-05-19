@@ -88,7 +88,7 @@ public class TelaLogin extends JFrame {
                     try {
                         var u = new Usuario(email, senha);
                         var dao = new DAO();
-                        if (dao.existe(u)) {
+                        if (dao.existeLogin(u)) {
                             var dt = new TelaInicioAluno();
                             dt.setVisible(true);
                             dispose();
@@ -103,7 +103,7 @@ public class TelaLogin extends JFrame {
                     try {
                         var u = new Usuario(email, senha);
                         var dao = new DAO();
-                        if (dao.existe(u)) {
+                        if (dao.existeLogin(u)) {
                             var dt = new TelaInicialProfessor();
                             dt.setVisible(true);
                             dispose();

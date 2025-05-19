@@ -1,8 +1,13 @@
 package br.com.polishow.telas;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+
+import br.com.polishow.modelo.Aluno;
+import br.com.polishow.modelo.Usuario;
+import br.com.polishow.persistencia.DAO;
 
 public class TelaCadastrarAluno {
 
@@ -45,9 +50,9 @@ public class TelaCadastrarAluno {
         JButton voltarButton = new JButton(setaIcon);
         voltarButton.setBounds(20, 20, 40, 40);
         voltarButton.setFocusPainted(false);
-        voltarButton.setContentAreaFilled(false);  // Remove o fundo
-        voltarButton.setBorderPainted(false);      // Remove borda
-        voltarButton.setOpaque(false);             // Transparente
+        voltarButton.setContentAreaFilled(false); // Remove o fundo
+        voltarButton.setBorderPainted(false); // Remove borda
+        voltarButton.setOpaque(false); // Transparente
 
         // Ação do botão
         voltarButton.addActionListener(e -> {
@@ -69,7 +74,7 @@ public class TelaCadastrarAluno {
 
         // ComboBox sem bordas e com seta colorida
         JComboBox<String> serieComboBox = new JComboBox<>(
-                new String[]{"Selecione a série", "1ª Série", "2ª Série", "3ª Série"});
+                new String[] {"1ª Série", "2ª Série", "3ª Série" });
         serieComboBox.setName("serieComboBox");
         serieComboBox.setBackground(new Color(220, 150, 34));
         serieComboBox.setForeground(Color.WHITE);
@@ -131,12 +136,11 @@ public class TelaCadastrarAluno {
         toggleSenhaBtn.addActionListener(e -> {
             if (senhaPasswordField.getEchoChar() != (char) 0) {
                 senhaPasswordField.setEchoChar((char) 0);
-                            toggleSenhaBtn.setText("Ocultar");
-                        } 
-            else {
-                    senhaPasswordField.setEchoChar('•');
-                    toggleSenhaBtn.setText("Mostrar");
-                }
+                toggleSenhaBtn.setText("Ocultar");
+            } else {
+                senhaPasswordField.setEchoChar('•');
+                toggleSenhaBtn.setText("Mostrar");
+            }
         });
 
         // Botão Cadastrar
@@ -151,31 +155,41 @@ public class TelaCadastrarAluno {
         background.add(cadastrarButton);
 
         cadastrarButton.addActionListener(e -> {
-        String email = emailTextField.getText().trim();
-        String nome = nomeTextField.getText().trim();
-        String senha = new String(senhaPasswordField.getPassword()).trim();
+            String email = emailTextField.getText().trim();
+            String nome = nomeTextField.getText().trim();
+            String senha = new String(senhaPasswordField.getPassword()).trim();
+            String serie = (String) serieComboBox.getSelectedItem();
 
-        if (email.isEmpty() || nome.isEmpty() || senha.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Há campos vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+            if (email.isEmpty() || nome.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Há campos vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Verificação de formato básico de email
-        if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$")) {
-            JOptionPane.showMessageDialog(frame, "Formato de email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+            // Verificação de formato básico de email
+            if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$")) {
+                JOptionPane.showMessageDialog(frame, "Formato de email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Verifica se termina com o domínio permitido
-        if (!email.endsWith("@p4ed.com")) {
-            JOptionPane.showMessageDialog(frame, "Email inválido. Utilize um email com @p4ed.com", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+            // Verifica se termina com o domínio permitido
+            if (!email.endsWith("@p4ed.com")) {
+                JOptionPane.showMessageDialog(frame, "Email inválido. Utilize um email com @p4ed.com", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Se todas as condições forem passadas
-        JOptionPane.showMessageDialog(frame, "Aluno cadastrado com sucesso!");
-    });
+            try {
+                var a = new Aluno(nome, email, senha, 0, serie);
+                var dao = new DAO();
+                dao.criarCadastroAluno(a);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 
+            // Se todas as condições forem passadas
+            JOptionPane.showMessageDialog(frame, "Aluno cadastrado com sucesso!");
+        });
 
         // Exibe a janela
         frame.setVisible(true);
