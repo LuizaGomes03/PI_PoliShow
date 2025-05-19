@@ -8,6 +8,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
     private JTextField txtEmail;
     private JPasswordField senhaPasswordField;
+    private JTextField txtNomeProfessor;
 
     public TelaCadastro() {
         setTitle("Cadastrar");
@@ -18,7 +19,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            Image imagem = new ImageIcon("polishow\\src\\main\\imagens\\Tela cadastrar professor.png").getImage();
+            Image imagem = new ImageIcon("polishow/src/main/imagens/Tela de cadastro professor (1).png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -28,11 +29,19 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         };
         painelFundo.setLayout(null);
 
+        txtNomeProfessor = new JTextField();
+        txtNomeProfessor.setBackground(new Color(18, 66, 177));
+        txtNomeProfessor.setForeground(Color.WHITE);
+        txtNomeProfessor.setFont(new Font("SansSerif", Font.BOLD, 17));
+        txtNomeProfessor.setBounds(317, 215, 320, 40);
+        txtNomeProfessor.setBorder(BorderFactory.createEmptyBorder());
+        painelFundo.add(txtNomeProfessor);
+
         txtEmail = new JTextField();
         txtEmail.setBackground(new Color(186, 49, 49));
         txtEmail.setForeground(Color.WHITE);
         txtEmail.setFont(new Font("SansSerif", Font.BOLD, 17));
-        txtEmail.setBounds(320, 245, 320, 40);
+        txtEmail.setBounds(317, 308, 320, 40);
         txtEmail.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(txtEmail);
 
@@ -41,7 +50,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         senhaPasswordField.setBackground(new Color(219, 151, 28));
         senhaPasswordField.setForeground(Color.WHITE);
         senhaPasswordField.setFont(new Font("SansSerif", Font.BOLD, 17));
-        senhaPasswordField.setBounds(320, 354, 265, 40);
+        senhaPasswordField.setBounds(317, 395, 263, 40);
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(senhaPasswordField);
 
@@ -60,7 +69,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Mostrar/Ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
-        toggleSenhaBtn.setBounds(585, 350, 60, 45);
+        toggleSenhaBtn.setBounds(580, 395, 60, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
         toggleSenhaBtn.setFocusPainted(false);
         toggleSenhaBtn.setBackground(new Color(219, 151, 28));
@@ -92,7 +101,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
         // Botão Criar
         JButton btnCriar = new JButton("CRIAR");
-        btnCriar.setBounds(397, 455, 150, 40);
+        btnCriar.setBounds(397, 490, 150, 40);
         btnCriar.setFont(new Font("SansSerif", Font.BOLD, 23));
         btnCriar.setBackground(new Color(18, 66, 177));
         btnCriar.setForeground(Color.WHITE);
