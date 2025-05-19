@@ -210,4 +210,9 @@ public class TelaAdicionarPergunta {
 
         popup.setVisible(true);
     }
+
+    public void setVisible(boolean b) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
+    }
 }

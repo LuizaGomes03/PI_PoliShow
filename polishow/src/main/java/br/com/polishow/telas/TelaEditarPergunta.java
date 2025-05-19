@@ -11,7 +11,7 @@ public class TelaEditarPergunta extends JFrame {
         SwingUtilities.invokeLater(() -> new TelaEditarPergunta().createAndShowGUI());
     }
 
-    private void createAndShowGUI() {
+    void createAndShowGUI() {
         // Tamanho desejado da imagem
         int imageWidth = 960;
         int imageHeight = 640;

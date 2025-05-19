@@ -10,13 +10,16 @@ public class TelaCadastrarAluno {
         SwingUtilities.invokeLater(() -> new TelaCadastrarAluno().createAndShowGUI());
     }
 
-    private void createAndShowGUI() {
+    /**
+     * 
+     */
+    void createAndShowGUI() {
         // Tamanho desejado da imagem
         int imageWidth = 960;
         int imageHeight = 640;
 
         // Carrega e redimensiona a imagem de fundo
-        ImageIcon originalIcon = new ImageIcon("polishow\\src\\main\\imagens\\telaCadastro.png");
+        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/telaCadastro.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
@@ -141,9 +144,9 @@ public class TelaCadastrarAluno {
         cadastrarButton.setName("cadastrarButton");
         cadastrarButton.setBackground(new Color(11, 65, 175));
         cadastrarButton.setForeground(Color.WHITE);
-        cadastrarButton.setFont(new Font("SansSerif", Font.BOLD, 32));
+        cadastrarButton.setFont(new Font("SansSerif", Font.BOLD, 24));
         cadastrarButton.setFocusPainted(false);
-        cadastrarButton.setBounds(380, 570, 200, 45);
+        cadastrarButton.setBounds(378, 572, 200, 45);
         cadastrarButton.setBorder(BorderFactory.createEmptyBorder());
         background.add(cadastrarButton);
 

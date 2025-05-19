@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class TelaInicialProfessor extends JFrame {
+    /**
+     * 
+     */
     public TelaInicialProfessor() {
         setTitle("Tela do Professor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,9 +41,18 @@ public class TelaInicialProfessor extends JFrame {
         btnCadastrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Ações
-        btnAdicionar.addActionListener(e -> System.out.println("Adicionar Pergunta clicado"));
-        btnEditar.addActionListener(e -> System.out.println("Editar Pergunta clicado"));
-        btnCadastrar.addActionListener(e -> System.out.println("Cadastrar Aluno clicado"));
+        btnAdicionar.addActionListener(e -> {
+            new TelaAdicionarPergunta().createAndShowGUI(); // Abre a tela de adicionar pergunta
+            dispose(); // Fecha a tela atual do professor, opcional
+        });
+        btnEditar.addActionListener(e -> {
+            new TelaEditarPergunta().createAndShowGUI(); // Abre a tela de editar pergunta
+            dispose(); // Fecha a tela atual do professor, opcional
+        });
+        btnCadastrar.addActionListener(e -> {
+            new TelaCadastrarAluno().createAndShowGUI(); // Abre a tela de cadastrar aluno
+            dispose(); // Fecha a tela atual do professor, opcional
+        });
 
         painelFundo.add(btnAdicionar);
         painelFundo.add(btnEditar);
