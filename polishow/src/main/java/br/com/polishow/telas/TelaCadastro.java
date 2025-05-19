@@ -1,8 +1,12 @@
 package br.com.polishow.telas;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.*;
+
+import br.com.polishow.modelo.Usuario;
+import br.com.polishow.persistencia.DAO;
 
 public class TelaCadastro extends JFrame implements java.awt.event.ActionListener {
 
@@ -54,7 +58,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(senhaPasswordField);
 
-        //Botão Voltar
+        // Botão Voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(15, 15, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
@@ -117,6 +121,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String nome = txtNomeProfessor.getText().trim();
         String email = txtEmail.getText().trim();
         String senha = new String(senhaPasswordField.getPassword()).trim();
 
@@ -125,8 +130,14 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         } else if (email.endsWith("@p4ed.com")) {
             JOptionPane.showMessageDialog(null, "Somente professores podem realizar cadastro.", "Erro", JOptionPane.WARNING_MESSAGE);
         } else if (email.endsWith("@sistemapoliedro.com.br")) {
+            try{
+                var u = new Usuario(nome, email, senha, 1);
+                var dao = new DAO();
+                dao.criarCadastroAdm(u);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",
+                        JOptionPane.ERROR_MESSAGE);}
             JOptionPane.showMessageDialog(null, "Bem-vindo, Professor!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            // Aqui você pode redirecionar para a tela do professor, se necessário
         } else {
             JOptionPane.showMessageDialog(null, "Email inválido", "Erro", JOptionPane.ERROR_MESSAGE);
         }

@@ -51,6 +51,7 @@ public class TelaInicioAluno extends JFrame {
         serieComboBox.setBounds(378, 262, 250, 45); // Posição e tamanho
         serieComboBox.setBorder(null);
         serieComboBox.setUI(new BasicComboBoxUI() {
+            
             @Override
             protected JButton createArrowButton() {
                 // Cria uma seta apontando para baixo, usando BasicArrowButton
@@ -61,6 +62,7 @@ public class TelaInicioAluno extends JFrame {
                     Color.WHITE,               // Cor da seta
                     new Color(220, 150, 34)    // Highlight
                 );
+                
                 arrow.setBorder(BorderFactory.createEmptyBorder());
                 arrow.setContentAreaFilled(false);
                 return arrow;
@@ -103,3 +105,8 @@ public class TelaInicioAluno extends JFrame {
         new TelaInicioAluno();
     }
 }
+// Código para impedir que selecione o "placeholder" do combobox (é para colocar no listener quando ele for feito)
+// if (serieComboBox.getSelectedIndex() == 0) {
+//     JOptionPane.showMessageDialog(null, "Por favor, selecione uma matéria válida.");
+//     return;
+// } 

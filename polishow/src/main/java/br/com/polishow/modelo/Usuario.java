@@ -7,16 +7,17 @@ public class Usuario {
     private String email;
     private int adm;
 
-    public Usuario(String nome, String senha, String email, int adm){
+    public Usuario(String nome, String email, String senha, int adm){
         this.nome = nome;
-        this.senha = senha;
         this.email = email;
+        this.senha = senha;
         this.adm = adm;
     }
 
     public Usuario(String email, String senha){
-        this.senha = senha;
         this.email = email;
+        this.senha = senha;
+
     }
     public int getIdUsuario() {
         return id;

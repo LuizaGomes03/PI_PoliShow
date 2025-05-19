@@ -6,7 +6,6 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import br.com.polishow.modelo.Aluno;
-import br.com.polishow.modelo.Usuario;
 import br.com.polishow.persistencia.DAO;
 
 public class TelaCadastrarAluno {
