@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -13,6 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+
+import br.com.polishow.modelo.Materia;
+import br.com.polishow.persistencia.MateriaDAO;
 
 public class TelaInicioAluno extends JFrame {
 
@@ -41,9 +45,20 @@ public class TelaInicioAluno extends JFrame {
         setContentPane(painel);
 
         // JComboBox para selecionar a série
-        JComboBox<String> serieComboBox = new JComboBox<>(
-            new String[] {"Selecionar Matéria", "Matemática", "Português", "História" }
-        );
+        JComboBox<String> serieComboBox = new JComboBox<>();
+        serieComboBox.addItem("Selecionar Matéria");
+        try {
+            MateriaDAO materiaDAO = new MateriaDAO();
+            List<Materia> materias = materiaDAO.listarTodas();
+
+            for (Materia m : materias) {
+                serieComboBox.addItem(m.getNomeMateria());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao carregar matérias: " + e.getMessage());
+        }
         serieComboBox.setName("serieComboBox");
         serieComboBox.setBackground(new Color(18, 66, 177)); // Azul
         serieComboBox.setForeground(Color.WHITE);

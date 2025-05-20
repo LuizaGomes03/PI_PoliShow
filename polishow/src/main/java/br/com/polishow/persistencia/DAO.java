@@ -3,9 +3,8 @@ package br.com.polishow.persistencia;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import br.com.polishow.modelo.*;
 
-import br.com.polishow.modelo.Aluno;
-import br.com.polishow.modelo.Usuario;
 
 public class DAO {
      public boolean existeLogin (Usuario u) throws Exception {

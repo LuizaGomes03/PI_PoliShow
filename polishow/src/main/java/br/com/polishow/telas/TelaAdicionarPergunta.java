@@ -3,6 +3,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.util.List;
+
+import br.com.polishow.modelo.Materia;
+import br.com.polishow.persistencia.MateriaDAO;
 
 public class TelaAdicionarPergunta {
 
@@ -30,9 +34,22 @@ public class TelaAdicionarPergunta {
         frame.setResizable(false);
 
         // ComboBox de Matéria
-        JComboBox<String> materiaComboBox = new JComboBox<>(
-            new String[] { "Selecione a matéria", "Português", "Matemática", "História" }
-        );
+        JComboBox<String> materiaComboBox = new JComboBox<>();
+
+         materiaComboBox.addItem("Selecionar Matéria");
+        try {
+            MateriaDAO materiaDAO = new MateriaDAO();
+            List<Materia> materias = materiaDAO.listarTodas();
+
+            for (Materia m : materias) {
+                materiaComboBox.addItem(m.getNomeMateria());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao carregar matérias: " + e.getMessage());
+        }
+
         materiaComboBox.setBackground(new Color(3, 13, 93));
         materiaComboBox.setForeground(Color.WHITE);
         materiaComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));

@@ -4,6 +4,10 @@ public class Materia {
     private int id;
     private String nome;
 
+    public Materia(){
+        
+    }
+
     public Materia(String nome) {
         this.nome = nome;
     }
