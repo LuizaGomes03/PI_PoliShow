@@ -75,7 +75,7 @@ public class TelaAdicionarPergunta {
         });
         background.add(dificuldadeComboBox);
 
-        // Botão "Adicionar Pergunta"
+        // botão adicionar pergunta
         JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
         perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
@@ -87,7 +87,7 @@ public class TelaAdicionarPergunta {
 
         perguntaButton.addActionListener(e -> abrirJanelaPergunta());
 
-        // Botão "Adicionar Opções"
+        // botão adicionar opções
         JButton opcoesButton = new JButton("Clique aqui para adicionar opções");
         opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
@@ -99,7 +99,7 @@ public class TelaAdicionarPergunta {
 
         opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
 
-        // Botão "Salvar"
+        // botão salvar
         JButton salvarButton = new JButton("Salvar");
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
@@ -112,7 +112,7 @@ public class TelaAdicionarPergunta {
             JOptionPane.showMessageDialog(frame, "Pergunta adicionada com sucesso!");
         });
 
-        //Botão Voltar
+        //botão voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(15, 15, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
@@ -127,7 +127,7 @@ public class TelaAdicionarPergunta {
 
         background.add(salvarButton);
 
-        // Exibe a janela principal
+        
         frame.setVisible(true);
     }
 
@@ -225,7 +225,7 @@ public class TelaAdicionarPergunta {
     }
 
     public void setVisible(boolean b) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
     }
 }

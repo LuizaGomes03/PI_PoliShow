@@ -29,7 +29,7 @@ public class TelaInicio extends JFrame {
         fundo.setLayout(null);
         add(fundo);
 
-        // Título arredondado
+        // título arredondado
         JLabel titulo = new JLabel("POLISHOW", SwingConstants.CENTER) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -45,7 +45,7 @@ public class TelaInicio extends JFrame {
         titulo.setBounds(screenWidth / 2 - 200, 100, 400, 100);
         fundo.add(titulo);
 
-        // Logo
+        // logo
         ImageIcon logo = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\7 1 (1).png");
         Image imgLogo = logo.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(imgLogo);
@@ -53,14 +53,16 @@ public class TelaInicio extends JFrame {
         logoLabel.setBounds(screenWidth / 2 - 350, screenHeight / 2 - 50, 400, 155);
         fundo.add(logoLabel);
 
-        // Botão Iniciar (arredondado)
+        // botão iniciar 
         RoundedButton jogarBtn = new RoundedButton("INICIAR", new Color(219, 151, 28));
         jogarBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 - 50, 200, 90);
+        jogarBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         fundo.add(jogarBtn);
 
         // Botão Sair (arredondado)
         RoundedButton sairBtn = new RoundedButton("SAIR", new Color(200, 50, 50));
         sairBtn.setBounds(screenWidth / 2 + 70, screenHeight / 2 + 50, 200, 90);
+        sairBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         fundo.add(sairBtn);
 
         // Ações dos botões

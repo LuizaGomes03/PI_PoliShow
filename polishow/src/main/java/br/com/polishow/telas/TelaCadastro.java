@@ -58,12 +58,12 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         painelFundo.add(senhaPasswordField);
 
-        // Botão Voltar
+        // botão voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(15, 15, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
-        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
-        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
+        voltarButton.setContentAreaFilled(false); 
+        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
         painelFundo.add(voltarButton);
 
         voltarButton.addActionListener(e -> {
@@ -71,9 +71,9 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
             dispose();
         });
 
-        // Mostrar/Ocultar senha
+        // mostrar/ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
-        toggleSenhaBtn.setBounds(580, 395, 60, 45);
+        toggleSenhaBtn.setBounds(575, 395, 60, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
         toggleSenhaBtn.setFocusPainted(false);
         toggleSenhaBtn.setBackground(new Color(219, 151, 28));
@@ -103,7 +103,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
             }
         });
 
-        // Botão Criar
+        // botão criar
         JButton btnCriar = new JButton("CRIAR");
         btnCriar.setBounds(397, 490, 150, 40);
         btnCriar.setFont(new Font("SansSerif", Font.BOLD, 23));

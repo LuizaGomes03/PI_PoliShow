@@ -42,16 +42,16 @@ public class TelaInicialProfessor extends JFrame {
 
         // Ações
         btnAdicionar.addActionListener(e -> {
-            new TelaAdicionarPergunta().createAndShowGUI(); // Abre a tela de adicionar pergunta
-            dispose(); // Fecha a tela atual do professor, opcional
+            new TelaAdicionarPergunta().createAndShowGUI(); 
+            dispose(); 
         });
         btnEditar.addActionListener(e -> {
-            new TelaEditarPergunta().createAndShowGUI(); // Abre a tela de editar pergunta
-            dispose(); // Fecha a tela atual do professor, opcional
+            new TelaEditarPergunta().createAndShowGUI(); 
+            dispose(); 
         });
         btnCadastrar.addActionListener(e -> {
-            new TelaCadastrarAluno().createAndShowGUI(); // Abre a tela de cadastrar aluno
-            dispose(); // Fecha a tela atual do professor, opcional
+            new TelaCadastrarAluno().createAndShowGUI(); 
+            dispose(); 
         });
 
         painelFundo.add(btnAdicionar);

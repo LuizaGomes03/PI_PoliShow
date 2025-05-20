@@ -16,19 +16,41 @@ public class TelaLogin extends JFrame {
         setSize(960, 640);
         setLocationRelativeTo(null); // Centraliza a janela
         setResizable(false);
+        
 
-        JPanel painel = new JPanel() {
-            ImageIcon imagem = new ImageIcon("polishow\\\\src\\\\main\\\\imagens\\telalogin.png");
-            Image img = imagem.getImage();
+    JPanel painel = new JPanel() {
+    private final Image img = new ImageIcon("polishow/src/main/imagens/telalogin.png").getImage();
 
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+        }
+    };
         painel.setLayout(null);
 
+
+        ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
+        Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        setaIcon = new ImageIcon(setaImage);
+
+        // botão com imagem de seta
+        JButton voltarButton = new JButton(setaIcon);
+        voltarButton.setBounds(20, 20, 40, 40);
+        voltarButton.setFocusPainted(false);
+        voltarButton.setContentAreaFilled(false); 
+        voltarButton.setBorderPainted(false); 
+        voltarButton.setOpaque(false); 
+        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // ação do botão
+        voltarButton.addActionListener(e -> {
+            dispose();
+            new br.com.polishow.telas.TelaInicio();
+        });
+
+        painel.add(voltarButton);
+ 
         // Campo de Email
         JTextField campoEmail = new JTextField();
         campoEmail.setBounds(360, 204, 250, 50);
@@ -39,7 +61,7 @@ public class TelaLogin extends JFrame {
         campoEmail.setBorder(null);
         painel.add(campoEmail);
 
-        // Campo de Senha
+        // senha
         JPasswordField campoSenha = new JPasswordField();
         campoSenha.setBounds(360, 310, 200, 50);
         campoSenha.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -49,7 +71,7 @@ public class TelaLogin extends JFrame {
         campoSenha.setBorder(null);
         painel.add(campoSenha);
 
-        // Mostrar/Ocultar senha
+        // mostrar/ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
         toggleSenhaBtn.setBounds(565, 312, 65, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -57,6 +79,7 @@ public class TelaLogin extends JFrame {
         toggleSenhaBtn.setBackground(new Color(219, 151, 28));
         toggleSenhaBtn.setForeground(Color.WHITE);
         toggleSenhaBtn.setBorder(BorderFactory.createEmptyBorder());
+        toggleSenhaBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painel.add(toggleSenhaBtn);
 
         toggleSenhaBtn.addActionListener(e -> {
@@ -69,7 +92,7 @@ public class TelaLogin extends JFrame {
             }
         });
 
-        // Botão Entrar
+        // botão entrar
         JButton botaoEntrar = new JButton("ENTRAR");
         botaoEntrar.setBounds(393, 407, 150, 45);
         estilizarBotaoTransparente(botaoEntrar);
@@ -121,7 +144,7 @@ public class TelaLogin extends JFrame {
         });
         painel.add(botaoEntrar);
 
-        // Botão Sair
+        // botão sair
 
         JButton botaoSair = new JButton("SAIR");
         botaoSair.setBounds(30, 524, 150, 50);
@@ -131,7 +154,7 @@ public class TelaLogin extends JFrame {
         botaoSair.addActionListener(e -> System.exit(0));
         painel.add(botaoSair);
 
-        // Botão Criar Conta no canto inferior direito
+        // botão criar 
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
         botaoCriarConta.setBounds(741, 513, 190, 70);
         estilizarBotaoTransparente(botaoCriarConta);
@@ -154,7 +177,7 @@ public class TelaLogin extends JFrame {
 
     private void acaoBotaoCriarConta() {
         new TelaCadastro();
-        dispose(); // Fecha a tela de login
+        dispose(); 
     }
 
     public static void main(String[] args) {
