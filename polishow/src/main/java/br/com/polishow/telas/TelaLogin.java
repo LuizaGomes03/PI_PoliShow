@@ -94,7 +94,7 @@ public class TelaLogin extends JFrame {
 
         // botão entrar
         JButton botaoEntrar = new JButton("ENTRAR");
-        botaoEntrar.setBounds(393, 407, 150, 45);
+        botaoEntrar.setBounds(394, 408, 150, 45);
         estilizarBotaoTransparente(botaoEntrar);
         botaoEntrar.setFont(new Font("Arial", Font.BOLD, 25));
         botaoEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));

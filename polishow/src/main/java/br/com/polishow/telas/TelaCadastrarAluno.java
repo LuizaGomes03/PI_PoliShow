@@ -14,23 +14,19 @@ public class TelaCadastrarAluno {
         SwingUtilities.invokeLater(() -> new TelaCadastrarAluno().createAndShowGUI());
     }
 
-    
     void createAndShowGUI() {
-        
+
         int imageWidth = 960;
         int imageHeight = 640;
 
-        
         ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/telaCadastro.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
-        
         JLabel background = new JLabel(backgroundIcon);
         background.setLayout(null);
         background.setPreferredSize(new Dimension(imageWidth, imageHeight));
 
-        
         JFrame frame = new JFrame("Cadastrar aluno");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(background);
@@ -38,29 +34,23 @@ public class TelaCadastrarAluno {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        
         ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
         Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         setaIcon = new ImageIcon(setaImage);
 
-        // botão com imagem de seta
         JButton voltarButton = new JButton(setaIcon);
         voltarButton.setBounds(20, 20, 40, 40);
         voltarButton.setFocusPainted(false);
-        voltarButton.setContentAreaFilled(false); 
-        voltarButton.setBorderPainted(false); 
-        voltarButton.setOpaque(false); 
+        voltarButton.setContentAreaFilled(false);
+        voltarButton.setBorderPainted(false);
+        voltarButton.setOpaque(false);
         voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // ação do botão
         voltarButton.addActionListener(e -> {
             frame.dispose();
             new br.com.polishow.telas.TelaInicialProfessor().TelaInicialProfessor();
         });
-
         background.add(voltarButton);
 
-        // nome
         JTextField nomeTextField = new JTextField();
         nomeTextField.setName("nomeTextField");
         nomeTextField.setBackground(new Color(186, 49, 49));
@@ -70,9 +60,7 @@ public class TelaCadastrarAluno {
         nomeTextField.setBorder(BorderFactory.createEmptyBorder());
         background.add(nomeTextField);
 
-        // série
-        JComboBox<String> serieComboBox = new JComboBox<>(
-                new String[] {"1ª Série", "2ª Série", "3ª Série" });
+        JComboBox<String> serieComboBox = new JComboBox<>(new String[]{"1ª Série", "2ª Série", "3ª Série"});
         serieComboBox.setName("serieComboBox");
         serieComboBox.setBackground(new Color(220, 150, 34));
         serieComboBox.setForeground(Color.WHITE);
@@ -102,7 +90,6 @@ public class TelaCadastrarAluno {
         });
         background.add(serieComboBox);
 
-        // email
         JTextField emailTextField = new JTextField();
         emailTextField.setName("emailTextField");
         emailTextField.setBackground(new Color(21, 179, 192));
@@ -112,7 +99,6 @@ public class TelaCadastrarAluno {
         emailTextField.setBorder(BorderFactory.createEmptyBorder());
         background.add(emailTextField);
 
-        // senha
         JPasswordField senhaPasswordField = new JPasswordField();
         senhaPasswordField.setName("senhaPasswordField");
         senhaPasswordField.setBackground(new Color(11, 54, 165));
@@ -122,7 +108,6 @@ public class TelaCadastrarAluno {
         senhaPasswordField.setBorder(BorderFactory.createEmptyBorder());
         background.add(senhaPasswordField);
 
-        // mostrar/ocultar senha
         JButton toggleSenhaBtn = new JButton("Mostrar");
         toggleSenhaBtn.setBounds(600, 475, 60, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -143,15 +128,28 @@ public class TelaCadastrarAluno {
             }
         });
 
-        // botão cadastrar
-        JButton cadastrarButton = new JButton("CADASTRAR");
+        // botão arredondado personalizado
+        JButton cadastrarButton = new JButton("CADASTRAR") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                super.paintComponent(g2);
+                g2.dispose();
+            }
+        };
+
         cadastrarButton.setName("cadastrarButton");
         cadastrarButton.setBackground(new Color(11, 65, 175));
         cadastrarButton.setForeground(Color.WHITE);
         cadastrarButton.setFont(new Font("SansSerif", Font.BOLD, 24));
         cadastrarButton.setFocusPainted(false);
         cadastrarButton.setBounds(378, 572, 200, 45);
-        cadastrarButton.setBorder(BorderFactory.createEmptyBorder());
+        cadastrarButton.setContentAreaFilled(false);
+        cadastrarButton.setOpaque(false);
+        cadastrarButton.setBorderPainted(false);
         cadastrarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         background.add(cadastrarButton);
 
@@ -166,16 +164,13 @@ public class TelaCadastrarAluno {
                 return;
             }
 
-            // verificação de formato de email
             if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$")) {
                 JOptionPane.showMessageDialog(frame, "Formato de email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // domínio permitido
             if (!email.endsWith("@p4ed.com")) {
-                JOptionPane.showMessageDialog(frame, "Email inválido. Utilize um email com @p4ed.com", "Erro",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Email inválido. Utilize um email com @p4ed.com", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -184,15 +179,12 @@ public class TelaCadastrarAluno {
                 var dao = new DAO();
                 dao.criarCadastroAluno(a);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
-            
             JOptionPane.showMessageDialog(frame, "Aluno cadastrado com sucesso!");
         });
 
-        // exibe a janela
         frame.setVisible(true);
     }
 }

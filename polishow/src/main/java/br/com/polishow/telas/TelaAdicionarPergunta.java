@@ -76,7 +76,7 @@ public class TelaAdicionarPergunta {
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
         dificuldadeComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
-        dificuldadeComboBox.setBounds(415, 445, 430, 45);
+        dificuldadeComboBox.setBounds(410, 445, 430, 45);
         dificuldadeComboBox.setBorder(null);
         dificuldadeComboBox.setUI(new BasicComboBoxUI() {
             @Override
@@ -121,7 +121,7 @@ public class TelaAdicionarPergunta {
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
         salvarButton.setFont(new Font("SansSerif", Font.BOLD, 31));
-        salvarButton.setBounds(420, 567, 120, 40); // Ajuste a posição se necessário
+        salvarButton.setBounds(420, 566, 120, 40); // Ajuste a posição se necessário
         salvarButton.setFocusPainted(false);
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
