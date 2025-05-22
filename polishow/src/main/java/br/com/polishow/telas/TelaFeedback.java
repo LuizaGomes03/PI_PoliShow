@@ -9,7 +9,7 @@ public class TelaFeedback extends JPanel {
 
     private Image backgroundImage;
 
-    // Dados de exemplo
+    // exemplo (será integrado o banco de dados ainda)
     private String materia = "Matemática";
     private int totalQuestoes = 10;
     private int acertos = 8;
@@ -22,7 +22,7 @@ public class TelaFeedback extends JPanel {
             JOptionPane.showMessageDialog(null, "Imagem de fundo não encontrada:\n" + caminhoImagem);
         } else {
             backgroundImage = new ImageIcon(caminhoImagem).getImage();
-            setPreferredSize(new Dimension(960, 640)); // resolução fixa
+            setPreferredSize(new Dimension(960, 640)); 
         }
 
         setLayout(null);
@@ -32,14 +32,14 @@ public class TelaFeedback extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Desenha a imagem redimensionada para 960x640
+        // img
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, 960, 640, this);
 
             g.setColor(Color.WHITE);
             g.setFont(new Font("SansSerif", Font.BOLD, 22));
 
-            // Coordenadas ajustadas para o tamanho menor da tela
+            
             g.drawString(materia, 565, 185);
             g.drawString(String.valueOf(totalQuestoes), 565, 285);
             g.drawString(String.valueOf(acertos), 565, 385);
@@ -54,17 +54,17 @@ public class TelaFeedback extends JPanel {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 
-        // Painel de fundo
+        
         TelaFeedback painel = new TelaFeedback();
 
-        // Botão customizado
+        
         JButton botao = new JButton("Voltar ao Menu");
         botao.setBounds(700, 540, 200, 45);
         botao.setBackground(new Color(0, 120, 215));
         botao.setForeground(Color.WHITE);
         botao.setFont(new Font("SansSerif", Font.BOLD, 16));
         botao.setFocusPainted(false);
-        botao.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        botao.setBorder(BorderFactory.createEmptyBorder());
         botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         botao.addActionListener(new ActionListener() {
@@ -73,7 +73,7 @@ public class TelaFeedback extends JPanel {
             }
         });
 
-        // Usando JLayeredPane para sobreposição
+        
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(960, 640));
 
