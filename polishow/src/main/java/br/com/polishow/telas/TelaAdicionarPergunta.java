@@ -69,7 +69,7 @@ public class TelaAdicionarPergunta {
         });
         background.add(materiaComboBox);
 
-        // ComboBox de Dificuldade
+        // comboBox de dificuldade
         JComboBox<String> dificuldadeComboBox = new JComboBox<>(
             new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" }
         );
