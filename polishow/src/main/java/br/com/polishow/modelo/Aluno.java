@@ -11,8 +11,8 @@ public class Aluno extends Usuario {
     // }
 
     // Construtor completo
-    public Aluno(String nome, String senha, String email, int adm, String serie) {
-        super(nome, senha, email, adm);
+    public Aluno(String nome, String email, String senha, int adm, String serie) {
+        super(nome, email, senha, adm);
         this.serie = serie;
     }
 

@@ -6,7 +6,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import br.com.polishow.modelo.Aluno;
-import br.com.polishow.persistencia.DAO;
+import br.com.polishow.persistencia.AlunoDAO;
 
 public class TelaCadastrarAluno {
 
@@ -176,8 +176,8 @@ public class TelaCadastrarAluno {
 
             try {
                 var a = new Aluno(nome, email, senha, 0, serie);
-                var dao = new DAO();
-                dao.criarCadastroAluno(a);
+                var dao = new AlunoDAO();
+                dao.criarCadastro(a);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }

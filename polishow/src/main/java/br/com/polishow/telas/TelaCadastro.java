@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import br.com.polishow.modelo.Usuario;
-import br.com.polishow.persistencia.DAO;
+import br.com.polishow.persistencia.UsuarioDAO;
 
 public class TelaCadastro extends JFrame implements java.awt.event.ActionListener {
 
@@ -132,7 +132,7 @@ public class TelaCadastro extends JFrame implements java.awt.event.ActionListene
         } else if (email.endsWith("@sistemapoliedro.com.br")) {
             try{
                 var u = new Usuario(nome, email, senha, 1);
-                var dao = new DAO();
+                var dao = new UsuarioDAO();
                 dao.criarCadastroAdm(u);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro",

@@ -118,7 +118,7 @@ public class TelaInicioAluno extends JFrame {
 
         // selecionar materia
         JComboBox<String> mtComboBox = new JComboBox<>();
-       mtComboBox.addItem("Selecionar Matéria");
+        mtComboBox.addItem("Selecionar Matéria");
         try {
             MateriaDAO materiaDAO = new MateriaDAO();
             List<Materia> materias = materiaDAO.listarTodas();
