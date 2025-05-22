@@ -107,7 +107,7 @@ public class TelaPontuacaoFinal extends JFrame {
             }
         };
 
-        botao.setBounds(750, 541, 166, 46);
+        botao.setBounds(753, 543, 166, 46);
         botao.setForeground(Color.WHITE);
         botao.setFont(new Font("SansSerif", Font.BOLD, 24));
         botao.setFocusPainted(false);
@@ -116,8 +116,8 @@ public class TelaPontuacaoFinal extends JFrame {
         botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         botao.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Você clicou em Continuar!");
-            // Aqui pode chamar outra tela ou lógica do jogo
+            new TelaInicioAluno();
+            dispose();
         });
 
         painel.add(botao);
