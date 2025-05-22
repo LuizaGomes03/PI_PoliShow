@@ -16,8 +16,8 @@ public class AlunoDAO {
                 var conexao = new ConnectionFactory().obterConexao();
                 var psUsuario = conexao.prepareStatement(sqlUsuario, Statement.RETURN_GENERATED_KEYS)) {
                 psUsuario.setString(1, a.getNomeUsuario());
-                psUsuario.setString(2, a.getSenhaUsuario());
-                psUsuario.setString(3, a.getEmailUsuario());
+                psUsuario.setString(2, a.getEmailUsuario());
+                psUsuario.setString(3, a.getSenhaUsuario());
                 psUsuario.executeUpdate();
 
             // Obter o ID gerado
