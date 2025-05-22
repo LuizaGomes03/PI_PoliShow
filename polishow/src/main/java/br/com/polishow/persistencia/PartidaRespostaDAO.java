@@ -6,44 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.polishow.modelo.PartidaResposta;
+import br.com.polishow.modelo.Questao;
 import br.com.polishow.modelo.Partida;
-import br.com.polishow.modelo.QuestaoAlternativa;
 import br.com.polishow.modelo.Alternativas;
 
 public class PartidaRespostaDAO {
 
     public void cadastrar(PartidaResposta pr) throws Exception {
         var c = new ConnectionFactory();
-        var sql = "INSERT INTO tb_partida_resposta(id_partida, id_quest_alter, id_alternativa_selecionada) VALUES (?, ?, ?)";
+        var sql = "INSERT INTO tb_partida_resposta(id_partida, id_questao, id_alternativa_selecionada) VALUES (?, ?, ?)";
 
         try (
             var conexao = c.obterConexao();
             PreparedStatement ps = conexao.prepareStatement(sql);
         ) {
             ps.setInt(1, pr.getPartida().getIdPartida());
-            ps.setInt(2, pr.getQuestaoAlternativa().getIdQuestAlter());
+            ps.setInt(2, pr.getQuestao().getIdQuestao());
             ps.setInt(3, pr.getAlternativaSelecionada().getIdAlternativa());
             ps.executeUpdate();
         }
     }
 
-    public void remover(PartidaResposta pr) throws Exception {
-        var c = new ConnectionFactory();
-        var sql = "DELETE FROM tb_partida_resposta WHERE id_partida = ? AND id_quest_alter = ?";
 
-        try (
-            var conexao = c.obterConexao();
-            PreparedStatement ps = conexao.prepareStatement(sql);
-        ) {
-            ps.setInt(1, pr.getPartida().getIdPartida());
-            ps.setInt(2, pr.getQuestaoAlternativa().getIdQuestAlter());
-            ps.executeUpdate();
-        }
-    }
 
     public void atualizar(PartidaResposta pr) throws Exception {
         var c = new ConnectionFactory();
-        var sql = "UPDATE tb_partida_resposta SET id_alternativa_selecionada = ? WHERE id_partida = ? AND id_quest_alter = ?";
+        var sql = "UPDATE tb_partida_resposta SET id_alternativa_selecionada = ? WHERE id_partida = ? AND id_questao = ?";
 
         try (
             var conexao = c.obterConexao();
@@ -51,7 +39,7 @@ public class PartidaRespostaDAO {
         ) {
             ps.setInt(1, pr.getAlternativaSelecionada().getIdAlternativa());
             ps.setInt(2, pr.getPartida().getIdPartida());
-            ps.setInt(3, pr.getQuestaoAlternativa().getIdQuestAlter());
+            ps.setInt(3, pr.getQuestao().getIdQuestao());
             ps.executeUpdate();
         }
     }
@@ -71,8 +59,8 @@ public class PartidaRespostaDAO {
                     Partida partida = new Partida();
                     partida.setIdPartida(rs.getInt("id_partida"));
 
-                    QuestaoAlternativa qa = new QuestaoAlternativa();
-                    qa.setIdQuestAlter(rs.getInt("id_quest_alter"));
+                    Questao qa = new Questao();
+                    qa.setIdQuestao(rs.getInt("id_questao"));
 
                     Alternativas alt = new Alternativas();
                     alt.setIdAlternativa(rs.getInt("id_alternativa_selecionada"));

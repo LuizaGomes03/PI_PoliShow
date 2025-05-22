@@ -1,18 +1,31 @@
 package br.com.polishow.telas;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.polishow.modelo.Alternativas;
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Questao;
 import br.com.polishow.persistencia.MateriaDAO;
+import br.com.polishow.persistencia.QuestaoDAO;
 
 public class TelaAdicionarPergunta {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new TelaAdicionarPergunta().createAndShowGUI());
     }
+
+    // Variáveis para guardar dados da pergunta
+    private String textoPergunta = null;
+    private List<Alternativas> listaAlternativas = new ArrayList<>();
+    private Materia materiaSelecionada = null;
+    private String dificuldadeSelecionada = null;
+    private String letraCorreta = null;
 
     void createAndShowGUI() {
         int imageWidth = 960;
@@ -36,7 +49,7 @@ public class TelaAdicionarPergunta {
         // ComboBox de Matéria
         JComboBox<String> materiaComboBox = new JComboBox<>();
 
-         materiaComboBox.addItem("Selecionar Matéria");
+        materiaComboBox.addItem("Selecionar Matéria");
         try {
             MateriaDAO materiaDAO = new MateriaDAO();
             List<Materia> materias = materiaDAO.listarTodas();
@@ -69,10 +82,24 @@ public class TelaAdicionarPergunta {
         });
         background.add(materiaComboBox);
 
+        materiaComboBox.addActionListener(e -> {
+            int idx = materiaComboBox.getSelectedIndex();
+            if (idx > 0) { // índice 0 é "Selecionar Matéria"
+                try {
+                    MateriaDAO materiaDAO = new MateriaDAO();
+                    List<Materia> materias = materiaDAO.listarTodas();
+                    materiaSelecionada = materias.get(idx - 1);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                materiaSelecionada = null;
+            }
+        });
+
         // comboBox de dificuldade
         JComboBox<String> dificuldadeComboBox = new JComboBox<>(
-            new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" }
-        );
+                new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" });
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
         dificuldadeComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -91,6 +118,15 @@ public class TelaAdicionarPergunta {
             }
         });
         background.add(dificuldadeComboBox);
+
+        dificuldadeComboBox.addActionListener(e -> {
+            String diff = (String) dificuldadeComboBox.getSelectedItem();
+            if (!diff.equals("Selecione a dificuldade")) {
+                dificuldadeSelecionada = diff;
+            } else {
+                dificuldadeSelecionada = null;
+            }
+        });
 
         // botão adicionar pergunta
         JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
@@ -121,15 +157,71 @@ public class TelaAdicionarPergunta {
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
         salvarButton.setFont(new Font("SansSerif", Font.BOLD, 31));
-        salvarButton.setBounds(420, 566, 120, 40); // Ajuste a posição se necessário
+        salvarButton.setBounds(420, 566, 120, 40);
         salvarButton.setFocusPainted(false);
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
         salvarButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Pergunta adicionada com sucesso!");
+            try {
+                if (textoPergunta == null || textoPergunta.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, adicione a pergunta.");
+                    return;
+                }
+                if (listaAlternativas.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, adicione as alternativas.");
+                    return;
+                }
+                if (materiaSelecionada == null) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a matéria.");
+                    return;
+                }
+                if (dificuldadeSelecionada == null) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a dificuldade.");
+                    return;
+                }
+                if (letraCorreta == null) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a alternativa correta.");
+                    return;
+                }
+
+                Questao questao = new Questao();
+                questao.setMateria(materiaSelecionada);
+                questao.setPergunta(textoPergunta);
+                questao.setDificuldade(dificuldadeSelecionada);
+
+                // Marca a alternativa correta na lista
+                char letra = letraCorreta.charAt(0);
+                int indexCorreta = letra - 'A'; // índice correto
+
+                for (int i = 0; i < listaAlternativas.size(); i++) {
+                    if (i == indexCorreta) {
+                        listaAlternativas.get(i).setCorreta(true);
+                    } else {
+                        listaAlternativas.get(i).setCorreta(false);
+                    }
+                }
+
+                var dao = new QuestaoDAO(); 
+                dao.cadastrar(questao, listaAlternativas, letraCorreta);
+
+                JOptionPane.showMessageDialog(frame, "Pergunta adicionada com sucesso!");
+
+                textoPergunta = null;
+                listaAlternativas.clear();
+                materiaSelecionada = null;
+                dificuldadeSelecionada = null;
+                letraCorreta = null;
+
+                materiaComboBox.setSelectedIndex(0);
+                dificuldadeComboBox.setSelectedIndex(0);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "Erro ao adicionar pergunta: " + ex.getMessage());
+            }
         });
 
-        //botão voltar
+        // botão voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(15, 15, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
@@ -144,18 +236,16 @@ public class TelaAdicionarPergunta {
 
         background.add(salvarButton);
 
-        
         frame.setVisible(true);
     }
 
     private JButton createCustomArrowButton() {
         BasicArrowButton arrow = new BasicArrowButton(
-            BasicArrowButton.SOUTH,
-            new Color(3, 13, 93),
-            new Color(3, 13, 93),
-            Color.WHITE,
-            new Color(3, 13, 93)
-        );
+                BasicArrowButton.SOUTH,
+                new Color(3, 13, 93),
+                new Color(3, 13, 93),
+                Color.WHITE,
+                new Color(3, 13, 93));
         arrow.setBorder(BorderFactory.createEmptyBorder());
         arrow.setContentAreaFilled(false);
         return arrow;
@@ -186,6 +276,7 @@ public class TelaAdicionarPergunta {
         confirmar.addActionListener(e -> {
             String pergunta = areaPergunta.getText().trim();
             if (!pergunta.isEmpty()) {
+                textoPergunta = pergunta;
                 JOptionPane.showMessageDialog(popup, "Pergunta adicionada:\n" + pergunta);
             }
             popup.dispose();
@@ -229,12 +320,17 @@ public class TelaAdicionarPergunta {
         popup.add(confirmar);
 
         confirmar.addActionListener(e -> {
-            StringBuilder sb = new StringBuilder();
+            listaAlternativas.clear(); // limpa lista antiga
             for (int i = 0; i < 5; i++) {
-                sb.append(letras[i]).append(": ").append(campos[i].getText().trim()).append("\n");
+                String textoAlt = campos[i].getText().trim();
+                if (!textoAlt.isEmpty()) {
+                    Alternativas alt = new Alternativas();
+                    alt.setAlternativa(textoAlt);
+                    listaAlternativas.add(alt);
+                }
             }
-            sb.append("Correta: ").append(comboCorreta.getSelectedItem());
-            JOptionPane.showMessageDialog(popup, sb.toString(), "Opções Adicionadas", JOptionPane.INFORMATION_MESSAGE);
+            letraCorreta = (String) comboCorreta.getSelectedItem(); // guarda alternativa correta
+            JOptionPane.showMessageDialog(popup, "Opções adicionadas. Alternativa correta: " + letraCorreta);
             popup.dispose();
         });
 
@@ -242,7 +338,7 @@ public class TelaAdicionarPergunta {
     }
 
     public void setVisible(boolean b) {
-        
+
         throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
     }
 }

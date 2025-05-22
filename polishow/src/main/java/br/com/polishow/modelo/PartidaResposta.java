@@ -3,12 +3,12 @@ package br.com.polishow.modelo;
 public class PartidaResposta {
 
     private Partida partida;
-    private QuestaoAlternativa questaoAlternativa;
+    private Questao questao;
     private Alternativas alternativaSelecionada;
 
-    public PartidaResposta(Partida partida, QuestaoAlternativa questaoAlternativa, Alternativas alternativaSelecionada) {
+    public PartidaResposta(Partida partida, Questao questao, Alternativas alternativaSelecionada) {
         this.partida = partida;
-        this.questaoAlternativa = questaoAlternativa;
+        this.questao = questao;
         this.alternativaSelecionada = alternativaSelecionada;
     }
 
@@ -20,12 +20,12 @@ public class PartidaResposta {
         this.partida = partida;
     }
 
-    public QuestaoAlternativa getQuestaoAlternativa() {
-        return questaoAlternativa;
+    public Questao getQuestao() {
+        return questao;
     }
 
-    public void setQuestaoAlternativa(QuestaoAlternativa questaoAlternativa) {
-        this.questaoAlternativa = questaoAlternativa;
+    public void setQuestao(Questao questao) {
+        this.questao = questao;
     }
 
     public Alternativas getAlternativaSelecionada() {

@@ -67,7 +67,7 @@ public class AlternativasDAO {
             ps.setInt(1, questao.getIdQuestao());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    var alt = new Alternativas(questao, rs.getString("alternativa"));
+                    var alt = new Alternativas(questao, rs.getString("alternativa"), rs.getBoolean("Correta"));
                     alt.setIdAlternativa(rs.getInt("id_alternativa"));
                     lista.add(alt);
                 }

@@ -5,6 +5,7 @@ public class Questao {
     private int id;
     private Materia materia;
     private String pergunta;
+    private String dificuldade;
 
     // Construtor com ID (útil ao carregar do banco)
     // public Questao(int idQuestao, Materia materia, String pergunta) {
@@ -14,9 +15,13 @@ public class Questao {
     // }
 
     // Construtor sem ID (útil antes de salvar no banco)
-    public Questao(Materia materia, String pergunta) {
+    public Questao(Materia materia, String pergunta, String dificuldade) {
         this.materia = materia;
         this.pergunta = pergunta;
+        this.dificuldade = dificuldade;
+    }
+
+    public Questao() {
     }
 
     public int getIdQuestao() {
@@ -41,5 +46,13 @@ public class Questao {
 
     public void setPergunta(String pergunta) {
         this.pergunta = pergunta;
+    }
+
+    public String getDificuldade(){
+        return dificuldade;
+    }
+
+    public void setDificuldade(String dificuldade){
+        this.dificuldade = dificuldade;
     }
 }

@@ -5,6 +5,7 @@ public class Alternativas {
     private int id;
     private Questao questao;
     private String alternativa;
+    private Boolean correta;
 
     // Construtor com ID (para carregar do banco)
     // public Alternativa(int idAlternativa, Questao questao, String alternativa) {
@@ -18,9 +19,10 @@ public class Alternativas {
     // Construtor padrão necessário para setIdAlternativa
 }
 
-    public Alternativas(Questao questao, String alternativa) {
+    public Alternativas(Questao questao, String alternativa, Boolean correta) {
         this.questao = questao;
         this.alternativa = alternativa;
+        this.correta = correta;
     }
 
     public int getIdAlternativa() {
@@ -47,4 +49,11 @@ public class Alternativas {
         this.alternativa = alternativa;
     }
     
+    public Boolean getCorreta(){
+        return correta;
+    }
+
+    public void setCorreta(Boolean correta){
+        this.correta = correta;
+    }
 }
