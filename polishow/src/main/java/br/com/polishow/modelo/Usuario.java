@@ -7,6 +7,10 @@ public class Usuario {
     private String email;
     private int adm;
 
+    // ✅ Construtor padrão (necessário para Aluno funcionar com new Aluno())
+    public Usuario() {
+    }
+
     public Usuario(String nome, String email, String senha, int adm){
         this.nome = nome;
         this.email = email;
@@ -17,8 +21,8 @@ public class Usuario {
     public Usuario(String email, String senha){
         this.email = email;
         this.senha = senha;
-
     }
+
     public int getIdUsuario() {
         return id;
     }
