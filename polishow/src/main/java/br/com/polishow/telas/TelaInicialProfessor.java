@@ -16,9 +16,9 @@ public class TelaInicialProfessor extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Painel com imagem de fundo
+        // painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
-            ImageIcon imagemFundo = new ImageIcon("polishow/src/main/imagens/Tela Inicial Professor.png");
+            ImageIcon imagemFundo = new ImageIcon("polishow/src/main/imagens/telaInicialProfessor.png");
 
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -27,20 +27,24 @@ public class TelaInicialProfessor extends JFrame {
         };
         painelFundo.setLayout(null);
 
-        // Botões invisíveis e arredondados com efeito de clique
+        // botões invisíveis e arredondados com efeito de clique
         RoundedInvisibleButton btnAdicionar = new RoundedInvisibleButton(30);
-        btnAdicionar.setBounds(296, 179, 352, 68);
+        btnAdicionar.setBounds(296, 130, 352, 68);
         btnAdicionar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnEditar = new RoundedInvisibleButton(30);
-        btnEditar.setBounds(296, 266, 352, 68);
+        btnEditar.setBounds(296, 210, 352, 68);
         btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnCadastrar = new RoundedInvisibleButton(30);
-        btnCadastrar.setBounds(296, 352, 352, 68);
+        btnCadastrar.setBounds(296, 290, 352, 68);
         btnCadastrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Ações
+        RoundedInvisibleButton btnListaAlunos = new RoundedInvisibleButton(30);
+        btnListaAlunos.setBounds(296, 370, 352, 68);
+        btnListaAlunos.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // ações
         btnAdicionar.addActionListener(e -> {
             new TelaAdicionarPergunta().createAndShowGUI(); 
             dispose(); 
@@ -53,15 +57,20 @@ public class TelaInicialProfessor extends JFrame {
             new TelaCadastrarAluno().createAndShowGUI(); 
             dispose(); 
         });
+        btnListaAlunos.addActionListener(e -> {
+            new TelaListaAlunos(this);
+        });
+        
 
         painelFundo.add(btnAdicionar);
         painelFundo.add(btnEditar);
         painelFundo.add(btnCadastrar);
+        painelFundo.add(btnListaAlunos);
 
         setContentPane(painelFundo);
         setVisible(true);
 
-        // Botão Voltar
+        // botão voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(10, 12, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
@@ -75,7 +84,7 @@ public class TelaInicialProfessor extends JFrame {
         });
     }
 
-     // Classe de botão invisível com efeito de clique e contorno arredondado
+     // classe de botão invisível com efeito de clique e contorno arredondado
      class RoundedInvisibleButton extends JButton {
         private final int arc;
         private boolean isPressed = false;
@@ -87,7 +96,7 @@ public class TelaInicialProfessor extends JFrame {
             setBorderPainted(false);
             setFocusPainted(false);
 
-            // Detecta clique para efeito visual
+            // detecta clique para efeito visual
             addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mousePressed(java.awt.event.MouseEvent e) {
                     isPressed = true;
