@@ -49,7 +49,7 @@ public class Alternativas {
         this.alternativa = alternativa;
     }
     
-    public Boolean getCorreta(){
+    public Boolean isCorreta(){
         return correta;
     }
 

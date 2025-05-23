@@ -1,4 +1,5 @@
 package br.com.polishow.telas;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -22,69 +23,68 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import br.com.polishow.modelo.Materia;
 import br.com.polishow.persistencia.MateriaDAO;
-
+import br.com.polishow.persistencia.QuestaoDAO;
 
 public class TelaInicioAluno extends JFrame {
 
     class RoundedInvisibleButton extends JButton {
-    private final int arc;
-    private boolean isPressed = false;
+        private final int arc;
+        private boolean isPressed = false;
 
-    public RoundedInvisibleButton(int arc) {
-        this.arc = arc;
-        setOpaque(false);
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setFocusPainted(false);
+        public RoundedInvisibleButton(int arc) {
+            this.arc = arc;
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+            setFocusPainted(false);
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                isPressed = true;
-                repaint();
-            }
+            addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mousePressed(java.awt.event.MouseEvent e) {
+                    isPressed = true;
+                    repaint();
+                }
 
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-                isPressed = false;
-                repaint();
-            }
+                public void mouseReleased(java.awt.event.MouseEvent e) {
+                    isPressed = false;
+                    repaint();
+                }
 
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                isPressed = false;
-                repaint();
-            }
-        });
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (isPressed) {
-            g2.setColor(new Color(0, 0, 0, 50));
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), arc, arc);
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    isPressed = false;
+                    repaint();
+                }
+            });
         }
 
-        g2.dispose();
-    }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    @Override
-    public boolean contains(int x, int y) {
-        Shape shape = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), arc, arc);
-        return shape.contains(x, y);
+            if (isPressed) {
+                g2.setColor(new Color(0, 0, 0, 50));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), arc, arc);
+            }
+
+            g2.dispose();
+        }
+
+        @Override
+        public boolean contains(int x, int y) {
+            Shape shape = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), arc, arc);
+            return shape.contains(x, y);
         }
     }
-    
+
     public TelaInicioAluno() {
         setTitle("Tela Inicial - Aluno");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(960, 640); 
-        setLocationRelativeTo(null); 
+        setSize(960, 640);
+        setLocationRelativeTo(null);
         setLayout(null);
         setResizable(false);
         setUndecorated(false);
-
 
         // img
         JPanel painel = new JPanel() {
@@ -111,8 +111,8 @@ public class TelaInicioAluno extends JFrame {
         voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         voltarButton.setIcon(setaIcon);
         voltarButton.addActionListener(e -> {
-        this.dispose();
-        new TelaLogin();
+            this.dispose();
+            new TelaLogin();
         });
         painel.add(voltarButton);
 
@@ -132,25 +132,24 @@ public class TelaInicioAluno extends JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao carregar matérias: " + e.getMessage());
         }
         mtComboBox.setName("mtComboBox");
-        mtComboBox.setBackground(new Color(18, 66, 177)); 
+        mtComboBox.setBackground(new Color(18, 66, 177));
         mtComboBox.setForeground(Color.WHITE);
         mtComboBox.setFont(new Font("SansSerif", Font.BOLD, 24));
-        mtComboBox.setBounds(355, 250, 280, 45); 
+        mtComboBox.setBounds(355, 250, 280, 45);
         mtComboBox.setBorder(null);
         mtComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         mtComboBox.setUI(new BasicComboBoxUI() {
-            
+
             @Override
             protected JButton createArrowButton() {
-                
+
                 BasicArrowButton arrow = new BasicArrowButton(
-                    BasicArrowButton.SOUTH,
-                    new Color(18, 66, 177),   
-                    new Color(220, 150, 34),   
-                    Color.WHITE,               
-                    new Color(220, 150, 34)    
-                );
-                
+                        BasicArrowButton.SOUTH,
+                        new Color(18, 66, 177),
+                        new Color(220, 150, 34),
+                        Color.WHITE,
+                        new Color(220, 150, 34));
+
                 arrow.setBorder(BorderFactory.createEmptyBorder());
                 arrow.setContentAreaFilled(false);
                 return arrow;
@@ -166,12 +165,37 @@ public class TelaInicioAluno extends JFrame {
 
         // botão iniciar
         JButton botaoIniciar = new JButton("INICIAR");
-        botaoIniciar.setBounds(385, 345, 180, 50); 
-        botaoIniciar.setBackground(new Color(219, 151, 18)); 
+        botaoIniciar.setBounds(385, 345, 180, 50);
+        botaoIniciar.setBackground(new Color(219, 151, 18));
         botaoIniciar.setForeground(Color.WHITE);
         botaoIniciar.setFont(new Font("SansSerif", Font.BOLD, 24));
         botaoIniciar.setFocusPainted(false);
-        botaoIniciar.addActionListener(e -> JOptionPane.showMessageDialog(null, "Iniciando..."));
+        botaoIniciar.addActionListener(e -> {
+            int selectedIndex = mtComboBox.getSelectedIndex();
+            if (selectedIndex <= 0) {
+                JOptionPane.showMessageDialog(null, "Selecione uma matéria antes de iniciar.");
+                return;
+            }
+
+            String nomeMateria = (String) mtComboBox.getSelectedItem();
+            try {
+                MateriaDAO materiaDAO = new MateriaDAO();
+                Materia materia = materiaDAO.buscarPorNome(nomeMateria);
+                QuestaoDAO questaoDAO = new QuestaoDAO();
+                int quantidadeQuestoes = questaoDAO.buscar12Questoes(materia.getIdMateria()).size();
+
+                if (quantidadeQuestoes < 12) {
+                    JOptionPane.showMessageDialog(null, "Essa matéria não possui questões suficientes (mínimo 12).");
+                    return;
+                }
+                
+                new TelaJogo(materia);
+                this.dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao iniciar jogo: " + ex.getMessage());
+            }
+        });
+
         botaoIniciar.setBorderPainted(false);
         botaoIniciar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painel.add(botaoIniciar);
@@ -183,4 +207,3 @@ public class TelaInicioAluno extends JFrame {
         new TelaInicioAluno();
     }
 }
-

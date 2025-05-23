@@ -77,4 +77,26 @@ public class MateriaDAO {
 
         return materias;
     }
+
+    public Materia buscarPorNome(String nomeMateria) throws Exception {
+        var fabricaDeConexoes = new ConnectionFactory();
+        var sql = "SELECT * FROM tb_materia WHERE nome_materia = ?";
+
+        try (
+                var conexao = fabricaDeConexoes.obterConexao();
+                var ps = conexao.prepareStatement(sql)) {
+            ps.setString(1, nomeMateria);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Materia m = new Materia();
+                m.setIdMateria(rs.getInt("id_materia"));
+                m.setNomeMateria(rs.getString("nome_materia"));
+                return m;
+            } else {
+                return null; 
+            }
+        }
+    }
+
 }

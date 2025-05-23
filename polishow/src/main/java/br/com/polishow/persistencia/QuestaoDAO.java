@@ -110,35 +110,71 @@ public class QuestaoDAO {
     }
 
     public List<Questao> buscarPorMateria(int idMateria) throws Exception {
-    List<Questao> lista = new ArrayList<>();
-    var c = new ConnectionFactory();
-    var sql = "SELECT q.id_questao, q.id_materia, q.pergunta, q.dificuldade, m.nome_materia " +
-              "FROM tb_questao q JOIN tb_materia m ON q.id_materia = m.id_materia " +
-              "WHERE q.id_materia = ?";
+        List<Questao> lista = new ArrayList<>();
+        var c = new ConnectionFactory();
+        var sql = "SELECT q.id_questao, q.id_materia, q.pergunta, q.dificuldade, m.nome_materia " +
+                "FROM tb_questao q JOIN tb_materia m ON q.id_materia = m.id_materia " +
+                "WHERE q.id_materia = ?";
 
-    try (
-        var conexao = c.obterConexao();
-        PreparedStatement ps = conexao.prepareStatement(sql)
-        ) {
-        ps.setInt(1, idMateria);
-        ResultSet rs = ps.executeQuery();
+        try (
+                var conexao = c.obterConexao();
+                PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, idMateria);
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            Questao q = new Questao();
-            q.setIdQuestao(rs.getInt("id_questao"));
-            q.setPergunta(rs.getString("pergunta"));
-            q.setDificuldade(rs.getString("dificuldade"));
+            while (rs.next()) {
+                Questao q = new Questao();
+                q.setIdQuestao(rs.getInt("id_questao"));
+                q.setPergunta(rs.getString("pergunta"));
+                q.setDificuldade(rs.getString("dificuldade"));
 
-            Materia m = new Materia();
-            m.setIdMateria(rs.getInt("id_materia"));
-            m.setNomeMateria(rs.getString("nome_materia"));
+                Materia m = new Materia();
+                m.setIdMateria(rs.getInt("id_materia"));
+                m.setNomeMateria(rs.getString("nome_materia"));
 
-            q.setMateria(m);
+                q.setMateria(m);
 
-            lista.add(q);
+                lista.add(q);
             }
         }
 
         return lista;
+    }
+
+
+    public List<Questao> buscar12Questoes(int idMateria) throws Exception {
+    List<Questao> lista = new ArrayList<>();
+    var c = new ConnectionFactory();
+
+    String sql = "SELECT * FROM tb_questao WHERE id_materia = ? AND dificuldade = ? ORDER BY RAND() LIMIT 4";
+
+    try (var conexao = c.obterConexao()) {
+        String[] dificuldades = {"facil", "medio", "dificil"};
+
+        for (String dificuldade : dificuldades) {
+            try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+                ps.setInt(1, idMateria);
+                ps.setString(2, dificuldade);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    Questao q = new Questao();
+                    q.setIdQuestao(rs.getInt("id_questao"));
+                    q.setPergunta(rs.getString("pergunta"));
+                    q.setDificuldade(rs.getString("dificuldade"));
+
+                    Materia m = new Materia();
+                    m.setIdMateria(rs.getInt("id_materia"));
+                    q.setMateria(m);
+
+                    lista.add(q);
+                }
+            }
         }
+    }
+
+    return lista;
+}
+
+
 }

@@ -3,29 +3,52 @@ package br.com.polishow.telas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 
+import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Questao;
+import br.com.polishow.modelo.Alternativas;
+import br.com.polishow.persistencia.QuestaoDAO;
+import br.com.polishow.persistencia.AlternativasDAO;
+
 public class TelaJogo extends JFrame {
 
+    private Materia materiaSelecionada;
+    private List<Questao> questoes;
+    private int indiceAtual = 0;
     private boolean ajudaUsada = false;
-    private List<JButton> alternativasBtns = new ArrayList<>();
-    private String respostaCorreta = "B) 56"; // exemplo
 
-    @SuppressWarnings("deprecation")
-    public TelaJogo() {
+    // Componentes que precisam ser acessados em métodos
+    private JPanel painelFundo;
+    private JLabel lblPergunta;
+    private JButton btnSair;
+    private JButton btnElimina;
+    private JButton btnPular;
+
+    private List<JButton> alternativasBtns = new ArrayList<>();
+
+    public TelaJogo(Materia materia) {
+        this.materiaSelecionada = materia;
+
         setTitle("Tela Jogo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel painelFundo = new JPanel() {
+        initComponentes();
+        carregarQuestoes();
+
+        setVisible(true);
+    }
+
+    private void initComponentes() {
+        painelFundo = new JPanel() {
             Image imagem = new ImageIcon("polishow/src/main/imagens/TelaJogo.png").getImage();
 
             @Override
@@ -36,8 +59,8 @@ public class TelaJogo extends JFrame {
         };
         painelFundo.setLayout(null);
 
-        // Botão de Sair
-        JButton btnSair = new JButton();
+        // Botão Sair
+        btnSair = new JButton();
         btnSair.setBounds(48, 15, 40, 35);
         btnSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnSair.setFocusPainted(false);
@@ -46,34 +69,21 @@ public class TelaJogo extends JFrame {
         btnSair.setBorderPainted(false);
         btnSair.setBorder(new RoundBorder(35));
         btnSair.setToolTipText("Sair do Jogo");
-
         btnSair.addActionListener((ActionEvent e) -> {
-            Object[] opcoes = {"Sim", "Não"};
-            int resposta = JOptionPane.showOptionDialog(
-                this,
-                "Deseja realmente sair do jogo?",
-                "Sair do Jogo",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opcoes,
-                opcoes[1]
-            );
-
+            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente sair do jogo?", "Sair do Jogo",
+                    JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                dispose(); // fecha a tela atual
-
+                dispose();
+                // abrir TelaPontuacaoFinal aqui (exemplo genérico)
                 TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal();
                 telaFinal.setVisible(true);
-
-                // Exemplo: atualizando os dados do placar
-                telaFinal.atualizarDados("Matemática", 12, 8, 800.00);
+                // Aqui poderia atualizar dados do placar se quiser
             }
         });
         painelFundo.add(btnSair);
 
         // Botão Eliminar
-        JButton btnElimina = new JButton();
+        btnElimina = new JButton();
         btnElimina.setBounds(95, 15, 40, 35);
         btnElimina.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnElimina.setFocusPainted(false);
@@ -81,53 +91,28 @@ public class TelaJogo extends JFrame {
         btnElimina.setOpaque(false);
         btnElimina.setBorderPainted(false);
         btnElimina.setBorder(new RoundBorder(35));
-        btnElimina.setToolTipText("Eliminar três questões");
-
+        btnElimina.setToolTipText("Eliminar três alternativas");
         btnElimina.addActionListener((ActionEvent e) -> {
             if (ajudaUsada) {
-                JOptionPane.showMessageDialog(this, "Você já usou essa ajuda.", "Ajuda já usada", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Você já usou essa ajuda.", "Ajuda já usada",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            Object[] opcoes = {"Sim", "Não"};
-            int resposta = JOptionPane.showOptionDialog(
-                this,
-                "Gostaria de eliminar 3 alternativas?\nLembre-se que você só poderá usar essa ajuda uma vez durante toda sua jogada.",
-                "Eliminar Questões",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opcoes,
-                opcoes[1]
-            );
-
+            int resposta = JOptionPane.showConfirmDialog(this,
+                    "Gostaria de eliminar 3 alternativas?\nVocê só poderá usar essa ajuda uma vez durante toda sua jogada.",
+                    "Eliminar Alternativas", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                List<JButton> erradas = alternativasBtns.stream()
-                    .filter(btn -> !btn.getText().equals(respostaCorreta))
-                    .collect(Collectors.toList());
-
-                Collections.shuffle(erradas);
-
-                for (int i = 0; i < 3 && i < erradas.size(); i++) {
-                    JButton btn = erradas.get(i);
-                    btn.setEnabled(false);
-                    btn.setBackground(Color.GRAY);
-                }
-
+                eliminarAlternativasErradas();
                 ajudaUsada = true;
-
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Três alternativas foram eliminadas!",
-                    "Ajuda utilizada",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                JOptionPane.showMessageDialog(this, "Três alternativas foram eliminadas!", "Ajuda utilizada",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         painelFundo.add(btnElimina);
 
         // Botão Pular
-        JButton btnPular = new JButton();
+        btnPular = new JButton();
         btnPular.setBounds(145, 15, 35, 35);
         btnPular.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnPular.setFocusPainted(false);
@@ -136,82 +121,158 @@ public class TelaJogo extends JFrame {
         btnPular.setBorderPainted(false);
         btnPular.setBorder(new RoundBorder(35));
         btnPular.setToolTipText("Pular para próxima questão");
-
         btnPular.addActionListener((ActionEvent e) -> {
-            Object[] opcoes = {"Sim", "Não"};
-            int escolha = JOptionPane.showOptionDialog(
-                this,
-                "Você tem certeza que gostaria de pular essa questão?",
-                "Pular Questão",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opcoes,
-                opcoes[1]
-            );
-
-            if (escolha == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Questão pulada!",
-                    "Pular",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-                // lógica para pular a questão aqui
+            int resposta = JOptionPane.showConfirmDialog(this, "Você tem certeza que gostaria de pular essa questão?",
+                    "Pular Questão", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                indiceAtual++;
+                exibirQuestaoAtual();
             }
         });
         painelFundo.add(btnPular);
 
-        // Pergunta
-        JLabel lblPergunta = new JLabel("<html><b>Quanto é 7 x 8?</b></html>");
-        lblPergunta.setBounds(180, 120, 400, 40);
+        // Label Pergunta
+        lblPergunta = new JLabel("");
+        lblPergunta.setBounds(180, 120, 700, 60);
         lblPergunta.setFont(new Font("Arial", Font.BOLD, 24));
         lblPergunta.setForeground(Color.WHITE);
         painelFundo.add(lblPergunta);
 
-        // Alternativas
-        String[] alternativas = {
-            "A) 54", "B) 56", "C) 58", "D) 48", "E) 64"
-        };
-        int y = 190;
-        for (String alternativa : alternativas) {
-            JButton btnAlternativa = new JButton(alternativa);
-            btnAlternativa.setBounds(180, y, 580, 40);
-            btnAlternativa.setFont(new Font("Arial", Font.PLAIN, 18));
-            btnAlternativa.setFocusPainted(false);
-            btnAlternativa.setHorizontalAlignment(SwingConstants.LEFT);
-            btnAlternativa.setMargin(new Insets(0, 15, 0, 0));
-            btnAlternativa.setBackground(new Color(18, 66, 177));
-            btnAlternativa.setForeground(Color.WHITE);
-            btnAlternativa.setOpaque(true);
-            btnAlternativa.setBorderPainted(false);
-            btnAlternativa.setCursor(new Cursor(HAND_CURSOR));
-            painelFundo.add(btnAlternativa);
-            alternativasBtns.add(btnAlternativa);
-            y += 60;
+        setContentPane(painelFundo);
+    }
+
+    private void carregarQuestoes() {
+        try {
+            QuestaoDAO qdao = new QuestaoDAO();
+            questoes = qdao.buscar12Questoes(materiaSelecionada.getIdMateria());
+
+            if (questoes.size() < 12) {
+                JOptionPane.showMessageDialog(this, "Número insuficiente de questões para essa matéria.");
+                dispose();
+                return;
+            }
+
+            indiceAtual = 0;
+            exibirQuestaoAtual();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar questões: " + e.getMessage());
+            dispose();
+        }
+    }
+
+    private void exibirQuestaoAtual() {
+        if (indiceAtual >= questoes.size()) {
+            JOptionPane.showMessageDialog(this, "Fim do jogo!");
+            dispose();
+            TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal();
+            telaFinal.setVisible(true);
+            return;
         }
 
-        setContentPane(painelFundo);
-        setVisible(true);
+        // Remove os botões de alternativas antigos da tela
+        for (JButton btn : alternativasBtns) {
+            painelFundo.remove(btn);
+        }
+        alternativasBtns.clear();
+
+        Questao q = questoes.get(indiceAtual);
+        lblPergunta.setText("<html><b>" + q.getPergunta() + "</b></html>");
+
+        try {
+            AlternativasDAO altDAO = new AlternativasDAO();
+            List<Alternativas> alternativas = altDAO.listar(q);
+
+            int y = 190;
+            for (Alternativas alt : alternativas) {
+                JButton btnAlternativa = new JButton(alt.getAlternativa());
+                btnAlternativa.setBounds(180, y, 580, 40);
+                btnAlternativa.setFont(new Font("Arial", Font.PLAIN, 18));
+                btnAlternativa.setFocusPainted(false);
+                btnAlternativa.setHorizontalAlignment(SwingConstants.LEFT);
+                btnAlternativa.setMargin(new Insets(0, 15, 0, 0));
+                btnAlternativa.setBackground(new Color(18, 66, 177));
+                btnAlternativa.setForeground(Color.WHITE);
+                btnAlternativa.setOpaque(true);
+                btnAlternativa.setBorderPainted(false);
+                btnAlternativa.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+                btnAlternativa.addActionListener(ev -> {
+                    if (alt.isCorreta()) {
+                        JOptionPane.showMessageDialog(this, "Resposta correta!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Resposta incorreta!");
+                    }
+                    indiceAtual++;
+                    ajudaUsada = false; // reseta ajuda para próxima questão se quiser (ou manter true se for uma só pro
+                                        // jogo)
+                    exibirQuestaoAtual();
+                });
+
+                alternativasBtns.add(btnAlternativa);
+                painelFundo.add(btnAlternativa);
+                y += 60;
+            }
+
+            painelFundo.repaint();
+            painelFundo.revalidate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
+        }
+    }
+
+    private void eliminarAlternativasErradas() {
+        // Busca qual é a alternativa correta
+        Questao q = questoes.get(indiceAtual);
+        try {
+            AlternativasDAO altDAO = new AlternativasDAO();
+            List<Alternativas> alternativas = altDAO.listar(q);
+
+            String correta = alternativas.stream()
+                    .filter(Alternativas::isCorreta)
+                    .map(Alternativas::getAlternativa)
+                    .findFirst()
+                    .orElse("");
+
+            List<JButton> erradas = alternativasBtns.stream()
+                    .filter(btn -> !btn.getText().equals(correta))
+                    .collect(Collectors.toList());
+
+            Collections.shuffle(erradas);
+
+            for (int i = 0; i < 3 && i < erradas.size(); i++) {
+                JButton btn = erradas.get(i);
+                btn.setEnabled(false);
+                btn.setBackground(Color.GRAY);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao eliminar alternativas: " + e.getMessage());
+        }
     }
 
     // Borda arredondada
     static class RoundBorder extends AbstractBorder {
         private int radius;
+
         public RoundBorder(int radius) {
             this.radius = radius;
         }
+
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(c.getForeground());
-            g2.draw(new RoundRectangle2D.Float(x, y, width-1, height-1, radius, radius));
+            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
             g2.dispose();
         }
     }
 
     public static void main(String[] args) {
-        new TelaJogo();
+
     }
 }

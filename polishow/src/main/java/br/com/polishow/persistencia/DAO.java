@@ -3,28 +3,30 @@ package br.com.polishow.persistencia;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.polishow.modelo.*;
 
-
 public class DAO {
-     public boolean existeLogin (Usuario u) throws Exception {
+    public boolean existeLogin(Usuario u) throws Exception {
         var sql = "SELECT email_usuario, senha_usuario FROM tb_usuario WHERE email_usuario=? AND senha_usuario = ?";
-        
-        try(
-            var conexao = new ConnectionFactory().obterConexao();  
-            var ps = conexao.prepareStatement(sql);
-            
-        ){
+
+        try (
+                var conexao = new ConnectionFactory().obterConexao();
+                var ps = conexao.prepareStatement(sql);
+
+        ) {
             ps.setString(1, u.getEmailUsuario());
             ps.setString(2, u.getSenhaUsuario());
-             try(
-                 ResultSet rs = ps.executeQuery();
-                     
-            ){
-                 return rs.next ();
+            try (
+                    ResultSet rs = ps.executeQuery();
+
+            ) {
+                return rs.next();
             }
         }
-       
+
     }
 
 }
