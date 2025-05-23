@@ -9,9 +9,9 @@ public class Questao {
 
     // Construtor com ID (útil ao carregar do banco)
     // public Questao(int idQuestao, Materia materia, String pergunta) {
-    //     this.id = id;
-    //     this.materia = materia;
-    //     this.pergunta = pergunta;
+    // this.id = id;
+    // this.materia = materia;
+    // this.pergunta = pergunta;
     // }
 
     // Construtor sem ID (útil antes de salvar no banco)
@@ -48,11 +48,17 @@ public class Questao {
         this.pergunta = pergunta;
     }
 
-    public String getDificuldade(){
+    public String getDificuldade() {
         return dificuldade;
     }
 
-    public void setDificuldade(String dificuldade){
+    public void setDificuldade(String dificuldade) {
         this.dificuldade = dificuldade;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] (%s) %s", materia.getNomeMateria(), dificuldade, pergunta);
+    }
+
 }
