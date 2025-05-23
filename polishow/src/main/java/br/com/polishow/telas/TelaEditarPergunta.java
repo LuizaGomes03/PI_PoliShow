@@ -1,10 +1,32 @@
 package br.com.polishow.telas;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
@@ -163,6 +185,7 @@ public class TelaEditarPergunta extends JFrame {
 
     private void carregarPergunta() {
         try {
+             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int selectedIndex = materiaComboBox.getSelectedIndex();
             if (selectedIndex <= 0) {
                 JOptionPane.showMessageDialog(this, "Por favor, selecione uma matéria.");
@@ -222,30 +245,35 @@ public class TelaEditarPergunta extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao carregar perguntas: " + e.getMessage());
-        }
-    }
+        } finally {
+                // Volta o cursor ao normal
+                setCursor(Cursor.getDefaultCursor());
+    }}
 
     private void mostrarPopup(Questao pergunta) {
 
         AlternativasDAO altDao = new AlternativasDAO();
         List<Alternativas> alternativas;
-            try {
-                alternativas = altDao.listar(pergunta);
-            } 
-            catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
-                return;
+        try {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            alternativas = altDao.listar(pergunta);
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
+            return;
+        } finally {
+                // Volta o cursor ao normal
+                setCursor(Cursor.getDefaultCursor());
             }
 
         JTextField campoPerg = new JTextField(pergunta.getPergunta());
 
         JTextField[] camposAlternativas = new JTextField[alternativas.size()];
-            for (int i = 0; i < alternativas.size(); i++) {
-                camposAlternativas[i] = new JTextField(alternativas.get(i).getAlternativa());
-            }
+        for (int i = 0; i < alternativas.size(); i++) {
+            camposAlternativas[i] = new JTextField(alternativas.get(i).getAlternativa());
+        }
 
-        
         JPanel painel = new JPanel(new GridLayout(0, 1));
         painel.add(new JLabel("Editar Pergunta:"));
         painel.add(campoPerg);
@@ -272,6 +300,9 @@ public class TelaEditarPergunta extends JFrame {
         if (opcao == JOptionPane.YES_OPTION) {
             String novaPergunta = campoPerg.getText();
             try {
+                // Mostra cursor de espera
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
                 pergunta.setPergunta(novaPergunta);
                 dao.atualizar(pergunta);
 
@@ -285,16 +316,24 @@ public class TelaEditarPergunta extends JFrame {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + ex.getMessage());
+            } finally {
+                // Volta o cursor ao normal
+                setCursor(Cursor.getDefaultCursor());
             }
         } else if (opcao == JOptionPane.NO_OPTION) {
             try {
+                // Mostra cursor de espera
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
                 dao.remover(pergunta);
                 JOptionPane.showMessageDialog(this, "Pergunta excluída.");
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+            } finally {
+                // Volta o cursor ao normal
+                setCursor(Cursor.getDefaultCursor());
             }
         }
     }
-
 }
