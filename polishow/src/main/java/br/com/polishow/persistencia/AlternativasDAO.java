@@ -57,7 +57,7 @@ public class AlternativasDAO {
 
     public List<Alternativas> listar(Questao questao) throws Exception {
         var c = new ConnectionFactory();
-        var sql = "SELECT id_alternativa, alternativa FROM tb_alternativas WHERE id_questao = ?";
+        var sql = "SELECT id_alternativa, alternativa, correta FROM tb_alternativas WHERE id_questao = ?";
         var lista = new ArrayList<Alternativas>();
 
         try (

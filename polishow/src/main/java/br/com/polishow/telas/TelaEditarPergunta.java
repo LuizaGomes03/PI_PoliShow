@@ -2,23 +2,28 @@ package br.com.polishow.telas;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
+import br.com.polishow.modelo.Alternativas;
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Questao;
+import br.com.polishow.persistencia.AlternativasDAO;
 import br.com.polishow.persistencia.MateriaDAO;
+import br.com.polishow.persistencia.QuestaoDAO;
 
 public class TelaEditarPergunta extends JFrame {
+
+    private JComboBox<String> materiaComboBox;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new TelaEditarPergunta().createAndShowGUI());
     }
 
     void createAndShowGUI() {
-
         int imageWidth = 960;
         int imageHeight = 640;
 
@@ -37,12 +42,10 @@ public class TelaEditarPergunta extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        // seta
         ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
         Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         setaIcon = new ImageIcon(setaImage);
 
-        // botão com imagem de seta
         RoundedInvisibleButton voltarButton = new RoundedInvisibleButton(30);
         voltarButton.setBounds(20, 20, 40, 40);
         voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -53,8 +56,7 @@ public class TelaEditarPergunta extends JFrame {
         });
         background.add(voltarButton);
 
-        // selecionar matéria
-        JComboBox<String> materiaComboBox = new JComboBox<>();
+        materiaComboBox = new JComboBox<>();
         materiaComboBox.addItem("Selecionar Matéria");
         try {
             MateriaDAO materiaDAO = new MateriaDAO();
@@ -63,11 +65,11 @@ public class TelaEditarPergunta extends JFrame {
             for (Materia m : materias) {
                 materiaComboBox.addItem(m.getNomeMateria());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao carregar matérias: " + e.getMessage());
         }
+
         materiaComboBox.setName("materiaComboBox");
         materiaComboBox.setBackground(new Color(186, 49, 49));
         materiaComboBox.setForeground(Color.WHITE);
@@ -96,9 +98,6 @@ public class TelaEditarPergunta extends JFrame {
         });
         background.add(materiaComboBox);
 
-        background.add(voltarButton);
-
-        // selecionar pergunta
         RoundedInvisibleButton selecionarPerguntaButton = new RoundedInvisibleButton(30);
         selecionarPerguntaButton.setText("Selecionar Pergunta");
         selecionarPerguntaButton.setBounds(350, 365, 280, 45);
@@ -109,18 +108,7 @@ public class TelaEditarPergunta extends JFrame {
         selecionarPerguntaButton.addActionListener(e -> carregarPergunta());
         background.add(selecionarPerguntaButton);
 
-        // botão salvar
-        RoundedInvisibleButton salvarButton = new RoundedInvisibleButton(30);
-        salvarButton.setText("SALVAR");
-        salvarButton.setBounds(395, 535, 170, 45);
-        salvarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 32));
-        salvarButton.setForeground(Color.WHITE);
-        salvarButton.setBackground(new Color(11, 65, 175));
-        background.add(salvarButton);
-
         this.setVisible(true);
-
     }
 
     class RoundedInvisibleButton extends JButton {
@@ -174,48 +162,104 @@ public class TelaEditarPergunta extends JFrame {
     }
 
     private void carregarPergunta() {
-
-        String[] perguntas = {
-                "Qual a fórmula da água?",
-                "Qual foi a primeira capital do Brasil?"
-        };
-
-        JList<String> listaPerguntas = new JList<>(perguntas);
-        listaPerguntas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollPane = new JScrollPane(listaPerguntas);
-        scrollPane.setPreferredSize(new Dimension(400, 200));
-
-        int opcao = JOptionPane.showConfirmDialog(
-                this,
-                scrollPane,
-                "Selecione para editar ou excluir",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
-
-        if (opcao == JOptionPane.OK_OPTION) {
-            String perguntaSelecionada = listaPerguntas.getSelectedValue();
-            if (perguntaSelecionada != null) {
-                mostrarPopup(perguntaSelecionada);
-            } else {
-                JOptionPane.showMessageDialog(this, "Nenhuma pergunta selecionada.");
+        try {
+            int selectedIndex = materiaComboBox.getSelectedIndex();
+            if (selectedIndex <= 0) {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione uma matéria.");
+                return;
             }
+
+            String nomeMateriaSelecionada = (String) materiaComboBox.getSelectedItem();
+            MateriaDAO materiaDAO = new MateriaDAO();
+            List<Materia> materias = materiaDAO.listarTodas();
+
+            int idMateriaSelecionada = -1;
+            for (Materia m : materias) {
+                if (m.getNomeMateria().equalsIgnoreCase(nomeMateriaSelecionada)) {
+                    idMateriaSelecionada = m.getIdMateria();
+                    break;
+                }
+            }
+
+            if (idMateriaSelecionada == -1) {
+                JOptionPane.showMessageDialog(this, "Matéria não encontrada.");
+                return;
+            }
+
+            QuestaoDAO dao = new QuestaoDAO();
+            List<Questao> questoes = dao.buscarPorMateria(idMateriaSelecionada);
+
+            if (questoes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nenhuma pergunta cadastrada para esta matéria.");
+                return;
+            }
+
+            DefaultListModel<Questao> model = new DefaultListModel<>();
+            for (Questao q : questoes) {
+                model.addElement(q);
+            }
+
+            JList<Questao> listaPerguntas = new JList<>(model);
+            listaPerguntas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            JScrollPane scrollPane = new JScrollPane(listaPerguntas);
+            scrollPane.setPreferredSize(new Dimension(400, 200));
+
+            int opcao = JOptionPane.showConfirmDialog(
+                    this,
+                    scrollPane,
+                    "Selecione para editar ou excluir",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (opcao == JOptionPane.OK_OPTION) {
+                Questao perguntaSelecionada = listaPerguntas.getSelectedValue();
+                if (perguntaSelecionada != null) {
+                    mostrarPopup(perguntaSelecionada);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nenhuma pergunta selecionada.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar perguntas: " + e.getMessage());
         }
     }
 
-    private void mostrarPopup(String pergunta) {
-        JTextField campoPerg = new JTextField(pergunta);
+    private void mostrarPopup(Questao pergunta) {
 
-        Object[] campos = {
-                "Editar Pergunta: ", campoPerg
-        };
+        AlternativasDAO altDao = new AlternativasDAO();
+        List<Alternativas> alternativas;
+            try {
+                alternativas = altDao.listar(pergunta);
+            } 
+            catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
+                return;
+            }
 
-        Object[] opcoes = {
-                "Salvar", "Excluir", "Cancelar"
-        };
+        JTextField campoPerg = new JTextField(pergunta.getPergunta());
+
+        JTextField[] camposAlternativas = new JTextField[alternativas.size()];
+            for (int i = 0; i < alternativas.size(); i++) {
+                camposAlternativas[i] = new JTextField(alternativas.get(i).getAlternativa());
+            }
+
+        
+        JPanel painel = new JPanel(new GridLayout(0, 1));
+        painel.add(new JLabel("Editar Pergunta:"));
+        painel.add(campoPerg);
+
+        for (int i = 0; i < camposAlternativas.length; i++) {
+            painel.add(new JLabel("Alternativa " + (char) ('A' + i) + ":"));
+            painel.add(camposAlternativas[i]);
+        }
+
+        Object[] opcoes = {"Salvar", "Excluir", "Cancelar"};
 
         int opcao = JOptionPane.showOptionDialog(
                 this,
-                campos,
+                painel,
                 "Editar Pergunta",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE,
@@ -223,15 +267,33 @@ public class TelaEditarPergunta extends JFrame {
                 opcoes,
                 opcoes[0]);
 
-        if (opcao == JOptionPane.YES_OPTION) {
-            String newPergunta = campoPerg.getText();
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Pergunta Atualizada: \n" + newPergunta);
-        }
+        QuestaoDAO dao = new QuestaoDAO();
 
-        else if (opcao == JOptionPane.NO_OPTION) {
-            JOptionPane.showMessageDialog(this, "Pergunta excluída");
+        if (opcao == JOptionPane.YES_OPTION) {
+            String novaPergunta = campoPerg.getText();
+            try {
+                pergunta.setPergunta(novaPergunta);
+                dao.atualizar(pergunta);
+
+                for (int i = 0; i < alternativas.size(); i++) {
+                    Alternativas alt = alternativas.get(i);
+                    alt.setAlternativa(camposAlternativas[i].getText());
+                    altDao.atualizar(alt);
+                }
+
+                JOptionPane.showMessageDialog(this, "Pergunta e alternativas atualizadas.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + ex.getMessage());
+            }
+        } else if (opcao == JOptionPane.NO_OPTION) {
+            try {
+                dao.remover(pergunta);
+                JOptionPane.showMessageDialog(this, "Pergunta excluída.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+            }
         }
     }
 

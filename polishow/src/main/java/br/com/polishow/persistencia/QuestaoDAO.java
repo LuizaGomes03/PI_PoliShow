@@ -1,8 +1,10 @@
 package br.com.polishow.persistencia;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import br.com.polishow.modelo.Alternativas;
+import br.com.polishow.modelo.Materia;
 import br.com.polishow.modelo.Questao;
 
 public class QuestaoDAO {
@@ -106,4 +108,37 @@ public class QuestaoDAO {
             }
         }
     }
+
+    public List<Questao> buscarPorMateria(int idMateria) throws Exception {
+    List<Questao> lista = new ArrayList<>();
+    var c = new ConnectionFactory();
+    var sql = "SELECT q.id_questao, q.id_materia, q.pergunta, q.dificuldade, m.nome_materia " +
+              "FROM tb_questao q JOIN tb_materia m ON q.id_materia = m.id_materia " +
+              "WHERE q.id_materia = ?";
+
+    try (
+        var conexao = c.obterConexao();
+        PreparedStatement ps = conexao.prepareStatement(sql)
+        ) {
+        ps.setInt(1, idMateria);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Questao q = new Questao();
+            q.setIdQuestao(rs.getInt("id_questao"));
+            q.setPergunta(rs.getString("pergunta"));
+            q.setDificuldade(rs.getString("dificuldade"));
+
+            Materia m = new Materia();
+            m.setIdMateria(rs.getInt("id_materia"));
+            m.setNomeMateria(rs.getString("nome_materia"));
+
+            q.setMateria(m);
+
+            lista.add(q);
+            }
+        }
+
+        return lista;
+        }
 }

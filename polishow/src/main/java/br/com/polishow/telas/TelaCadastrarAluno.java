@@ -109,7 +109,7 @@ public class TelaCadastrarAluno {
         background.add(senhaPasswordField);
 
         JButton toggleSenhaBtn = new JButton("Mostrar");
-        toggleSenhaBtn.setBounds(600, 475, 60, 45);
+        toggleSenhaBtn.setBounds(600, 473, 60, 45);
         toggleSenhaBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
         toggleSenhaBtn.setFocusPainted(false);
         toggleSenhaBtn.setBackground(new Color(11, 54, 165));
