@@ -112,7 +112,7 @@ public class TelaLogin extends JFrame {
                         var u = new Usuario(email, senha);
                         var dao = new DAO();
                         if (dao.existeLogin(u)) {
-                            var dt = new TelaInicioAluno();
+                            var dt = new TelaInicioAluno(u);
                             dt.setVisible(true);
                             dispose();
                         } else {

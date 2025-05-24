@@ -22,10 +22,12 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Usuario;
 import br.com.polishow.persistencia.MateriaDAO;
 import br.com.polishow.persistencia.QuestaoDAO;
 
 public class TelaInicioAluno extends JFrame {
+    private Usuario usuarioLogado;
 
     class RoundedInvisibleButton extends JButton {
         private final int arc;
@@ -77,7 +79,8 @@ public class TelaInicioAluno extends JFrame {
         }
     }
 
-    public TelaInicioAluno() {
+    public TelaInicioAluno(Usuario usuariologado) {
+        this.usuarioLogado = usuariologado;
         setTitle("Tela Inicial - Aluno");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
@@ -188,8 +191,8 @@ public class TelaInicioAluno extends JFrame {
                     JOptionPane.showMessageDialog(null, "Essa matéria não possui questões suficientes (mínimo 12).");
                     return;
                 }
-                
-                new TelaJogo(materia);
+
+                new TelaJogo(materia, usuariologado);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao iniciar jogo: " + ex.getMessage());
@@ -204,6 +207,7 @@ public class TelaInicioAluno extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TelaInicioAluno();
+        Usuario usuarioFicticio = new Usuario("teste@p4ed.com", "123456");
+        new TelaInicioAluno(usuarioFicticio);
     }
 }

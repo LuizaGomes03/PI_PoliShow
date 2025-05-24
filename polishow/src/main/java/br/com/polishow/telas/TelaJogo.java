@@ -2,7 +2,6 @@ package br.com.polishow.telas;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,19 +10,27 @@ import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Pontuacao;
 import br.com.polishow.modelo.Questao;
+import br.com.polishow.modelo.Usuario;
 import br.com.polishow.modelo.Alternativas;
 import br.com.polishow.persistencia.QuestaoDAO;
 import br.com.polishow.persistencia.AlternativasDAO;
+import br.com.polishow.persistencia.PontuacaoDAO;
 
 public class TelaJogo extends JFrame {
 
+    private Usuario usuarioLogado;
     private Materia materiaSelecionada;
     private List<Questao> questoes;
     private int indiceAtual = 0;
     private boolean ajudaUsada = false;
+    private double pontuacaoAtual = 0;
+    private final int[] valores = { 1000, 2000, 3000, 5000, 10000, 20000, 40000, 80000, 160000, 320000, 640000,
+            1000000 };
+    private int numeroDeAcertos = 0;
+    private final int totalQuestoes = 12;
 
-    // Componentes que precisam ser acessados em métodos
     private JPanel painelFundo;
     private JLabel lblPergunta;
     private JButton btnSair;
@@ -32,9 +39,9 @@ public class TelaJogo extends JFrame {
 
     private List<JButton> alternativasBtns = new ArrayList<>();
 
-    public TelaJogo(Materia materia) {
+    public TelaJogo(Materia materia, Usuario usuario) {
         this.materiaSelecionada = materia;
-
+        this.usuarioLogado = usuario;
         setTitle("Tela Jogo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
@@ -75,7 +82,8 @@ public class TelaJogo extends JFrame {
             if (resposta == JOptionPane.YES_OPTION) {
                 dispose();
                 // abrir TelaPontuacaoFinal aqui (exemplo genérico)
-                TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal();
+                TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(materiaSelecionada, totalQuestoes,
+                        numeroDeAcertos, pontuacaoAtual, usuarioLogado);
                 telaFinal.setVisible(true);
                 // Aqui poderia atualizar dados do placar se quiser
             }
@@ -165,9 +173,25 @@ public class TelaJogo extends JFrame {
     private void exibirQuestaoAtual() {
         if (indiceAtual >= questoes.size()) {
             JOptionPane.showMessageDialog(this, "Fim do jogo!");
-            dispose();
-            TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal();
+
+            // Salvar pontuação
+            try {
+                Pontuacao pontuacao = new Pontuacao();
+                pontuacao.setUsuario(usuarioLogado);
+                pontuacao.setMateria(materiaSelecionada);
+                pontuacao.setPontos(pontuacaoAtual);
+                PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
+                pontuacaoDAO.salvar(pontuacao);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Erro ao salvar pontuação: " + e.getMessage());
+            }
+
+            // Abrir tela final
+            TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(materiaSelecionada, totalQuestoes, numeroDeAcertos,
+                    pontuacaoAtual, usuarioLogado);
             telaFinal.setVisible(true);
+            dispose();
             return;
         }
 
@@ -200,13 +224,15 @@ public class TelaJogo extends JFrame {
 
                 btnAlternativa.addActionListener(ev -> {
                     if (alt.isCorreta()) {
-                        JOptionPane.showMessageDialog(this, "Resposta correta!");
+                        pontuacaoAtual = valores[indiceAtual];
+                        numeroDeAcertos++;
+                        JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
                     } else {
                         JOptionPane.showMessageDialog(this, "Resposta incorreta!");
                     }
                     indiceAtual++;
                     ajudaUsada = false; // reseta ajuda para próxima questão se quiser (ou manter true se for uma só pro
-                                        // jogo)
+                                       // jogo)
                     exibirQuestaoAtual();
                 });
 

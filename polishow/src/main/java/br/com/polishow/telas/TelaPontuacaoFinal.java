@@ -1,17 +1,22 @@
 package br.com.polishow.telas;
 
 import javax.swing.*;
+
+import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Usuario;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class TelaPontuacaoFinal extends JFrame {
-
+    private Usuario usuarioLogado;
     private JLabel materiaValor;
     private JLabel totalQuestoesValor;
     private JLabel acertosValor;
     private JLabel dinheiroValor;
 
-    public TelaPontuacaoFinal() {
+    public TelaPontuacaoFinal(Materia materia, int totalQuestoes, int acertos, double dinheiro, Usuario usuario) {
+        this.usuarioLogado = usuario;
         setTitle("Pontuação Final");
         setSize(960, 640);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,10 +39,10 @@ public class TelaPontuacaoFinal extends JFrame {
         Color corTexto = Color.WHITE;
 
         // Labels dos valores
-        materiaValor = criarLabel("Matemática", 575, 157, fonte, corTexto);
-        totalQuestoesValor = criarLabel("12", 610, 247, fonte, corTexto);
-        acertosValor = criarLabel("8", 616, 342, fonte, corTexto);
-        dinheiroValor = criarLabel("R$ 800,00", 583, 428, fonte, corTexto);
+        materiaValor = criarLabel(materia.getNomeMateria(), 575, 157, fonte, corTexto);
+        totalQuestoesValor = criarLabel(String.valueOf(totalQuestoes), 610, 247, fonte, corTexto);
+        acertosValor = criarLabel(String.valueOf(acertos), 616, 342, fonte, corTexto);
+        dinheiroValor = criarLabel(String.format("R$ %.2f", dinheiro), 583, 428, fonte, corTexto);
 
         painel.add(materiaValor);
         painel.add(totalQuestoesValor);
@@ -116,7 +121,7 @@ public class TelaPontuacaoFinal extends JFrame {
         botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         botao.addActionListener(e -> {
-            new TelaInicioAluno();
+            new TelaInicioAluno(usuarioLogado);
             dispose();
         });
 
@@ -144,8 +149,10 @@ public class TelaPontuacaoFinal extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            TelaPontuacaoFinal tela = new TelaPontuacaoFinal();
-            tela.setVisible(true);
+            Materia materiaTeste = new Materia();
+            materiaTeste.setNomeMateria("Matemática");
+            Usuario usuarioFicticio = new Usuario("teste@p4ed.com", "123456");
+            TelaPontuacaoFinal tela = new TelaPontuacaoFinal(materiaTeste, 12, 8, 800.00, usuarioFicticio);
         });
     }
 }
