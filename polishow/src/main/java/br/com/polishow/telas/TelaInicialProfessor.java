@@ -6,9 +6,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class TelaInicialProfessor extends JFrame {
-    /**
-     * 
-     */
+
     public TelaInicialProfessor() {
         setTitle("Tela do Professor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

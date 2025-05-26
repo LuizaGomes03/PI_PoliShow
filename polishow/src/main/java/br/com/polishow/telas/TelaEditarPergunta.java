@@ -14,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -185,7 +187,7 @@ public class TelaEditarPergunta extends JFrame {
 
     private void carregarPergunta() {
         try {
-             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int selectedIndex = materiaComboBox.getSelectedIndex();
             if (selectedIndex <= 0) {
                 JOptionPane.showMessageDialog(this, "Por favor, selecione uma matéria.");
@@ -246,94 +248,102 @@ public class TelaEditarPergunta extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao carregar perguntas: " + e.getMessage());
         } finally {
-                // Volta o cursor ao normal
-                setCursor(Cursor.getDefaultCursor());
-    }}
-
-    private void mostrarPopup(Questao pergunta) {
-
-        AlternativasDAO altDao = new AlternativasDAO();
-        List<Alternativas> alternativas;
-        try {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            alternativas = altDao.listar(pergunta);
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
-            return;
-        } finally {
-                // Volta o cursor ao normal
-                setCursor(Cursor.getDefaultCursor());
-            }
-
-        JTextField campoPerg = new JTextField(pergunta.getPergunta());
-
-        JTextField[] camposAlternativas = new JTextField[alternativas.size()];
-        for (int i = 0; i < alternativas.size(); i++) {
-            camposAlternativas[i] = new JTextField(alternativas.get(i).getAlternativa());
-        }
-
-        JPanel painel = new JPanel(new GridLayout(0, 1));
-        painel.add(new JLabel("Editar Pergunta:"));
-        painel.add(campoPerg);
-
-        for (int i = 0; i < camposAlternativas.length; i++) {
-            painel.add(new JLabel("Alternativa " + (char) ('A' + i) + ":"));
-            painel.add(camposAlternativas[i]);
-        }
-
-        Object[] opcoes = {"Salvar", "Excluir", "Cancelar"};
-
-        int opcao = JOptionPane.showOptionDialog(
-                this,
-                painel,
-                "Editar Pergunta",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                opcoes,
-                opcoes[0]);
-
-        QuestaoDAO dao = new QuestaoDAO();
-
-        if (opcao == JOptionPane.YES_OPTION) {
-            String novaPergunta = campoPerg.getText();
-            try {
-                // Mostra cursor de espera
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                pergunta.setPergunta(novaPergunta);
-                dao.atualizar(pergunta);
-
-                for (int i = 0; i < alternativas.size(); i++) {
-                    Alternativas alt = alternativas.get(i);
-                    alt.setAlternativa(camposAlternativas[i].getText());
-                    altDao.atualizar(alt);
-                }
-
-                JOptionPane.showMessageDialog(this, "Pergunta e alternativas atualizadas.");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + ex.getMessage());
-            } finally {
-                // Volta o cursor ao normal
-                setCursor(Cursor.getDefaultCursor());
-            }
-        } else if (opcao == JOptionPane.NO_OPTION) {
-            try {
-                // Mostra cursor de espera
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                dao.remover(pergunta);
-                JOptionPane.showMessageDialog(this, "Pergunta excluída.");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
-            } finally {
-                // Volta o cursor ao normal
-                setCursor(Cursor.getDefaultCursor());
-            }
+            setCursor(Cursor.getDefaultCursor());
         }
     }
+
+    private void mostrarPopup(Questao pergunta) {
+    AlternativasDAO altDao = new AlternativasDAO();
+    List<Alternativas> alternativas;
+    try {
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        alternativas = altDao.listar(pergunta);
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao carregar alternativas: " + e.getMessage());
+        return;
+    } finally {
+        setCursor(Cursor.getDefaultCursor());
+    }
+
+    JTextField campoPerg = new JTextField(pergunta.getPergunta());
+
+    JTextField[] camposAlternativas = new JTextField[alternativas.size()];
+    JRadioButton[] radios = new JRadioButton[alternativas.size()];
+    ButtonGroup grupoRadios = new ButtonGroup();
+
+    JPanel painel = new JPanel(new GridLayout(0, 1));
+    painel.add(new JLabel("Editar Pergunta:"));
+    painel.add(campoPerg);
+
+    for (int i = 0; i < alternativas.size(); i++) {
+        JPanel linhaAlt = new JPanel(new GridLayout(1, 2));
+        camposAlternativas[i] = new JTextField(alternativas.get(i).getAlternativa());
+        radios[i] = new JRadioButton("Alternativa " + (char) ('A' + i));
+
+        
+        if (alternativas.get(i).isCorreta()) {
+            radios[i].setSelected(true);
+        }
+
+        grupoRadios.add(radios[i]);
+
+        linhaAlt.add(radios[i]);
+        linhaAlt.add(camposAlternativas[i]);
+
+        painel.add(linhaAlt);
+    }
+
+    Object[] opcoes = {"Salvar", "Excluir", "Cancelar"};
+
+    int opcao = JOptionPane.showOptionDialog(
+            this,
+            painel,
+            "Editar Pergunta",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            opcoes,
+            opcoes[0]);
+
+    QuestaoDAO dao = new QuestaoDAO();
+
+    if (opcao == JOptionPane.YES_OPTION) {
+        String novaPergunta = campoPerg.getText();
+        try {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+            pergunta.setPergunta(novaPergunta);
+            dao.atualizar(pergunta);
+
+            for (int i = 0; i < alternativas.size(); i++) {
+                Alternativas alt = alternativas.get(i);
+                alt.setAlternativa(camposAlternativas[i].getText());
+                alt.setCorreta(radios[i].isSelected());
+                altDao.atualizar(alt);
+            }
+
+            JOptionPane.showMessageDialog(this, "Pergunta e alternativas atualizadas.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + ex.getMessage());
+        } finally {
+            setCursor(Cursor.getDefaultCursor());
+        }
+
+    } else if (opcao == JOptionPane.NO_OPTION) {
+        try {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            altDao.removerPorQuestao(pergunta);
+            dao.remover(pergunta);
+            JOptionPane.showMessageDialog(this, "Pergunta e alternativas excluídas.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+        } finally {
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+}
+
 }

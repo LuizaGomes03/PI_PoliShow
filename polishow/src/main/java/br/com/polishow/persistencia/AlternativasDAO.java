@@ -2,6 +2,7 @@ package br.com.polishow.persistencia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,4 +77,17 @@ public class AlternativasDAO {
 
         return lista;
     }
+
+    public void removerPorQuestao(Questao questao) throws Exception {
+        var c = new ConnectionFactory();
+        var sql = "DELETE FROM tb_alternativas WHERE id_questao = ?";
+        try (
+            var conexao = c.obterConexao();
+            PreparedStatement ps = conexao.prepareStatement(sql);
+        ) {
+            ps.setInt(1, questao.getIdQuestao());
+            ps.executeUpdate();
+        }
+    }
+
 }
