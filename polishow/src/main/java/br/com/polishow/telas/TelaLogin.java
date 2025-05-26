@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import br.com.polishow.modelo.Usuario;
 import br.com.polishow.persistencia.DAO;
+import br.com.polishow.persistencia.UsuarioDAO;
 
 public class TelaLogin extends JFrame {
 
@@ -16,19 +17,17 @@ public class TelaLogin extends JFrame {
         setSize(960, 640);
         setLocationRelativeTo(null); // Centraliza a janela
         setResizable(false);
-        
 
-    JPanel painel = new JPanel() {
-    private final Image img = new ImageIcon("polishow/src/main/imagens/telalogin.png").getImage();
+        JPanel painel = new JPanel() {
+            private final Image img = new ImageIcon("polishow/src/main/imagens/telalogin.png").getImage();
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-        }
-    };
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         painel.setLayout(null);
-
 
         ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
         Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -38,9 +37,9 @@ public class TelaLogin extends JFrame {
         JButton voltarButton = new JButton(setaIcon);
         voltarButton.setBounds(20, 20, 40, 40);
         voltarButton.setFocusPainted(false);
-        voltarButton.setContentAreaFilled(false); 
-        voltarButton.setBorderPainted(false); 
-        voltarButton.setOpaque(false); 
+        voltarButton.setContentAreaFilled(false);
+        voltarButton.setBorderPainted(false);
+        voltarButton.setOpaque(false);
         voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // ação do botão
@@ -50,7 +49,7 @@ public class TelaLogin extends JFrame {
         });
 
         painel.add(voltarButton);
- 
+
         // Campo de Email
         JTextField campoEmail = new JTextField();
         campoEmail.setBounds(360, 204, 250, 50);
@@ -112,9 +111,14 @@ public class TelaLogin extends JFrame {
                         var u = new Usuario(email, senha);
                         var dao = new DAO();
                         if (dao.existeLogin(u)) {
-                            var dt = new TelaInicioAluno(u);
-                            dt.setVisible(true);
-                            dispose();
+                            var usuarioDao = new UsuarioDAO();
+                            var usuarioCompleto = usuarioDao.buscarPorEmailESenha(email, senha);
+                            if (usuarioCompleto != null) {
+                                new TelaInicioAluno(usuarioCompleto).setVisible(true);
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Erro ao carregar usuário completo.");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, "Usuário/senha inválidos");
                         }
@@ -154,7 +158,7 @@ public class TelaLogin extends JFrame {
         botaoSair.addActionListener(e -> System.exit(0));
         painel.add(botaoSair);
 
-        // botão criar 
+        // botão criar
         JButton botaoCriarConta = new JButton("CRIAR CONTA");
         botaoCriarConta.setBounds(741, 513, 190, 70);
         estilizarBotaoTransparente(botaoCriarConta);
@@ -177,7 +181,7 @@ public class TelaLogin extends JFrame {
 
     private void acaoBotaoCriarConta() {
         new TelaCadastro();
-        dispose(); 
+        dispose();
     }
 
     public static void main(String[] args) {

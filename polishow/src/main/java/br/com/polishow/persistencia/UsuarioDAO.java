@@ -88,4 +88,26 @@ public class UsuarioDAO {
         }
     }
 
+    public Usuario buscarPorEmailESenha(String email, String senha) throws Exception {
+        String sql = "SELECT * FROM tb_usuario WHERE email_usuario = ? AND senha_usuario = ?";
+        try (
+                var conn = new ConnectionFactory().obterConexao();
+                var ps = conn.prepareStatement(sql);) {
+            ps.setString(1, email);
+            ps.setString(2, senha);
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Usuario u = new Usuario();
+                    u.setIdUsuario(rs.getInt("id_usuario"));
+                    u.setNomeUsuario(rs.getString("nome_usuario"));
+                    u.setEmailUsuario(rs.getString("email_usuario"));
+                    u.setSenhaUsuario(rs.getString("senha_usuario"));
+                    u.setAdm(rs.getInt("adm"));
+                    return u;
+                }
+            }
+        }
+        return null;
+    }
+
 }

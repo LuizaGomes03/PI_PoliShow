@@ -25,6 +25,7 @@ public class TelaJogo extends JFrame {
     private List<Questao> questoes;
     private int indiceAtual = 0;
     private boolean ajudaUsada = false;
+    private boolean puloUsado = false;
     private double pontuacaoAtual = 0;
     private final int[] valores = { 1000, 2000, 3000, 5000, 10000, 20000, 40000, 80000, 160000, 320000, 640000,
             1000000 };
@@ -80,12 +81,22 @@ public class TelaJogo extends JFrame {
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente sair do jogo?", "Sair do Jogo",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    Pontuacao pontuacao = new Pontuacao();
+                    pontuacao.setUsuario(usuarioLogado);
+                    pontuacao.setMateria(materiaSelecionada);
+                    pontuacao.setPontos(pontuacaoAtual);
+                    PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
+                    pontuacaoDAO.salvar(pontuacao);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar pontuação: " + ex.getMessage());
+                }
+
                 dispose();
-                // abrir TelaPontuacaoFinal aqui (exemplo genérico)
                 TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(materiaSelecionada, totalQuestoes,
                         numeroDeAcertos, pontuacaoAtual, usuarioLogado);
                 telaFinal.setVisible(true);
-                // Aqui poderia atualizar dados do placar se quiser
             }
         });
         painelFundo.add(btnSair);
@@ -130,9 +141,18 @@ public class TelaJogo extends JFrame {
         btnPular.setBorder(new RoundBorder(35));
         btnPular.setToolTipText("Pular para próxima questão");
         btnPular.addActionListener((ActionEvent e) -> {
-            int resposta = JOptionPane.showConfirmDialog(this, "Você tem certeza que gostaria de pular essa questão?",
+            if (puloUsado) {
+                JOptionPane.showMessageDialog(this, "Você já usou essa ajuda.", "Ajuda já usada",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int resposta = JOptionPane.showConfirmDialog(this,
+                    "Gostaria de pular essa questão?\nVocê só poderá usar essa ajuda uma vez durante toda sua jogada.",
                     "Pular Questão", JOptionPane.YES_NO_OPTION);
+
             if (resposta == JOptionPane.YES_OPTION) {
+                puloUsado = true;
                 indiceAtual++;
                 exibirQuestaoAtual();
             }
@@ -227,13 +247,33 @@ public class TelaJogo extends JFrame {
                         pontuacaoAtual = valores[indiceAtual];
                         numeroDeAcertos++;
                         JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
+                        indiceAtual++;
+                        ajudaUsada = false;
+                        exibirQuestaoAtual();
                     } else {
-                        JOptionPane.showMessageDialog(this, "Resposta incorreta!");
+                        double checkpoint = getCheckpoint();
+                        JOptionPane.showMessageDialog(this,
+                                "Resposta incorreta!\nVocê sairá com R$" + checkpoint,
+                                "Fim de jogo",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        try {
+                            Pontuacao pontuacao = new Pontuacao();
+                            pontuacao.setUsuario(usuarioLogado);
+                            pontuacao.setMateria(materiaSelecionada);
+                            pontuacao.setPontos(checkpoint);
+                            PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
+                            pontuacaoDAO.salvar(pontuacao);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(this, "Erro ao salvar pontuação: " + e.getMessage());
+                        }
+
+                        TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(
+                                materiaSelecionada, totalQuestoes, numeroDeAcertos, checkpoint, usuarioLogado);
+                        telaFinal.setVisible(true);
+                        dispose();
                     }
-                    indiceAtual++;
-                    ajudaUsada = false; // reseta ajuda para próxima questão se quiser (ou manter true se for uma só pro
-                                       // jogo)
-                    exibirQuestaoAtual();
                 });
 
                 alternativasBtns.add(btnAlternativa);
@@ -295,6 +335,16 @@ public class TelaJogo extends JFrame {
             g2.setColor(c.getForeground());
             g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
             g2.dispose();
+        }
+    }
+
+    private double getCheckpoint() {
+        if (indiceAtual >= 8) {
+            return 80000;
+        } else if (indiceAtual >= 4) {
+            return 5000;
+        } else {
+            return 0;
         }
     }
 
