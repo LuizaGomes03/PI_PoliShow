@@ -243,36 +243,44 @@ public class TelaJogo extends JFrame {
                 btnAlternativa.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 btnAlternativa.addActionListener(ev -> {
-                    if (alt.isCorreta()) {
-                        pontuacaoAtual = valores[indiceAtual];
-                        numeroDeAcertos++;
-                        JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
-                        indiceAtual++;
-                        ajudaUsada = false;
-                        exibirQuestaoAtual();
-                    } else {
-                        double checkpoint = getCheckpoint();
-                        JOptionPane.showMessageDialog(this,
-                                "Resposta incorreta!\nVocê sairá com R$" + checkpoint,
-                                "Fim de jogo",
-                                JOptionPane.INFORMATION_MESSAGE);
+                    int resposta = JOptionPane.showConfirmDialog(
+                            this,
+                            "Tem certeza que deseja selecionar esta alternativa?",
+                            "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
 
-                        try {
-                            Pontuacao pontuacao = new Pontuacao();
-                            pontuacao.setUsuario(usuarioLogado);
-                            pontuacao.setMateria(materiaSelecionada);
-                            pontuacao.setPontos(checkpoint);
-                            PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
-                            pontuacaoDAO.salvar(pontuacao);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            JOptionPane.showMessageDialog(this, "Erro ao salvar pontuação: " + e.getMessage());
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        if (alt.isCorreta()) {
+                            pontuacaoAtual = valores[indiceAtual];
+                            numeroDeAcertos++;
+                            JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
+                            indiceAtual++;
+                            ajudaUsada = false;
+                            exibirQuestaoAtual();
+                        } else {
+                            double checkpoint = getCheckpoint();
+                            JOptionPane.showMessageDialog(this,
+                                    "Resposta incorreta!\nVocê sairá com R$" + checkpoint,
+                                    "Fim de jogo",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                            try {
+                                Pontuacao pontuacao = new Pontuacao();
+                                pontuacao.setUsuario(usuarioLogado);
+                                pontuacao.setMateria(materiaSelecionada);
+                                pontuacao.setPontos(checkpoint);
+                                PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
+                                pontuacaoDAO.salvar(pontuacao);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                JOptionPane.showMessageDialog(this, "Erro ao salvar pontuação: " + e.getMessage());
+                            }
+
+                            TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(
+                                    materiaSelecionada, totalQuestoes, numeroDeAcertos, checkpoint, usuarioLogado);
+                            telaFinal.setVisible(true);
+                            dispose();
                         }
-
-                        TelaPontuacaoFinal telaFinal = new TelaPontuacaoFinal(
-                                materiaSelecionada, totalQuestoes, numeroDeAcertos, checkpoint, usuarioLogado);
-                        telaFinal.setVisible(true);
-                        dispose();
                     }
                 });
 
