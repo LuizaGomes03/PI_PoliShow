@@ -4,10 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import br.com.polishow.modelo.Alternativas;
 import br.com.polishow.modelo.Materia;
 import br.com.polishow.modelo.Questao;
@@ -20,18 +18,18 @@ public class TelaAdicionarPergunta {
         SwingUtilities.invokeLater(() -> new TelaAdicionarPergunta().createAndShowGUI());
     }
 
-    // Variáveis para guardar dados da pergunta
     private String textoPergunta = null;
     private List<Alternativas> listaAlternativas = new ArrayList<>();
     private Materia materiaSelecionada = null;
     private String dificuldadeSelecionada = null;
     private String letraCorreta = null;
+    private JComboBox<String> materiaComboBox;
 
     void createAndShowGUI() {
         int imageWidth = 960;
         int imageHeight = 640;
 
-        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/Tela adicionar perguntas (2).png");
+        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/Tela Adicionar Pergunta.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
@@ -46,18 +44,15 @@ public class TelaAdicionarPergunta {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        // ComboBox de Matéria
-        JComboBox<String> materiaComboBox = new JComboBox<>();
-
+        materiaComboBox = new JComboBox<>();
         materiaComboBox.addItem("Selecionar Matéria");
+
         try {
             MateriaDAO materiaDAO = new MateriaDAO();
             List<Materia> materias = materiaDAO.listarTodas();
-
             for (Materia m : materias) {
                 materiaComboBox.addItem(m.getNomeMateria());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao carregar matérias: " + e.getMessage());
@@ -66,8 +61,9 @@ public class TelaAdicionarPergunta {
         materiaComboBox.setBackground(new Color(3, 13, 93));
         materiaComboBox.setForeground(Color.WHITE);
         materiaComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
-        materiaComboBox.setBounds(411, 224, 430, 45);
+        materiaComboBox.setBounds(411, 215, 430, 45);
         materiaComboBox.setBorder(null);
+        materiaComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         materiaComboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
@@ -80,11 +76,66 @@ public class TelaAdicionarPergunta {
                 comboBox.setFocusable(false);
             }
         });
+
         background.add(materiaComboBox);
+
+        JTextField campoBuscaMateria = new JTextField();
+        campoBuscaMateria.setBounds(411, 280, 300, 45);
+        campoBuscaMateria.setForeground(Color.WHITE);
+        campoBuscaMateria.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        campoBuscaMateria.setToolTipText("Digite para filtrar matérias...");
+        campoBuscaMateria.setBorder(null);
+        campoBuscaMateria.setBackground(new Color(3, 13, 93));
+        background.add(campoBuscaMateria);
+
+        JButton adicionarMateriaButton = new JButton("Adicionar");
+        adicionarMateriaButton.setBounds(710, 280, 140, 45);
+        adicionarMateriaButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        adicionarMateriaButton.setForeground(Color.WHITE);
+        adicionarMateriaButton.setBackground(new Color(3, 13, 93));
+        adicionarMateriaButton.setBorder(BorderFactory.createEmptyBorder());
+        adicionarMateriaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        adicionarMateriaButton.addActionListener(e -> {
+        String nomeMateria = campoBuscaMateria.getText().trim();
+        if (!nomeMateria.isEmpty()) {
+            try {
+                MateriaDAO dao = new MateriaDAO();
+                List<Materia> existentes = dao.buscarPorTexto(nomeMateria);
+                boolean jaExiste = existentes.stream()
+                    .anyMatch(m -> m.getNomeMateria().equalsIgnoreCase(nomeMateria));
+                if (jaExiste) {
+                    JOptionPane.showMessageDialog(null, "A matéria já existe.");
+                } else {
+                    Materia nova = new Materia();
+                    nova.setNomeMateria(nomeMateria);
+                    dao.cadastrar(nova);
+                    JOptionPane.showMessageDialog(null, "Matéria adicionada com sucesso!");
+                    
+                    // Atualiza o combo com todas as matérias sem filtro
+                    materiaComboBox.removeAllItems();
+                    materiaComboBox.addItem("Selecionar Matéria");
+                    List<Materia> todas = dao.listarTodas();
+                    for (Materia m : todas) {
+                        materiaComboBox.addItem(m.getNomeMateria());
+                    }
+
+                    campoBuscaMateria.setText("");
+                    }
+                } 
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Erro ao adicionar matéria: " + ex.getMessage());
+                    }
+                } 
+            else {
+            JOptionPane.showMessageDialog(null, "Digite o nome da matéria.");
+            }
+            });
+        background.add(adicionarMateriaButton);
 
         materiaComboBox.addActionListener(e -> {
             int idx = materiaComboBox.getSelectedIndex();
-            if (idx > 0) { // índice 0 é "Selecionar Matéria"
+            if (idx > 0) {
                 try {
                     MateriaDAO materiaDAO = new MateriaDAO();
                     List<Materia> materias = materiaDAO.listarTodas();
@@ -97,14 +148,13 @@ public class TelaAdicionarPergunta {
             }
         });
 
-        // comboBox de dificuldade
-        JComboBox<String> dificuldadeComboBox = new JComboBox<>(
-                new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" });
+        JComboBox<String> dificuldadeComboBox = new JComboBox<>(new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" });
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
         dificuldadeComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
-        dificuldadeComboBox.setBounds(410, 445, 430, 45);
+        dificuldadeComboBox.setBounds(410, 485, 430, 45);
         dificuldadeComboBox.setBorder(null);
+        dificuldadeComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         dificuldadeComboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
@@ -128,59 +178,45 @@ public class TelaAdicionarPergunta {
             }
         });
 
-        // botão adicionar pergunta
         JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
         perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
         perguntaButton.setFont(new Font("SansSerif", Font.BOLD, 18));
-        perguntaButton.setBounds(398, 298, 350, 45);
+        perguntaButton.setBounds(398, 345, 350, 45);
         perguntaButton.setFocusPainted(false);
         perguntaButton.setBorder(BorderFactory.createEmptyBorder());
+        perguntaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        perguntaButton.addActionListener(e -> abrirJanelaPergunta());
         background.add(perguntaButton);
 
-        perguntaButton.addActionListener(e -> abrirJanelaPergunta());
-
-        // botão adicionar opções
         JButton opcoesButton = new JButton("Clique aqui para adicionar opções");
         opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
         opcoesButton.setFont(new Font("SansSerif", Font.BOLD, 18));
-        opcoesButton.setBounds(392, 372, 350, 45);
+        opcoesButton.setBounds(392, 415, 350, 45);
         opcoesButton.setFocusPainted(false);
+        opcoesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         opcoesButton.setBorder(BorderFactory.createEmptyBorder());
+        opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
         background.add(opcoesButton);
 
-        opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
-
-        // botão salvar
         JButton salvarButton = new JButton("Salvar");
         salvarButton.setBackground(new Color(11, 65, 175));
         salvarButton.setForeground(Color.WHITE);
         salvarButton.setFont(new Font("SansSerif", Font.BOLD, 31));
-        salvarButton.setBounds(420, 566, 120, 40);
+        salvarButton.setBounds(420, 575, 120, 40);
         salvarButton.setFocusPainted(false);
+        salvarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
         salvarButton.addActionListener(e -> {
             try {
-                if (textoPergunta == null || textoPergunta.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, adicione a pergunta.");
-                    return;
-                }
-                if (listaAlternativas.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, adicione as alternativas.");
-                    return;
-                }
-                if (materiaSelecionada == null) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a matéria.");
-                    return;
-                }
-                if (dificuldadeSelecionada == null) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a dificuldade.");
-                    return;
-                }
-                if (letraCorreta == null) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, selecione a alternativa correta.");
+                if (textoPergunta == null || textoPergunta.isEmpty() ||
+                    listaAlternativas.isEmpty() ||
+                    materiaSelecionada == null ||
+                    dificuldadeSelecionada == null ||
+                    letraCorreta == null) {
+                    JOptionPane.showMessageDialog(frame, "Todos os campos devem ser preenchidos.");
                     return;
                 }
 
@@ -189,21 +225,13 @@ public class TelaAdicionarPergunta {
                 questao.setPergunta(textoPergunta);
                 questao.setDificuldade(dificuldadeSelecionada);
 
-                // Marca a alternativa correta na lista
                 char letra = letraCorreta.charAt(0);
-                int indexCorreta = letra - 'A'; // índice correto
-
+                int indexCorreta = letra - 'A';
                 for (int i = 0; i < listaAlternativas.size(); i++) {
-                    if (i == indexCorreta) {
-                        listaAlternativas.get(i).setCorreta(true);
-                    } else {
-                        listaAlternativas.get(i).setCorreta(false);
-                    }
+                    listaAlternativas.get(i).setCorreta(i == indexCorreta);
                 }
 
-                var dao = new QuestaoDAO(); 
-                dao.cadastrar(questao, listaAlternativas, letraCorreta);
-
+                new QuestaoDAO().cadastrar(questao, listaAlternativas, letraCorreta);
                 JOptionPane.showMessageDialog(frame, "Pergunta adicionada com sucesso!");
 
                 textoPergunta = null;
@@ -211,7 +239,6 @@ public class TelaAdicionarPergunta {
                 materiaSelecionada = null;
                 dificuldadeSelecionada = null;
                 letraCorreta = null;
-
                 materiaComboBox.setSelectedIndex(0);
                 dificuldadeComboBox.setSelectedIndex(0);
 
@@ -220,21 +247,23 @@ public class TelaAdicionarPergunta {
                 JOptionPane.showMessageDialog(frame, "Erro ao adicionar pergunta: " + ex.getMessage());
             }
         });
+        background.add(salvarButton);
 
-        // botão voltar
-        JButton voltarButton = new JButton();
-        voltarButton.setBounds(15, 15, 35, 40);
-        voltarButton.setBorder(BorderFactory.createEmptyBorder());
-        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
-        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mão ao passar o mouse
-        background.add(voltarButton);
-
+        ImageIcon setaIcon = new ImageIcon("polishow/src/main/imagens/arrow-small-left.png");
+        Image setaImage = setaIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        setaIcon = new ImageIcon(setaImage);
+        JButton voltarButton = new JButton(setaIcon);
+        voltarButton.setBounds(15, 15, 40, 40);
+        voltarButton.setFocusPainted(false);
+        voltarButton.setContentAreaFilled(false);
+        voltarButton.setBorderPainted(false);
+        voltarButton.setOpaque(false);
+        voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         voltarButton.addActionListener(e -> {
             new TelaInicialProfessor();
             frame.dispose();
         });
-
-        background.add(salvarButton);
+        background.add(voltarButton);
 
         frame.setVisible(true);
     }
@@ -256,23 +285,18 @@ public class TelaAdicionarPergunta {
         popup.setSize(500, 300);
         popup.setLayout(null);
         popup.setLocationRelativeTo(null);
-
         JTextArea areaPergunta = new JTextArea();
         areaPergunta.setFont(new Font("SansSerif", Font.PLAIN, 16));
         areaPergunta.setLineWrap(true);
         areaPergunta.setWrapStyleWord(true);
-
         JScrollPane scroll = new JScrollPane(areaPergunta);
         scroll.setBounds(30, 30, 430, 150);
         popup.add(scroll);
-
         JButton confirmar = new JButton("Confirmar");
         confirmar.setBounds(190, 200, 120, 40);
         confirmar.setBackground(new Color(0, 102, 204));
         confirmar.setForeground(Color.WHITE);
         confirmar.setFocusPainted(false);
-        popup.add(confirmar);
-
         confirmar.addActionListener(e -> {
             String pergunta = areaPergunta.getText().trim();
             if (!pergunta.isEmpty()) {
@@ -281,7 +305,7 @@ public class TelaAdicionarPergunta {
             }
             popup.dispose();
         });
-
+        popup.add(confirmar);
         popup.setVisible(true);
     }
 
@@ -290,37 +314,29 @@ public class TelaAdicionarPergunta {
         popup.setSize(500, 450);
         popup.setLayout(null);
         popup.setLocationRelativeTo(null);
-
         JTextField[] campos = new JTextField[5];
         String[] letras = { "A", "B", "C", "D", "E" };
-
         for (int i = 0; i < 5; i++) {
             JLabel label = new JLabel("Opção " + letras[i] + ":");
             label.setBounds(30, 30 + i * 50, 100, 30);
             popup.add(label);
-
             campos[i] = new JTextField();
             campos[i].setBounds(120, 30 + i * 50, 330, 30);
             popup.add(campos[i]);
         }
-
         JLabel labelCorreta = new JLabel("Resposta correta:");
         labelCorreta.setBounds(30, 290, 150, 30);
         popup.add(labelCorreta);
-
         JComboBox<String> comboCorreta = new JComboBox<>(letras);
         comboCorreta.setBounds(180, 290, 80, 30);
         popup.add(comboCorreta);
-
         JButton confirmar = new JButton("Confirmar");
         confirmar.setBounds(180, 340, 120, 40);
         confirmar.setBackground(new Color(0, 102, 204));
         confirmar.setForeground(Color.WHITE);
         confirmar.setFocusPainted(false);
-        popup.add(confirmar);
-
         confirmar.addActionListener(e -> {
-            listaAlternativas.clear(); // limpa lista antiga
+            listaAlternativas.clear();
             for (int i = 0; i < 5; i++) {
                 String textoAlt = campos[i].getText().trim();
                 if (!textoAlt.isEmpty()) {
@@ -329,16 +345,15 @@ public class TelaAdicionarPergunta {
                     listaAlternativas.add(alt);
                 }
             }
-            letraCorreta = (String) comboCorreta.getSelectedItem(); // guarda alternativa correta
+            letraCorreta = (String) comboCorreta.getSelectedItem();
             JOptionPane.showMessageDialog(popup, "Opções adicionadas. Alternativa correta: " + letraCorreta);
             popup.dispose();
         });
-
+        popup.add(confirmar);
         popup.setVisible(true);
     }
 
     public void setVisible(boolean b) {
-
         throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
     }
 }

@@ -1,7 +1,6 @@
 package br.com.polishow.telas;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
@@ -14,7 +13,6 @@ public class TelaInicialProfessor extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // painel com imagem de fundo
         JPanel painelFundo = new JPanel() {
             ImageIcon imagemFundo = new ImageIcon("polishow/src/main/imagens/Tela Inicial Professor.png");
 
@@ -25,7 +23,6 @@ public class TelaInicialProfessor extends JFrame {
         };
         painelFundo.setLayout(null);
 
-        // botões invisíveis e arredondados com efeito de clique
         RoundedInvisibleButton btnAdicionar = new RoundedInvisibleButton(30);
         btnAdicionar.setBounds(296, 135, 354, 69);
         btnAdicionar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -42,37 +39,40 @@ public class TelaInicialProfessor extends JFrame {
         btnListaAlunos.setBounds(296, 395, 354, 69);
         btnListaAlunos.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // ações
+        RoundedInvisibleButton btnDesempenhoAlunos = new RoundedInvisibleButton(30);
+        btnDesempenhoAlunos.setBounds(296, 480, 354, 69);
+        btnDesempenhoAlunos.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         btnAdicionar.addActionListener(e -> {
-            new TelaAdicionarPergunta().createAndShowGUI(); 
-            dispose(); 
+            new TelaAdicionarPergunta().createAndShowGUI();
+            dispose();
         });
         btnEditar.addActionListener(e -> {
-            new TelaEditarPergunta().createAndShowGUI(); 
-            dispose(); 
+            new TelaEditarPergunta().createAndShowGUI();
+            dispose();
         });
         btnCadastrar.addActionListener(e -> {
-            new TelaCadastrarAluno().createAndShowGUI(); 
-            dispose(); 
+            new TelaCadastrarAluno().createAndShowGUI();
+            dispose();
         });
         btnListaAlunos.addActionListener(e -> {
             new TelaListaAlunos(this);
         });
-        
+        btnDesempenhoAlunos.addActionListener(e -> abrirSeletorSeries());
 
         painelFundo.add(btnAdicionar);
         painelFundo.add(btnEditar);
         painelFundo.add(btnCadastrar);
         painelFundo.add(btnListaAlunos);
+        painelFundo.add(btnDesempenhoAlunos);
 
         setContentPane(painelFundo);
         setVisible(true);
 
-        // botão voltar
         JButton voltarButton = new JButton();
         voltarButton.setBounds(10, 12, 35, 40);
         voltarButton.setBorder(BorderFactory.createEmptyBorder());
-        voltarButton.setContentAreaFilled(false); // Torna o botão transparente
+        voltarButton.setContentAreaFilled(false);
         voltarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painelFundo.add(voltarButton);
 
@@ -82,8 +82,7 @@ public class TelaInicialProfessor extends JFrame {
         });
     }
 
-     // classe de botão invisível com efeito de clique e contorno arredondado
-     class RoundedInvisibleButton extends JButton {
+    class RoundedInvisibleButton extends JButton {
         private final int arc;
         private boolean isPressed = false;
 
@@ -94,7 +93,6 @@ public class TelaInicialProfessor extends JFrame {
             setBorderPainted(false);
             setFocusPainted(false);
 
-            // detecta clique para efeito visual
             addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mousePressed(java.awt.event.MouseEvent e) {
                     isPressed = true;
@@ -118,13 +116,10 @@ public class TelaInicialProfessor extends JFrame {
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            // Efeito de clique: sombra ao pressionar
             if (isPressed) {
-                g2.setColor(new Color(0, 0, 0, 50)); // sombra preta semitransparente
+                g2.setColor(new Color(0, 0, 0, 50));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), arc, arc);
             }
-
             g2.dispose();
         }
 
@@ -134,9 +129,41 @@ public class TelaInicialProfessor extends JFrame {
             return shape.contains(x, y);
         }
     }
+
+    public void abrirSeletorSeries() {
+        JDialog seletor = new JDialog(this, "Selecione a Série", true);
+        seletor.setSize(300, 200);
+        seletor.setLocationRelativeTo(this);
+        seletor.setLayout(new GridLayout(3, 1, 10, 10));
+
+        JButton btn1 = new JButton("1ª Série");
+        JButton btn2 = new JButton("2ª Série");
+        JButton btn3 = new JButton("3ª Série");
+
+        btn1.addActionListener(e -> {
+            new TelaDesempenhoAluno(this, "1").setVisible(true);
+            seletor.dispose();
+        });
+        btn2.addActionListener(e -> {
+            new TelaDesempenhoAluno(this, "2").setVisible(true);
+            seletor.dispose();
+        });
+        btn3.addActionListener(e -> {
+            new TelaDesempenhoAluno(this, "3").setVisible(true);
+            seletor.dispose();
+        });
+
+        seletor.add(btn1);
+        seletor.add(btn2);
+        seletor.add(btn3);
+
+        seletor.setVisible(true);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(TelaInicialProfessor::new);
     }
+
     public void TelaInicialProfessor() {
         throw new UnsupportedOperationException("Unimplemented method 'TelaInicialProfessor'");
     }

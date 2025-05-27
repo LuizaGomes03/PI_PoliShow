@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-
+    
 public class TelaListaAlunos extends JDialog {
     private JTable tabela;
     private DefaultTableModel modelo;

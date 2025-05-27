@@ -50,7 +50,7 @@ public class TelaLogin extends JFrame {
 
         painel.add(voltarButton);
 
-        // Campo de Email
+        // campo de email
         JTextField campoEmail = new JTextField();
         campoEmail.setBounds(360, 204, 250, 50);
         campoEmail.setFont(new Font("Arial", Font.PLAIN, 18));
