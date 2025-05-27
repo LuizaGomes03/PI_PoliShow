@@ -80,7 +80,7 @@ public class TelaAdicionarPergunta {
         background.add(materiaComboBox);
 
         JTextField campoBuscaMateria = new JTextField();
-        campoBuscaMateria.setBounds(411, 280, 300, 45);
+        campoBuscaMateria.setBounds(411, 280, 310, 45);
         campoBuscaMateria.setForeground(Color.WHITE);
         campoBuscaMateria.setFont(new Font("SansSerif", Font.PLAIN, 16));
         campoBuscaMateria.setToolTipText("Digite para filtrar matérias...");
@@ -89,7 +89,7 @@ public class TelaAdicionarPergunta {
         background.add(campoBuscaMateria);
 
         JButton adicionarMateriaButton = new JButton("Adicionar");
-        adicionarMateriaButton.setBounds(710, 280, 140, 45);
+        adicionarMateriaButton.setBounds(720, 280, 140, 45);
         adicionarMateriaButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         adicionarMateriaButton.setForeground(Color.WHITE);
         adicionarMateriaButton.setBackground(new Color(3, 13, 93));
