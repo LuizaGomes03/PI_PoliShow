@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Partida;
 import br.com.polishow.modelo.Pontuacao;
 import br.com.polishow.modelo.Questao;
 import br.com.polishow.modelo.Usuario;
@@ -22,6 +23,7 @@ public class TelaJogo extends JFrame {
 
     private Usuario usuarioLogado;
     private Materia materiaSelecionada;
+    private Partida partida;
     private List<Questao> questoes;
     private int indiceAtual = 0;
     private boolean ajudaUsada = false;
@@ -40,9 +42,10 @@ public class TelaJogo extends JFrame {
 
     private List<JButton> alternativasBtns = new ArrayList<>();
 
-    public TelaJogo(Materia materia, Usuario usuario) {
+    public TelaJogo(Materia materia, Usuario usuario, Partida partida) {
         this.materiaSelecionada = materia;
         this.usuarioLogado = usuario;
+        this.partida = partida;
         setTitle("Tela Jogo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(960, 640);
@@ -85,6 +88,7 @@ public class TelaJogo extends JFrame {
                     Pontuacao pontuacao = new Pontuacao();
                     pontuacao.setUsuario(usuarioLogado);
                     pontuacao.setMateria(materiaSelecionada);
+                    pontuacao.setPartida(partida);
                     pontuacao.setPontos(pontuacaoAtual);
                     PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
                     pontuacaoDAO.salvar(pontuacao);
@@ -199,6 +203,7 @@ public class TelaJogo extends JFrame {
                 Pontuacao pontuacao = new Pontuacao();
                 pontuacao.setUsuario(usuarioLogado);
                 pontuacao.setMateria(materiaSelecionada);
+                pontuacao.setPartida(partida);
                 pontuacao.setPontos(pontuacaoAtual);
                 PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
                 pontuacaoDAO.salvar(pontuacao);
@@ -268,6 +273,7 @@ public class TelaJogo extends JFrame {
                                 Pontuacao pontuacao = new Pontuacao();
                                 pontuacao.setUsuario(usuarioLogado);
                                 pontuacao.setMateria(materiaSelecionada);
+                                pontuacao.setPartida(partida);
                                 pontuacao.setPontos(checkpoint);
                                 PontuacaoDAO pontuacaoDAO = new PontuacaoDAO();
                                 pontuacaoDAO.salvar(pontuacao);

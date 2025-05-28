@@ -22,8 +22,10 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import br.com.polishow.modelo.Materia;
+import br.com.polishow.modelo.Partida;
 import br.com.polishow.modelo.Usuario;
 import br.com.polishow.persistencia.MateriaDAO;
+import br.com.polishow.persistencia.PartidaDAO;
 import br.com.polishow.persistencia.QuestaoDAO;
 
 public class TelaInicioAluno extends JFrame {
@@ -192,7 +194,10 @@ public class TelaInicioAluno extends JFrame {
                     return;
                 }
 
-                new TelaJogo(materia, usuariologado);
+                PartidaDAO partidaDAO = new PartidaDAO();
+                Partida novaPartida = partidaDAO.criar(usuarioLogado);
+
+                new TelaJogo(materia, usuariologado, novaPartida);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao iniciar jogo: " + ex.getMessage());
