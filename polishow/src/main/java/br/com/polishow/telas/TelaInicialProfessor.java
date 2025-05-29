@@ -15,7 +15,7 @@ public class TelaInicialProfessor extends JFrame {
         setResizable(false);
 
         JPanel painelFundo = new JPanel() {
-            ImageIcon imagemFundo = new ImageIcon("polishow/src/main/imagens/Tela Inicial Professor.png");
+            ImageIcon imagemFundo = new ImageIcon("polishow/src/main/imagens/Tela Inicial Professor 1.png");
 
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -25,23 +25,23 @@ public class TelaInicialProfessor extends JFrame {
         painelFundo.setLayout(null);
 
         RoundedInvisibleButton btnAdicionar = new RoundedInvisibleButton(30);
-        btnAdicionar.setBounds(296, 135, 354, 69);
+        btnAdicionar.setBounds(295, 133, 354, 71);
         btnAdicionar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnEditar = new RoundedInvisibleButton(30);
-        btnEditar.setBounds(296, 221, 354, 69);
+        btnEditar.setBounds(295, 220, 354, 71);
         btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnCadastrar = new RoundedInvisibleButton(30);
-        btnCadastrar.setBounds(296, 308, 354, 69);
+        btnCadastrar.setBounds(295, 306, 354, 71);
         btnCadastrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnListaAlunos = new RoundedInvisibleButton(30);
-        btnListaAlunos.setBounds(296, 395, 354, 69);
+        btnListaAlunos.setBounds(295, 393, 354, 71);
         btnListaAlunos.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         RoundedInvisibleButton btnDesempenhoAlunos = new RoundedInvisibleButton(30);
-        btnDesempenhoAlunos.setBounds(296, 480, 354, 69);
+        btnDesempenhoAlunos.setBounds(295, 479, 354, 71);
         btnDesempenhoAlunos.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnAdicionar.addActionListener(e -> {
