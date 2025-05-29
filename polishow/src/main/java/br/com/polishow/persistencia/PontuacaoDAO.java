@@ -1,18 +1,18 @@
 package br.com.polishow.persistencia;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.polishow.modelo.Aluno;
 import br.com.polishow.modelo.Materia;
 import br.com.polishow.modelo.Partida;
 import br.com.polishow.modelo.Pontuacao;
 import br.com.polishow.modelo.Usuario;
 
 public class PontuacaoDAO {
+
     public void salvar(Pontuacao p) throws Exception {
         var c = new ConnectionFactory();
         String sql = "INSERT INTO tb_pontuacao (id_usuario, id_materia, id_partida, pontos) VALUES (?, ?, ?, ?)";
@@ -31,14 +31,18 @@ public class PontuacaoDAO {
         List<Pontuacao> lista = new ArrayList<>();
         var c = new ConnectionFactory();
 
-        String sql = "SELECT p.id_pontuacao, p.pontos, " +
-                "u.id_usuario, u.nome AS nome_usuario, " +
-                "m.id_materia, m.nome AS nome_materia, " +
-                "pa.id_partida " +
-                "FROM tb_pontuacao p " +
-                "JOIN tb_usuario u ON p.id_usuario = u.id_usuario " +
-                "JOIN tb_materia m ON p.id_materia = m.id_materia " +
-                "JOIN tb_partida pa ON p.id_partida = pa.id_partida";
+        String sql = """
+                    SELECT p.id_pontuacao, p.pontos,
+                           u.id_usuario, u.nome_usuario AS nome_usuario, u.email_usuario,
+                           a.serie,
+                           m.id_materia, m.nome_materia AS nome_materia,
+                           pa.id_partida
+                    FROM tb_pontuacao p
+                    JOIN tb_usuario u ON p.id_usuario = u.id_usuario
+                    JOIN tb_aluno a ON u.id_usuario = a.id_usuario_aluno
+                    JOIN tb_materia m ON p.id_materia = m.id_materia
+                    JOIN tb_partida pa ON p.id_partida = pa.id_partida
+                """;
 
         try (
                 var conexao = c.obterConexao();
@@ -50,27 +54,28 @@ public class PontuacaoDAO {
                 pontuacao.setidPontuacao(rs.getInt("id_pontuacao"));
                 pontuacao.setPontos(rs.getDouble("pontos"));
 
-                // Usuario
                 Usuario usuario = new Usuario();
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setNomeUsuario(rs.getString("nome_usuario"));
+                usuario.setEmailUsuario(rs.getString("email_usuario"));
                 pontuacao.setUsuario(usuario);
 
-                // Materia
                 Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("id_materia"));
                 materia.setNomeMateria(rs.getString("nome_materia"));
                 pontuacao.setMateria(materia);
 
-                // Partida
                 Partida partida = new Partida();
                 partida.setIdPartida(rs.getInt("id_partida"));
                 pontuacao.setPartida(partida);
 
+                Aluno aluno = new Aluno();
+                aluno.setIdUsuario(usuario.getIdUsuario());
+                aluno.setSerie(rs.getString("serie"));
+                pontuacao.setAluno(aluno);
+
                 lista.add(pontuacao);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return lista;

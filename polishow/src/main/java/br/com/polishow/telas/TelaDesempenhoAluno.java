@@ -1,8 +1,8 @@
 package br.com.polishow.telas;
 
+import br.com.polishow.modelo.Aluno;
 import br.com.polishow.modelo.Pontuacao;
 import br.com.polishow.persistencia.PontuacaoDAO;
-import br.com.polishow.persistencia.AlunoDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,7 +13,7 @@ public class TelaDesempenhoAluno extends JDialog {
     private JTable tabela;
     private DefaultTableModel modelo;
 
-     public TelaDesempenhoAluno(JFrame parent, String serieFiltro) {
+    public TelaDesempenhoAluno(JFrame parent, String serieFiltro) {
         super(parent, "Desempenho - " + serieFiltro + " Série", true);
         setSize(700, 400);
         setLocationRelativeTo(parent);
@@ -43,19 +43,24 @@ public class TelaDesempenhoAluno extends JDialog {
     private void carregarDesempenho(String serieFiltro) {
         try {
             PontuacaoDAO pontDao = new PontuacaoDAO();
-            AlunoDAO   alunoDao = new AlunoDAO();
-
             List<Pontuacao> lista = pontDao.listar();
+
+            modelo.setRowCount(0);
+
+            String filtro = extrairNumeroSerie(serieFiltro);
+
             for (Pontuacao p : lista) {
-                var usuario = p.getUsuario();
-                var aluno   = alunoDao.buscarPorEmail(usuario.getEmailUsuario());
-                if (aluno != null && serieFiltro.equals(aluno.getSerie())) {
-                    modelo.addRow(new Object[]{
-                        usuario.getNomeUsuario(),
-                        aluno.getSerie(),
-                        p.getMateria().getNomeMateria(),
-                        p.getPontos()
-                    });
+                Aluno aluno = p.getAluno();
+                if (aluno != null) {
+                    String serieAluno = extrairNumeroSerie(aluno.getSerie());
+                    if (filtro.equals(serieAluno)) {
+                        modelo.addRow(new Object[]{
+                            p.getUsuario().getNomeUsuario(),
+                            aluno.getSerie(),
+                            p.getMateria().getNomeMateria(),
+                            p.getPontos()
+                        });
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -64,5 +69,10 @@ public class TelaDesempenhoAluno extends JDialog {
                 "Erro ao carregar desempenho: " + ex.getMessage(),
                 "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private String extrairNumeroSerie(String serie) {
+        if (serie == null) return "";
+        return serie.replaceAll("[^0-9]", "");
     }
 }

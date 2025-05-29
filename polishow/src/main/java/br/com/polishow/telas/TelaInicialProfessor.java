@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class TelaInicialProfessor extends JFrame {
+    private JDialog seletor = null;
 
     public TelaInicialProfessor() {
         setTitle("Tela do Professor");
@@ -131,33 +132,38 @@ public class TelaInicialProfessor extends JFrame {
     }
 
     public void abrirSeletorSeries() {
-        JDialog seletor = new JDialog(this, "Selecione a Série", true);
-        seletor.setSize(300, 200);
-        seletor.setLocationRelativeTo(this);
-        seletor.setLayout(new GridLayout(3, 1, 10, 10));
+        if (seletor == null || !seletor.isDisplayable()) {
+            seletor = new JDialog(this, "Selecione a Série", true);
+            seletor.setSize(300, 200);
+            seletor.setLocationRelativeTo(this);
+            seletor.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton btn1 = new JButton("1ª Série");
-        JButton btn2 = new JButton("2ª Série");
-        JButton btn3 = new JButton("3ª Série");
+            JButton btn1 = new JButton("1ª Série");
+            JButton btn2 = new JButton("2ª Série");
+            JButton btn3 = new JButton("3ª Série");
 
-        btn1.addActionListener(e -> {
-            new TelaDesempenhoAluno(this, "1").setVisible(true);
-            seletor.dispose();
-        });
-        btn2.addActionListener(e -> {
-            new TelaDesempenhoAluno(this, "2").setVisible(true);
-            seletor.dispose();
-        });
-        btn3.addActionListener(e -> {
-            new TelaDesempenhoAluno(this, "3").setVisible(true);
-            seletor.dispose();
-        });
+            btn1.addActionListener(e -> {
+                new TelaDesempenhoAluno(this, "1").setVisible(true);
+                seletor.dispose();
+            });
+            btn2.addActionListener(e -> {
+                new TelaDesempenhoAluno(this, "2").setVisible(true);
+                seletor.dispose();
+            });
+            btn3.addActionListener(e -> {
+                new TelaDesempenhoAluno(this, "3").setVisible(true);
+                seletor.dispose();
+            });
 
-        seletor.add(btn1);
-        seletor.add(btn2);
-        seletor.add(btn3);
+            seletor.add(btn1);
+            seletor.add(btn2);
+            seletor.add(btn3);
 
-        seletor.setVisible(true);
+            seletor.setVisible(true);
+        } else {
+            seletor.toFront();
+            seletor.requestFocus();
+        }
     }
 
     public static void main(String[] args) {
