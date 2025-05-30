@@ -11,6 +11,7 @@ import br.com.polishow.modelo.Materia;
 import br.com.polishow.modelo.Questao;
 import br.com.polishow.persistencia.MateriaDAO;
 import br.com.polishow.persistencia.QuestaoDAO;
+import java.awt.geom.RoundRectangle2D;
 
 public class TelaAdicionarPergunta {
 
@@ -29,7 +30,7 @@ public class TelaAdicionarPergunta {
         int imageWidth = 960;
         int imageHeight = 640;
 
-        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/Tela Adicionar Pergunta.png");
+        ImageIcon originalIcon = new ImageIcon("polishow/src/main/imagens/TelaDeAdicionarPergunta1.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         ImageIcon backgroundIcon = new ImageIcon(scaledImage);
 
@@ -45,7 +46,7 @@ public class TelaAdicionarPergunta {
         frame.setResizable(false);
 
         materiaComboBox = new JComboBox<>();
-        materiaComboBox.addItem("Selecionar Matéria");
+        materiaComboBox.addItem("Selecione a matéria");
 
         try {
             MateriaDAO materiaDAO = new MateriaDAO();
@@ -96,41 +97,39 @@ public class TelaAdicionarPergunta {
         adicionarMateriaButton.setBorder(BorderFactory.createEmptyBorder());
         adicionarMateriaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         adicionarMateriaButton.addActionListener(e -> {
-        String nomeMateria = campoBuscaMateria.getText().trim();
-        if (!nomeMateria.isEmpty()) {
-            try {
-                MateriaDAO dao = new MateriaDAO();
-                List<Materia> existentes = dao.buscarPorTexto(nomeMateria);
-                boolean jaExiste = existentes.stream()
-                    .anyMatch(m -> m.getNomeMateria().equalsIgnoreCase(nomeMateria));
-                if (jaExiste) {
-                    JOptionPane.showMessageDialog(null, "A matéria já existe.");
-                } else {
-                    Materia nova = new Materia();
-                    nova.setNomeMateria(nomeMateria);
-                    dao.cadastrar(nova);
-                    JOptionPane.showMessageDialog(null, "Matéria adicionada com sucesso!");
-                    
-                    // Atualiza o combo com todas as matérias sem filtro
-                    materiaComboBox.removeAllItems();
-                    materiaComboBox.addItem("Selecionar Matéria");
-                    List<Materia> todas = dao.listarTodas();
-                    for (Materia m : todas) {
-                        materiaComboBox.addItem(m.getNomeMateria());
-                    }
+            String nomeMateria = campoBuscaMateria.getText().trim();
+            if (!nomeMateria.isEmpty()) {
+                try {
+                    MateriaDAO dao = new MateriaDAO();
+                    List<Materia> existentes = dao.buscarPorTexto(nomeMateria);
+                    boolean jaExiste = existentes.stream()
+                            .anyMatch(m -> m.getNomeMateria().equalsIgnoreCase(nomeMateria));
+                    if (jaExiste) {
+                        JOptionPane.showMessageDialog(null, "A matéria já existe.");
+                    } else {
+                        Materia nova = new Materia();
+                        nova.setNomeMateria(nomeMateria);
+                        dao.cadastrar(nova);
+                        JOptionPane.showMessageDialog(null, "Matéria adicionada com sucesso!");
 
-                    campoBuscaMateria.setText("");
+                        // Atualiza o combo com todas as matérias sem filtro
+                        materiaComboBox.removeAllItems();
+                        materiaComboBox.addItem("Selecionar Matéria");
+                        List<Materia> todas = dao.listarTodas();
+                        for (Materia m : todas) {
+                            materiaComboBox.addItem(m.getNomeMateria());
+                        }
+
+                        campoBuscaMateria.setText("");
                     }
-                } 
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Erro ao adicionar matéria: " + ex.getMessage());
-                    }
-                } 
-            else {
-            JOptionPane.showMessageDialog(null, "Digite o nome da matéria.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Digite o nome da matéria.");
             }
-            });
+        });
         background.add(adicionarMateriaButton);
 
         materiaComboBox.addActionListener(e -> {
@@ -148,7 +147,8 @@ public class TelaAdicionarPergunta {
             }
         });
 
-        JComboBox<String> dificuldadeComboBox = new JComboBox<>(new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" });
+        JComboBox<String> dificuldadeComboBox = new JComboBox<>(
+                new String[] { "Selecione a dificuldade", "Fácil", "Médio", "Difícil" });
         dificuldadeComboBox.setBackground(new Color(3, 13, 93));
         dificuldadeComboBox.setForeground(Color.WHITE);
         dificuldadeComboBox.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -179,43 +179,40 @@ public class TelaAdicionarPergunta {
         });
 
         JButton perguntaButton = new JButton("Clique aqui para adicionar pergunta");
-        perguntaButton.setBackground(new Color(3, 13, 93));
         perguntaButton.setForeground(Color.WHITE);
         perguntaButton.setFont(new Font("SansSerif", Font.BOLD, 18));
         perguntaButton.setBounds(398, 345, 350, 45);
         perguntaButton.setFocusPainted(false);
         perguntaButton.setBorder(BorderFactory.createEmptyBorder());
         perguntaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        perguntaButton.setContentAreaFilled(false);
+        perguntaButton.setOpaque(false);
         perguntaButton.addActionListener(e -> abrirJanelaPergunta());
         background.add(perguntaButton);
 
         JButton opcoesButton = new JButton("Clique aqui para adicionar opções");
-        opcoesButton.setBackground(new Color(3, 13, 93));
         opcoesButton.setForeground(Color.WHITE);
         opcoesButton.setFont(new Font("SansSerif", Font.BOLD, 18));
         opcoesButton.setBounds(392, 415, 350, 45);
         opcoesButton.setFocusPainted(false);
         opcoesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         opcoesButton.setBorder(BorderFactory.createEmptyBorder());
+        opcoesButton.setContentAreaFilled(false);
+        opcoesButton.setOpaque(false);
         opcoesButton.addActionListener(e -> abrirJanelaOpcoes());
         background.add(opcoesButton);
 
-        JButton salvarButton = new JButton("Salvar");
-        salvarButton.setBackground(new Color(11, 65, 175));
-        salvarButton.setForeground(Color.WHITE);
-        salvarButton.setFont(new Font("SansSerif", Font.BOLD, 31));
-        salvarButton.setBounds(420, 575, 120, 40);
-        salvarButton.setFocusPainted(false);
+        RoundedInvisibleButton salvarButton = new RoundedInvisibleButton(50);
+        salvarButton.setBounds(382, 568, 195, 54);
         salvarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        salvarButton.setBorder(BorderFactory.createEmptyBorder());
 
         salvarButton.addActionListener(e -> {
             try {
                 if (textoPergunta == null || textoPergunta.isEmpty() ||
-                    listaAlternativas.isEmpty() ||
-                    materiaSelecionada == null ||
-                    dificuldadeSelecionada == null ||
-                    letraCorreta == null) {
+                        listaAlternativas.isEmpty() ||
+                        materiaSelecionada == null ||
+                        dificuldadeSelecionada == null ||
+                        letraCorreta == null) {
                     JOptionPane.showMessageDialog(frame, "Todos os campos devem ser preenchidos.");
                     return;
                 }
@@ -351,6 +348,54 @@ public class TelaAdicionarPergunta {
         });
         popup.add(confirmar);
         popup.setVisible(true);
+    }
+
+    class RoundedInvisibleButton extends JButton {
+        private final int arc;
+        private boolean isPressed = false;
+
+        public RoundedInvisibleButton(int arc) {
+            this.arc = arc;
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+            setFocusPainted(false);
+
+            addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mousePressed(java.awt.event.MouseEvent e) {
+                    isPressed = true;
+                    repaint();
+                }
+
+                public void mouseReleased(java.awt.event.MouseEvent e) {
+                    isPressed = false;
+                    repaint();
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    isPressed = false;
+                    repaint();
+                }
+            });
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            if (isPressed) {
+                g2.setColor(new Color(0, 0, 0, 50));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), arc, arc);
+            }
+            g2.dispose();
+        }
+
+        @Override
+        public boolean contains(int x, int y) {
+            Shape shape = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), arc, arc);
+            return shape.contains(x, y);
+        }
     }
 
     public void setVisible(boolean b) {
