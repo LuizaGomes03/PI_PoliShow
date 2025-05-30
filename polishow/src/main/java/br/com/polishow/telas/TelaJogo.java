@@ -39,6 +39,7 @@ public class TelaJogo extends JFrame {
     private JButton btnSair;
     private JButton btnElimina;
     private JButton btnPular;
+    private JLabel lblPontuacao;
 
     private List<JButton> alternativasBtns = new ArrayList<>();
 
@@ -171,6 +172,13 @@ public class TelaJogo extends JFrame {
         painelFundo.add(lblPergunta);
 
         setContentPane(painelFundo);
+
+        lblPontuacao = new JLabel("Pontuação: R$0");
+        lblPontuacao.setBounds(720, 15, 200, 30);
+        lblPontuacao.setFont(new Font("Arial", Font.BOLD, 18));
+        lblPontuacao.setForeground(Color.YELLOW);
+        painelFundo.add(lblPontuacao);
+
     }
 
     private void carregarQuestoes() {
@@ -257,6 +265,7 @@ public class TelaJogo extends JFrame {
                     if (resposta == JOptionPane.YES_OPTION) {
                         if (alt.isCorreta()) {
                             pontuacaoAtual = valores[indiceAtual];
+                            lblPontuacao.setText("Pontuação: R$" + pontuacaoAtual);
                             numeroDeAcertos++;
                             JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
                             indiceAtual++;
@@ -297,6 +306,18 @@ public class TelaJogo extends JFrame {
 
             painelFundo.repaint();
             painelFundo.revalidate();
+
+            // Verifica se é a última questão
+            if (indiceAtual == questoes.size() - 1) {
+                // Desativa os botões de ajuda
+                btnElimina.setEnabled(false);
+                btnPular.setEnabled(false);
+
+                JOptionPane.showMessageDialog(this,
+                        "Chegamos à última pergunta!\nAs dicas foram desativadas para este momento decisivo!",
+                        "Última Pergunta",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
