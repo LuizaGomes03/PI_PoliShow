@@ -166,15 +166,15 @@ public class TelaJogo extends JFrame {
 
         // Label Pergunta
         lblPergunta = new JLabel("");
-        lblPergunta.setBounds(180, 120, 700, 60);
-        lblPergunta.setFont(new Font("Arial", Font.BOLD, 24));
+        lblPergunta.setBounds(180, 120, 600, 60);
+        lblPergunta.setFont(new Font("Arial", Font.BOLD, 18));
         lblPergunta.setForeground(Color.WHITE);
         painelFundo.add(lblPergunta);
 
         setContentPane(painelFundo);
 
         lblPontuacao = new JLabel("Pontuação: R$0");
-        lblPontuacao.setBounds(720, 15, 200, 30);
+        lblPontuacao.setBounds(700, 15, 220, 30);
         lblPontuacao.setFont(new Font("Arial", Font.BOLD, 18));
         lblPontuacao.setForeground(Color.YELLOW);
         painelFundo.add(lblPontuacao);
