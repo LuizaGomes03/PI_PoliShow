@@ -269,7 +269,6 @@ public class TelaJogo extends JFrame {
                             numeroDeAcertos++;
                             JOptionPane.showMessageDialog(this, "Resposta correta!\nVocê ganhou R$" + pontuacaoAtual);
                             indiceAtual++;
-                            ajudaUsada = false;
                             exibirQuestaoAtual();
                         } else {
                             double checkpoint = getCheckpoint();
