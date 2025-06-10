@@ -132,38 +132,7 @@ public class TelaInicialProfessor extends JFrame {
     }
 
     public void abrirSeletorSeries() {
-        if (seletor == null || !seletor.isDisplayable()) {
-            seletor = new JDialog(this, "Selecione a Série", true);
-            seletor.setSize(300, 200);
-            seletor.setLocationRelativeTo(this);
-            seletor.setLayout(new GridLayout(3, 1, 10, 10));
-
-            JButton btn1 = new JButton("1ª Série");
-            JButton btn2 = new JButton("2ª Série");
-            JButton btn3 = new JButton("3ª Série");
-
-            btn1.addActionListener(e -> {
-                new TelaDesempenhoAluno(this, "1").setVisible(true);
-                seletor.dispose();
-            });
-            btn2.addActionListener(e -> {
-                new TelaDesempenhoAluno(this, "2").setVisible(true);
-                seletor.dispose();
-            });
-            btn3.addActionListener(e -> {
-                new TelaDesempenhoAluno(this, "3").setVisible(true);
-                seletor.dispose();
-            });
-
-            seletor.add(btn1);
-            seletor.add(btn2);
-            seletor.add(btn3);
-
-            seletor.setVisible(true);
-        } else {
-            seletor.toFront();
-            seletor.requestFocus();
-        }
+        new TelaSelecaoSerie(this).setVisible(true);
     }
 
     public static void main(String[] args) {

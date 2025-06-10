@@ -27,11 +27,10 @@ public class TelaDesempenhoAluno extends JDialog {
 
         JPanel panelSul = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton voltar = new JButton("Voltar");
+        
         voltar.addActionListener(e -> {
+            new TelaSelecaoSerie(parent).setVisible(true);
             dispose();
-            if (parent instanceof TelaInicialProfessor telaProfessor) {
-                telaProfessor.abrirSeletorSeries();
-            }
         });
         JButton fechar = new JButton("Fechar");
         fechar.addActionListener(e -> dispose());
